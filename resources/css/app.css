@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.agendamento svg {
+    opacity: 0.4;
+    transition: .5s;
+    pointer-events: auto
+}
+
+.agendamento input:checked~svg {
+    opacity: 1;
+    pointer-events: auto;
+    color: rgb(49, 121, 255)
+}
+
+.agendamento input[type="radio"] {
+    display: block
+        /*só pra estética do demo */
+}
+
+.rating img {
+    opacity: 0.4;
+    transition: .3s;
+    pointer-events: auto
+}
+
+.rating input:checked~img {
+    opacity: 1;
+    pointer-events: auto;
+    color: rgb(49, 121, 255);
+}
+
+.rating input[type="radio"] {
+    display: block
+        /*só pra estética do demo */
+}

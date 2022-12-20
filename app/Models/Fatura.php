@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Fatura extends Model
+{
+    protected $table='faturas';
+    protected $fillable=['fatura_id',
+    'rating_id',
+    'fatura_data',
+    'med_name',
+    'med_rate',
+    'tec_name',
+    'tec_rate',
+    'us_name',
+    'us_rate',
+    'enf_name',
+    'enf_rate',
+    'setor'
+];
+    use HasFactory;
+
+    public function relRatings()
+    {
+        return $this->belongsTo(Rating::class);
+    }
+}
