@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('ratings', function (Blueprint $table) {
-            $table->integer('id')->unique();
+            $table->id()->unique()->unsigned();
             $table->string('tipo_agendamento')->nullable();
             $table->date('data_req')->nullable();
             $table->string('pac_name')->nullable();

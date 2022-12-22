@@ -24,9 +24,6 @@ class RatingController extends Controller
     #ARMAZENA AS INFORMACOES INICIAIS DO ATENDIMENTO
     public function storeAgendamento(Request $request)
     {
-        $request->validate([
-            'radio_agendamento' => 'required'
-        ]);
 
         $cad = DB::table('ratings')->insert([
             'tipo_agendamento' => $request->radio_agendamento,
@@ -49,6 +46,10 @@ class RatingController extends Controller
             $sqlsrv = $sqlsrv . "A.USERNAME IS NOT NULL";
             $agendas = DB::connection('sqlsrv')->select($sqlsrv);
             return view('agenda-data', ['agendas' => $agendas, 'requisicao' => $requisicao]);
+        } else {
+            return redirect()->back()
+                ->withErrors('Código não encontrado! Verifique seu protocolo e tente novamente.')
+                ->withInput();
         }
     }
 
@@ -74,9 +75,6 @@ class RatingController extends Controller
 
         $id = $dataForm['id'];
 
-        $request->validate([
-            'rating1' => 'required'
-        ]);
 
         $agendas = DB::table('ratings')
             ->where('id', $id)
@@ -108,9 +106,7 @@ class RatingController extends Controller
 
         $id = $dataForm['id'];
 
-        $request->validate([
-            'rating2' => 'required'
-        ]);
+
 
         $recep = DB::table('ratings')
             ->where('id', $id)
@@ -146,6 +142,8 @@ class RatingController extends Controller
             $sqlsrv3 = $sqlsrv3 . "WHERE RA.RASEVENTOID = 250003 AND WL.REQUISICAOID = '$id' ";
             $enfermeiras = DB::connection('sqlsrv')->select($sqlsrv3);
 
+
+
             return view('rate-med', ['requisicoes' => $requisicoes, 'recepus' => $recepus, 'enfermeiras' => $enfermeiras, 'rating_id' => $id]);
         }
     }
@@ -155,9 +153,7 @@ class RatingController extends Controller
         $dataForm = $request->all();
         $id = $dataForm['id'];
 
-        $request->validate([
-            'rate_clinica' => 'required'
-        ]);
+
 
         DB::table('ratings')
             ->where('id', $id)
@@ -184,9 +180,11 @@ class RatingController extends Controller
     public function getDados(Request $request)
     {
         $dataForm = $request->all();
+
         $request->validate([
-            'id' => 'unique:ratings|max:10'
+            'id' => 'required|unique:ratings|max:10',
         ]);
+
         $requisicao_id = $dataForm['id'];
         $sqlsrv = "Select TOP 1 FORMAT(FAT.DATA, 'yyyy/MM/dd') AS DATA, WL.REQUISICAOID AS REQUISICAO, FAT.PACIENTEID AS PACIENTEID, PAC.NOME AS PACIENTE, PR.DESCRICAO AS PROCEDIMENTO, SE.DESCRICAO AS SETOR, TEC.NOME AS TECNICO, WF.FILANOME AS MEDICO, US.NOME_SOCIAL AS RECEPCIONISTA, FAT.REQUISICAOID from WORK_LIST AS WL ";
         $sqlsrv = $sqlsrv . "LEFT OUTER JOIN FATURA FAT ON FAT.FATURAID = WL.FATURAID AND FAT.UNIDADEID = WL.UNIDADEID AND FAT.PACIENTEID = WL.PACIENTEID ";
