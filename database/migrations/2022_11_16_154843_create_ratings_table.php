@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('recep_name')->nullable();
             $table->integer('recep_rate')->nullable();
             $table->integer('nota_clinica')->nullable();
+            $table->boolean('finalizado')->nullable();
             $table->string('comentario')->nullable();
             $table->timestamps();
 

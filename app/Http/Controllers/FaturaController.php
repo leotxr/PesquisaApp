@@ -19,7 +19,7 @@ class FaturaController extends Controller
     {
         $dataForm = $request->all();
 
-        $req_id = $dataForm['req_id'];
+        $rating_id = $dataForm['rating_id'];
 
 /*
         $table = new Fatura;    // Setando as propriedades
@@ -43,10 +43,10 @@ class FaturaController extends Controller
         }
 */
 
-        for ($i = 0; $i < count($request->req_id); $i++) {
+        for ($i = 0; $i < count($request->rating_id); $i++) {
             DB::table('faturas')->updateOrInsert([
                 #'fatura_id' => $request->fatura_id[$i],
-                'req_id' => $request->req_id[$i],
+                'rating_id' => $request->rating_id[$i],
                 'fatura_data' => $request->data_fatura[$i],
                 'med_name' => $request->medico_name[$i]??NULL,
                 'med_rate' => $request->med_rate[$i]??NULL,
@@ -61,7 +61,7 @@ class FaturaController extends Controller
         }
 
         #dd($request);
-        return view('rate-ultri', ['req_id' => $req_id]);
+        return view('rate-ultri', ['rating_id' => $rating_id]);
     }
 
 

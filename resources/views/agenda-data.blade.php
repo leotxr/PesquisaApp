@@ -9,7 +9,7 @@
                     <p class=" py-10 text-3xl font-bold">{{$agenda->ATENDENTE}}</p>
                     <input type="text" class=" py-10 text-3xl font-bold" name="data_req" value="{{$agenda->DATA}}" style="display: none"></input>
                     <input type="text" class=" py-10 text-3xl font-bold" name="paciente_id" value="{{$agenda->PACIENTEID}}" style="display: none"></input>
-                    <input type="text" class="text-3xl font-bold" id="req_id" name="req_id" value="{{$requisicao}}" style="display: none;"></input>
+                    <input type="text" class="text-3xl font-bold" id="id" name="id" value="{{$requisicao}}" style="display: none;"></input>
                     <input type="text" style="display: none;" name="atendente_name" id="atendente_name" value="{{$agenda->ATENDENTE}}"></input>
                     @endforeach
                     <div class="rating flex justify-center gap-5" id="rating" required>
@@ -60,3 +60,10 @@
         </div>
     </form>
 </x-guest-layout>
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            window.location.href = "/";
+        }, 30000);
+    });
+</script>

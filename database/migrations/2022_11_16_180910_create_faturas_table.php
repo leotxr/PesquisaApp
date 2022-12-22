@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('faturas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('req_id')->unsigned();
+            $table->integer('rating_id')->unsigned();
             $table->integer('fatura_id')->nullable();
             $table->date('fatura_data')->nullable();
             $table->string('med_name')->nullable();
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('setor')->nullable();
             $table->timestamps();
 
-            $table->foreign('req_id')->references('id')
+            $table->foreign('rating_id')->references('id')
             ->on('ratings')
             ->onDelete('cascade')
             ->onUpdate('cascade');

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rating extends Model
 {
     protected $table='ratings';
-    protected $fillable=['req_id',
+    protected $fillable=[
     'tipo_agendamento',
     'data_req',
     'pac_name',
@@ -17,14 +17,18 @@ class Rating extends Model
     'atend_rate',
     'recep_name',
     'recep_rate',
-    'nota_clinica'
+    'nota_clinica',
+    'comentario',
+    'finalizada',
+    'created_at',
+    'updated_at'
 ];
     use HasFactory;
 
     public function relFaturas()
     {
-        return $this->hasMany(Fatura::class, 'req_id');
+        return $this->hasMany(Fatura::class);
     }
 
-    
+
 }

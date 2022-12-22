@@ -9,7 +9,7 @@
                     <p class="text-3xl">Como você avalia o atendimento realizado pela recepcionista </p>
                     <p class=" py-10 text-3xl font-bold">{{$requisicao->RECEPCIONISTA}}</p>
                     <input type="text" style="display: none;" name="recepcionista_name" value="{{$requisicao->RECEPCIONISTA}}"></input>
-                    <input type="text" class="text-3xl font-bold" id="req_id" name="req_id" value="{{$req_id}}" style="display: none;"></input>
+                    <input type="text" class="text-3xl font-bold" id="id" name="id" value="{{$id}}" style="display: none;"></input>
 
                     <div class="rating flex justify-center gap-5" id="rating" required>
                         <div class="form-check form-check-inline">
@@ -79,5 +79,12 @@
                 scrollTop: $(window).scrollTop() + 600
             }, 1280);
         });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            window.location.href = "/";
+        }, 30000);
     });
 </script>

@@ -72,14 +72,14 @@ class RatingController extends Controller
     {
         $dataForm = $request->all();
 
-        $req_id = $dataForm['req_id'];
+        $id = $dataForm['id'];
 
         $request->validate([
             'rating1' => 'required'
         ]);
 
         $agendas = DB::table('ratings')
-            ->where('id', $req_id)
+            ->where('id', $id)
             ->update([
                 'atend_name' => $request->atendente_name,
                 'atend_rate' => $request->rating1
@@ -96,9 +96,9 @@ class RatingController extends Controller
             #$sqlsrv = $sqlsrv . "LEFT JOIN MEDICOS TEC ON TEC.MEDICOID = FAT.TECNICOID ";
             #$sqlsrv = $sqlsrv . "LEFT JOIN WORK_FILAS WF ON WF.FILAID = WL.FILAID ";
             $sqlsrv = $sqlsrv . "LEFT JOIN USUARIOS US ON US.USERID = FAT.USUARIO ";
-            $sqlsrv = $sqlsrv . "WHERE WL.REQUISICAOID = '$req_id'";
+            $sqlsrv = $sqlsrv . "WHERE WL.REQUISICAOID = '$id'";
             $requisicoes = DB::connection('sqlsrv')->select($sqlsrv);
-            return view('rate-recepcao', ['requisicoes' => $requisicoes, 'req_id' => $req_id]);
+            return view('rate-recepcao', ['requisicoes' => $requisicoes, 'id' => $id]);
         }
     }
 
@@ -106,14 +106,14 @@ class RatingController extends Controller
     {
         $dataForm = $request->all();
 
-        $req_id = $dataForm['req_id'];
+        $id = $dataForm['id'];
 
         $request->validate([
             'rating2' => 'required'
         ]);
 
         $recep = DB::table('ratings')
-            ->where('id', $req_id)
+            ->where('id', $id)
             ->update([
                 'recep_name' => $request->recepcionista_name,
                 'recep_rate' => $request->rating2,
@@ -129,7 +129,7 @@ class RatingController extends Controller
             $sqlsrv = $sqlsrv . "LEFT OUTER JOIN SETORES SE ON SE.SETORID = FAT.SETORID ";
             $sqlsrv = $sqlsrv . "LEFT JOIN MEDICOS TEC ON TEC.MEDICOID = FAT.TECNICOID ";
             $sqlsrv = $sqlsrv . "LEFT JOIN WORK_FILAS WF ON WF.FILAID = WL.FILAID ";
-            $sqlsrv = $sqlsrv . "WHERE WL.REQUISICAOID = '$req_id' ";
+            $sqlsrv = $sqlsrv . "WHERE WL.REQUISICAOID = '$id' ";
             $requisicoes = DB::connection('sqlsrv')->select($sqlsrv);
 
             $sqlsrv2 = "Select DISTINCT O.DATA AS DATA, F.REQUISICAOID, SE.DESCRICAO, USU.NOME_SOCIAL AS USUARIO ";
@@ -137,42 +137,43 @@ class RatingController extends Controller
             $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN FATURA F ON O.PACIENTEID=F.PACIENTEID AND O.UNIDADEID=F.UNIDADEID AND O.FATURAID=F.FATURAID ";
             $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN USUARIOS USU ON (O.USERID = USU.USERID) ";
             $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN SETORES SE ON (SE.SETORID = F.SETORID) ";
-            $sqlsrv2 = $sqlsrv2 . "WHERE O.RASEVENTOID IN (39) AND SE.DESCRICAO IN ('ULTRA-SON', 'CARDIOLOGIA') AND F.REQUISICAOID = '$req_id' ";
+            $sqlsrv2 = $sqlsrv2 . "WHERE O.RASEVENTOID IN (39) AND SE.DESCRICAO IN ('ULTRA-SON', 'CARDIOLOGIA') AND F.REQUISICAOID = '$id' ";
             $recepus = DB::connection('sqlsrv')->select($sqlsrv2);
 
             $sqlsrv3 = "Select TOP 1 US.NOME_SOCIAL AS ENFERMEIRA, WL.REQUISICAOID FROM RASOCORRENCIAS AS RA ";
             $sqlsrv3 = $sqlsrv3 . "INNER JOIN WORK_LIST AS WL ON WL.PACIENTEID = RA.PACIENTEID AND WL.DATA = RA.DATA ";
             $sqlsrv3 = $sqlsrv3 . "INNER JOIN USUARIOS AS US ON US.USERID = RA.USERID ";
-            $sqlsrv3 = $sqlsrv3 . "WHERE RA.RASEVENTOID = 250003 AND WL.REQUISICAOID = '$req_id' ";
+            $sqlsrv3 = $sqlsrv3 . "WHERE RA.RASEVENTOID = 250003 AND WL.REQUISICAOID = '$id' ";
             $enfermeiras = DB::connection('sqlsrv')->select($sqlsrv3);
 
-            return view('rate-med', ['requisicoes' => $requisicoes, 'recepus' => $recepus, 'enfermeiras' => $enfermeiras, 'req_id' => $req_id]);
+            return view('rate-med', ['requisicoes' => $requisicoes, 'recepus' => $recepus, 'enfermeiras' => $enfermeiras, 'rating_id' => $id]);
         }
     }
 
     public function storeUltri(Request $request)
     {
         $dataForm = $request->all();
-        $req_id = $dataForm['req_id'];
+        $id = $dataForm['id'];
 
         $request->validate([
             'rate_clinica' => 'required'
         ]);
 
         DB::table('ratings')
-            ->where('id', $req_id)
+            ->where('id', $id)
             ->update([
-                'nota_clinica' => $request->rate_clinica
+                'nota_clinica' => $request->rate_clinica,
+                'finalizado' => 1
             ]);
-        return view('optional-coment', ['req_id' => $req_id]);
+        return view('optional-coment', ['id' => $id]);
     }
     public function storeComent(Request $request)
     {
         $dataForm = $request->all();
-        $req_id = $dataForm['req_id'];
+        $id = $dataForm['id'];
 
         DB::table('ratings')
-            ->where('id', $req_id)
+            ->where('id', $id)
             ->update([
                 'comentario' => $request->comentario
             ]);

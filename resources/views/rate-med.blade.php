@@ -134,7 +134,7 @@
                     @endif
 
 
-                    <input type="text" class="text-3xl font-bold" id="req_id" name="req_id[]" value="{{$req_id}}" style="display: none;"></input>
+                    <input type="text" class="text-3xl font-bold" id="rating_id" name="rating_id[]" value="{{$rating_id}}" style="display: none;"></input>
                     <input type="text" class="text-3xl font-bold" id="data_fatura" name="data_fatura[]" value="{{$requisicao->DATA}}" style="display: none;"></input>
                     <input type="text" class=" py-10 text-3xl font-bold" name="medico_name[]" value="{{$requisicao->MEDICO}}" style="display:none;"></input>
                     <input type="text" class=" py-10 text-3xl font-bold" name="tecnico_name[]" value="{{$requisicao->TECNICO}}" style="display:none;"></input>
@@ -212,5 +212,12 @@
         });
 
 
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            window.location.href = "/";
+        }, 30000);
     });
 </script>

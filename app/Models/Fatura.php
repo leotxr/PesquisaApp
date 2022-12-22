@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Fatura extends Model
 {
     protected $table='faturas';
-    protected $fillable=['fatura_id',
+    protected $fillable=[
     'rating_id',
+    'fatura_id',
     'fatura_data',
     'med_name',
     'med_rate',

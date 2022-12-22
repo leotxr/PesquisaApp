@@ -55,3 +55,10 @@
 
     </form>
 </x-guest-layout>
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            window.location.href = "/";
+        }, 30000);
+    });
+</script>

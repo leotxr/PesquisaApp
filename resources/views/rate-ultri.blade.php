@@ -4,8 +4,8 @@
         <div class="hero h-screen bg-base-200">
             <div class="hero-content text-center justify-center">
                 <div class="max-w-lg">
-                    @foreach($req_id as $req)
-                    <input type="text" class="text-3xl font-bold" id="req_id" name="req_id" value="{{$req}}" style="display: none;"></input>
+                    @foreach($rating_id as $req)
+                    <input type="text" class="text-3xl font-bold" id="id" name="id" value="{{$req}}" style="display: none;"></input>
                     @endforeach
                     <p class=" text-3xl">Como você avalia a <b>Ultrimagem?</b></p>
                     <div class="rating flex justify-center gap-5 font-bold" id="rating" required>
@@ -55,3 +55,10 @@
         </div>
     </form>
 </x-guest-layout>
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            window.location.href = "/";
+        }, 30000);
+    });
+</script>
