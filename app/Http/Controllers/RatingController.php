@@ -290,7 +290,7 @@ class RatingController extends Controller
 
         $sql = "select RA.data_req as DATA, RA.pac_name AS PACIENTE, RA.atend_name AS ATENDENTE, RA.atend_rate AS NOTA_ATENDENTE, RA.recep_name AS RECEPCIONISTA, RA.recep_rate AS NOTA_RECEPCIONISTA, ";
         $sql = $sql . "FA.med_name AS MEDICO, FA.med_rate AS NOTA_MEDICO, FA.setor AS SETOR, RA.nota_clinica AS ULTRIMAGEM ";
-        $sql = $sql . "FROM faturas as FA INNER JOIN ratings as RA on RA.id = FA.req_id ";
+        $sql = $sql . "FROM faturas as FA INNER JOIN ratings as RA on RA.id = FA.rating_id ";
         $sql = $sql . "WHERE RA.data_req BETWEEN '$data_inicio' and '$data_final' ORDER BY $ordem";
         $relgeral = DB::connection('mysql')->select($sql);
 

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Relatório de Avaliação por Livros (Ultra-son)') }}
+            {{ __('Relatório de Avaliação por Livros') }}
         </h2>
     </x-slot>
 
@@ -18,6 +18,7 @@
 </x-app-layout>
 
 <script>
+
     $(document).ready(function() {
         $(document).ready(function() {
             const url = "{{ route('showdatepicker')}}";
@@ -29,6 +30,7 @@
             });
         });
     });
+
 </script>
 <!--
 <script>

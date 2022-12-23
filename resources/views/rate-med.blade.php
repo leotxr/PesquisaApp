@@ -207,8 +207,8 @@
 
         $("input").on("click", function() {
             $('html, body').animate({
-                scrollTop: $(window).scrollTop() + 600
-            }, 1366);
+                scrollTop: $(window).scrollTop() + 500
+            }, 0);
         });
 
 
@@ -218,6 +218,6 @@
     $(document).ready(function() {
         setTimeout(function() {
             window.location.href = "/";
-        }, 30000);
+        }, 120000);
     });
 </script>

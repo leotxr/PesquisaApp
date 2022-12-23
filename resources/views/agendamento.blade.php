@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form name="formAgendamento" id="formAgendamento" method="POST" action="{{route('sendDados')}}">
+    <form name="formAgendamento" id="formAgendamento" method="POST" action="{{route('sendDados')}}" >
         @csrf
         <div class="hero h-screen bg-base-200">
             <div class="hero-content text-center">
@@ -61,4 +61,6 @@
             window.location.href = "/";
         }, 30000);
     });
+
+
 </script>

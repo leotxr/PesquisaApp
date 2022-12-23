@@ -18,6 +18,8 @@ return new class extends Migration
             $table->increments('id')->unique();
             $table->integer('fatura_id')->nullable();
             $table->date('fatura_data')->nullable();
+            $table->foreignId('rating_id')
+            ->constrained('ratings');
             $table->string('med_name')->nullable();
             $table->integer('med_rate')->nullable();
             $table->string('tec_name')->nullable();
@@ -27,9 +29,6 @@ return new class extends Migration
             $table->integer('enf_rate')->nullable();
             $table->string('setor')->nullable();
             $table->timestamps();
-
-            $table->foreignId('rating_id')
-                ->constrained('ratings');
         });
     }
 
