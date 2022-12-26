@@ -74,11 +74,7 @@
         });
         */
 
-        $("input").on("click", function() {
-            $('html, body').animate({
-                scrollTop: $(window).scrollTop() + 600
-            }, 1280);
-        });
+
     });
 </script>
 <script>

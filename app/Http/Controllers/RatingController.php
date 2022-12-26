@@ -26,7 +26,7 @@ class RatingController extends Controller
     {
 
         $cad = DB::table('ratings')->insert([
-            'tipo_agendamento' => $request->radio_agendamento,
+            //'grp_agendamento' => $request->grupo_id,
             'data_req' => $request->data_req,
             'id' => $request->id,
             'pac_id' => $request->paciente_id,
@@ -39,8 +39,9 @@ class RatingController extends Controller
             $data_req = $dataForm['data_req'];
             $paciente_id = $dataForm['paciente_id'];
             $requisicao = $dataForm['id'];
-            $sqlsrv = "Select TOP 1 A.PACIENTEID, FORMAT(A.DATA, 'yyyy/MM/dd') AS DATA, A.NOMEPAC AS PACIENTE, U.NOME_SOCIAL AS ATENDENTE, A.USUARIO, A.NOME_EXAME AS PROCEDIMENTO FROM VW_AGENDA AS A ";
+            $sqlsrv = "Select TOP 1 A.PACIENTEID, FORMAT(A.DATA, 'yyyy/MM/dd') AS DATA, G.GRUPOID, A.NOMEPAC AS PACIENTE, U.NOME_SOCIAL AS ATENDENTE, A.USUARIO, A.NOME_EXAME AS PROCEDIMENTO FROM VW_AGENDA AS A ";
             $sqlsrv = $sqlsrv . "INNER JOIN USUARIOS AS U ON U.USERID = A.USUARIO ";
+            $sqlsrv = $sqlsrv . "INNER JOIN USUARIOSGRUPOS G ON G.GRUPOID = U.GRUPOID ";
             $sqlsrv = $sqlsrv . "WHERE A.DATA = '$data_req' AND ";
             $sqlsrv = $sqlsrv . "A.PACIENTEID = '$paciente_id' AND ";
             $sqlsrv = $sqlsrv . "A.USERNAME IS NOT NULL";
@@ -79,6 +80,7 @@ class RatingController extends Controller
         $agendas = DB::table('ratings')
             ->where('id', $id)
             ->update([
+                'grp_agendamento' => $request->grupo_id,
                 'atend_name' => $request->atendente_name,
                 'atend_rate' => $request->rating1
             ]);

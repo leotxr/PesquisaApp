@@ -20,8 +20,9 @@ return new class extends Migration
             $table->date('fatura_data')->nullable();
             $table->foreignId('rating_id')
             ->constrained('ratings');
-            $table->string('med_name')->nullable();
-            $table->integer('med_rate')->nullable();
+            $table->string('livro_name')->nullable();
+            $table->integer('livro_rate')->nullable();
+            $table->integer('grp_livro')->nullable();
             $table->string('tec_name')->nullable();
             $table->string('us_name')->nullable();
             $table->integer('us_rate')->nullable();

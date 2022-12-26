@@ -1,194 +1,229 @@
 <x-guest-layout>
     <form name="formMed" id="formMed" method="POST" action="{{route('sendDadosMed')}}">
-        @csrf
-        @isset($recepus)
-        @foreach($recepus as $us)
-        <div class="hero h-screen bg-base-200" id="div-3">
-            <div class="hero-content text-center">
-                <div class="max-w-lg">
+        <div class="formMed">
+            @csrf
+            @isset($recepus)
+            @foreach($recepus as $us)
+            <div class="hero h-screen bg-base-200" id="us">
+                <div class="hero-content text-center">
+                    <div class="max-w-lg">
 
-                    <p class="text-3xl">Como você avalia o atendimento realizado pela recepcionista do Ultra-son </p>
-                    <p class=" py-10 text-3xl font-bold">{{$us->USUARIO}}</p>
-                    <input type="text" style="display: none;" name="us_name[]" value="{{$us->USUARIO}}"></input>
-                    <div class="rating flex justify-center gap-5" id="rating" required>
+                        <p class="text-3xl">Como você avalia o atendimento realizado pela recepcionista do
+                        <p class="text-3xl"> Ultra-son </p>
+                        </p>
+                        <p class=" py-10 text-3xl font-bold">{{$us->USUARIO}}</p>
+                        <input type="text" style="display: none;" name="us_name[]" value="{{$us->USUARIO}}"></input>
+                        <div class="rating flex justify-center gap-5" id="rating" required>
 
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="us_rate[]" value="1" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-01.png')}}" width="300px" height="300px"></img>
-                                Péssimo
-                            </label>
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="us_rate[]" value="1" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-01.png')}}" width="300px" height="300px"></img>
+                                    Péssimo
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="us_rate[]" value="2" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-02.png')}}" width="300px" height="300px"></img>
+                                    Ruim
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="us_rate[]" value="3" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-03.png')}}" width="300px" height="300px"></img>
+                                    Indiferente
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="us_rate[]" value="4" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-04.png')}}" width="300px" height="300px"></img>
+                                    Bom
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="us_rate[]" value="5" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-05.png')}}" width="300px" height="300px"></img>
+                                    Ótimo
+                                </label>
+                            </div>
+
                         </div>
-
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="us_rate[]" value="2" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-02.png')}}" width="300px" height="300px"></img>
-                                Ruim
-                            </label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="us_rate[]" value="3" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-03.png')}}" width="300px" height="300px"></img>
-                                Indiferente
-                            </label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="us_rate[]" value="4" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-04.png')}}" width="300px" height="300px"></img>
-                                Bom
-                            </label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="us_rate[]" value="5" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-05.png')}}" width="300px" height="300px"></img>
-                                Ótimo
-                            </label>
-                        </div>
-
+                        <a class="proximo my-10 btn btn-primary btn-wide ">Próximo</a>
                     </div>
                 </div>
             </div>
-        </div>
-        @endforeach
-        @endisset
+            @endforeach
+            @endisset
 
-        @isset($enfermeiras)
-        @foreach($enfermeiras as $enf)
-        <div class="hero h-screen bg-base-200" id="div-3[]">
-            <div class="hero-content text-center">
-                <div class="max-w-lg">
+            @isset($enfermeiras)
+            @foreach($enfermeiras as $enf)
+            <div class="hero h-screen bg-base-200" id="enf">
+                <div class="hero-content text-center">
+                    <div class="max-w-lg">
 
-                    <p class="text-3xl">Como você avalia o atendimento realizado pela enfermeira </p>
-                    <p class=" py-10 text-3xl font-bold">{{$enf->ENFERMEIRA}}</p>
-                    <input type="text" style="display: none;" name="enf_name[]" value="{{$enf->ENFERMEIRA}}"></input>
+                        <p class="text-3xl">Como você avalia o atendimento realizado pela enfermeira </p>
+                        <p class=" py-10 text-3xl font-bold">{{$enf->ENFERMEIRA}}</p>
+                        <input type="text" style="display: none;" name="enf_name[]" value="{{$enf->ENFERMEIRA}}"></input>
 
-                    <div class="rating flex justify-center gap-5" id="rating" required>
+                        <div class="rating flex justify-center gap-5" id="rating" required>
 
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="enf_rate[]" value="1" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-01.png')}}" width="300px" height="300px"></img>
-                                Péssimo
-                            </label>
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="enf_rate[]" value="1" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-01.png')}}" width="300px" height="300px"></img>
+                                    Péssimo
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="enf_rate[]" value="2" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-02.png')}}" width="300px" height="300px"></img>
+                                    Ruim
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="enf_rate[]" value="3" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-03.png')}}" width="300px" height="300px"></img>
+                                    Indiferente
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="enf_rate[]" value="4" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-04.png')}}" width="300px" height="300px"></img>
+                                    Bom
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="enf_rate[]" value="5" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-05.png')}}" width="300px" height="300px"></img>
+                                    Ótimo
+                                </label>
+                            </div>
+
                         </div>
-
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="enf_rate[]" value="2" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-02.png')}}" width="300px" height="300px"></img>
-                                Ruim
-                            </label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="enf_rate[]" value="3" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-03.png')}}" width="300px" height="300px"></img>
-                                Indiferente
-                            </label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="enf_rate[]" value="4" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-04.png')}}" width="300px" height="300px"></img>
-                                Bom
-                            </label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="enf_rate[]" value="5" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-05.png')}}" width="300px" height="300px"></img>
-                                Ótimo
-                            </label>
-                        </div>
-
+                        <a class="proximo my-10 btn btn-primary btn-wide ">Próximo</a>
                     </div>
                 </div>
             </div>
-        </div>
-        @endforeach
-        @endisset
+            @endforeach
+            @endisset
 
-        @isset($requisicoes)
-        @foreach($requisicoes as $requisicao)
-        <div class="hero h-screen bg-base-200" id="div-4[]">
-            <div class="hero-content text-center">
-                <div class="max-w-lg">
+            @isset($requisicoes)
+            @foreach($requisicoes as $requisicao)
+            <div class="hero h-screen bg-base-200" id="setor">
+                <div class="hero-content text-center">
+                    <div class="max-w-lg">
 
-                    <p class="text-3xl">Como você avalia o exame de {{$requisicao->SETOR}}</p>
-                    @if(($requisicao->SETOR != "ULTRA-SON" && $requisicao->SETOR != "CARDIOLOGIA"))
-                    <p class="text-3xl">realizado pelo(a) técnico(a)</p>
-                    <p class=" py-10 text-3xl font-bold">{{$requisicao->TECNICO}}</p>
-                    @else
-                    <p class="text-3xl">realizado pelo(a) médico(a)</p>
-                    <p class=" py-10 text-3xl font-bold">{{$requisicao->MEDICO}}</p>
-                    @endif
+                        <p class="text-3xl">Como você avalia o exame de
+                        <p class="text-3xl"> {{$requisicao->SETOR}}</p>
+                        </p>
+                        @if(($requisicao->SETOR != "ULTRA-SON" && $requisicao->SETOR != "CARDIOLOGIA"))
+                        <p class="text-3xl">realizado pelo(a) técnico(a)</p>
+                        <p class=" py-10 text-3xl font-bold">{{$requisicao->TECNICO}}</p>
+                        @else
+                        <p class="text-3xl">realizado pelo(a) médico(a)</p>
+                        <p class=" py-10 text-3xl font-bold">{{$requisicao->MEDICO}}</p>
+                        @endif
 
 
-                    <input type="text" class="text-3xl font-bold" id="rating_id" name="rating_id[]" value="{{$rating_id}}" style="display: none;"></input>
-                    <input type="text" class="text-3xl font-bold" id="data_fatura" name="data_fatura[]" value="{{$requisicao->DATA}}" style="display: none;"></input>
-                    <input type="text" class=" py-10 text-3xl font-bold" name="medico_name[]" value="{{$requisicao->MEDICO}}" style="display:none;"></input>
-                    <input type="text" class=" py-10 text-3xl font-bold" name="tecnico_name[]" value="{{$requisicao->TECNICO}}" style="display:none;"></input>
-                    <input type="text" class=" py-10 text-3xl font-bold" name="setor[]" value="{{$requisicao->SETOR}}" style="display:none;"></input>
+                        <input type="text" class="text-3xl font-bold" id="rating_id" name="rating_id[]" value="{{$rating_id}}" style="display: none;"></input>
+                        <input type="text" class="text-3xl font-bold" id="data_fatura" name="data_fatura[]" value="{{$requisicao->DATA}}" style="display: none;"></input>
+                        <input type="text" class=" py-10 text-3xl font-bold" name="medico_name[]" value="{{$requisicao->MEDICO}}" style="display:none;"></input>
+                        <input type="text" class=" py-10 text-3xl font-bold" name="tecnico_name[]" value="{{$requisicao->TECNICO}}" style="display:none;"></input>
+                        <input type="text" class=" py-10 text-3xl font-bold" name="setor[]" value="{{$requisicao->SETOR}}" style="display:none;"></input>
 
-                    <div class="rating flex justify-center gap-5" id="rating" required>
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="med_rate[]" value="1" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-01.png')}}" width="300px" height="300px"></img>
-                                Péssimo
-                            </label>
+                        <div class="rating flex justify-center gap-5" id="rating" required>
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="med_rate[]" value="1" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-01.png')}}" width="300px" height="300px"></img>
+                                    Péssimo
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="med_rate[]" value="2" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-02.png')}}" width="300px" height="300px"></img>
+                                    Ruim
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="med_rate[]" value="3" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-03.png')}}" width="300px" height="300px"></img>
+                                    Indiferente
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="med_rate[]" value="4" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-04.png')}}" width="300px" height="300px"></img>
+                                    Bom
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="med_rate[]" value="5" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-05.png')}}" width="300px" height="300px"></img>
+                                    Ótimo
+                                </label>
+                            </div>
                         </div>
-
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="med_rate[]" value="2" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-02.png')}}" width="300px" height="300px"></img>
-                                Ruim
-                            </label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="med_rate[]" value="3" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-03.png')}}" width="300px" height="300px"></img>
-                                Indiferente
-                            </label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="med_rate[]" value="4" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-04.png')}}" width="300px" height="300px"></img>
-                                Bom
-                            </label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <label class="radio-inline">
-                                <input type="checkbox" name="med_rate[]" value="5" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
-                                <img src="{{URL::asset('image/SMILE-05.png')}}" width="300px" height="300px"></img>
-                                Ótimo
-                            </label>
-                        </div>
+                        <a class="proximo my-10 btn btn-primary btn-wide ">Próximo</a>
                     </div>
                 </div>
             </div>
+            @endforeach
+            @endisset
+
+            <div class="hero min-h-screen bg-base-200">
+                <div class="hero-content text-center">
+                    <div class="max-w-md grid justify-items-center">
+                        <h1 class="text-3xl">Você recomendaria a <b>Ultrimagem</b> para um amigo ou familiar?</h1>
+                        <div class="rating flex justify-center gap-5 py-10" id="rating" required>
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="radio" name="rec_rate[]" value="0" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-02.png')}}" width="100px" height="100px"></img>
+                                    Não
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <label class="radio-inline">
+                                    <input type="radio" name="rec_rate[]" value="1" class="radio" style="opacity: 0; position: absolute;" />
+                                    <img src="{{URL::asset('image/SMILE-05.png')}}" width="110px" height="110px"></img>
+                                    Sim
+                                </label>
+                            </div>
+
+                        </div>
+                        <button type="submit" id="btn-med" href="" class="text-center btn btn-primary btn-wide my-10">Avançar</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        @endforeach
-        @endisset
-        <div class="rating flex justify-center bg-base-200">
-            <button type="submit" id="btn-med" href="#div-5" class="text-center btn btn-primary btn-wide mb-40">Avançar</button>
-        </div>
+
     </form>
 </x-guest-layout>
 <script>
@@ -203,21 +238,31 @@
             return false;
 
         });
-        */
+
 
         $("input").on("click", function() {
             $('html, body').animate({
-                scrollTop: $(window).scrollTop() + 500
+                scrollTop: $(window).scrollTop() + 650
             }, 0);
         });
 
+*/
 
-    });
-</script>
-<script>
-    $(document).ready(function() {
         setTimeout(function() {
             window.location.href = "/";
         }, 120000);
+
+        var telas = $(".formMed > .hero").length;
+        $(".proximo").on("click", function() {
+
+            $(this).closest(".hero").hide();
+
+            var indice = $(".formMed a.proximo").index(this);
+
+            indice += indice == telas - 1 ? -telas + 1 : 1;
+
+            $(".formMed > .hero").eq(indice).show();
+        });
+
     });
 </script>

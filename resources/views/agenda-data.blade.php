@@ -5,12 +5,13 @@
             <div class="hero-content text-center">
                 <div class="max-w-lg">
                     @foreach($agendas as $agenda)
-                    <p class=" text-3xl">Como você avalia o agendamento realizado pela </p>
+                    <p class=" text-3xl">Como você avalia o agendamento do exame realizado pela </p>
                     <p class=" py-10 text-3xl font-bold">{{$agenda->ATENDENTE}}</p>
                     <input type="text" class=" py-10 text-3xl font-bold" name="data_req" value="{{$agenda->DATA}}" style="display: none"></input>
                     <input type="text" class=" py-10 text-3xl font-bold" name="paciente_id" value="{{$agenda->PACIENTEID}}" style="display: none"></input>
                     <input type="text" class="text-3xl font-bold" id="id" name="id" value="{{$requisicao}}" style="display: none;"></input>
                     <input type="text" style="display: none;" name="atendente_name" id="atendente_name" value="{{$agenda->ATENDENTE}}"></input>
+                    <input class="text-3xl font-bold" id="grupo_id" name="grupo_id" value="{{$agenda->GRUPOID}}" style="display: none;"></input>
                     @endforeach
                     <div class="rating flex justify-center gap-5" id="rating" required>
                         <div class="form-check form-check-inline">
