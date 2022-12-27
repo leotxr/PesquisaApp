@@ -2,12 +2,15 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="winter">
 
 <head>
+    <script>
+        unloadScrollBars();
+    </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="mobile-web-app-capable" content="yes">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Pesquisa de satisfação Ultrimagem') }}</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
@@ -17,6 +20,7 @@
 </head>
 
 <body>
+
     <div class="font-sans text-gray-900 antialiased">
         @if($errors->any())
         @foreach($errors->all() as $error)
@@ -30,8 +34,15 @@
         </div>
         @endforeach
         @endif
-        {{ $slot }}
+        <div>
+            {{ $slot }}
+            <div class="loader-wrapper bg-base-200 absolute w-full h-full grid place-items-center top-0 opacity-90">
+                <span class="loader"></span>
+            </div>
+        </div>
+
     </div>
+
 </body>
 
 </html>
@@ -41,6 +52,8 @@
         ev.preventDefault();
         return false;
     });
-    </script>
 
-
+    $(window).on("load",function(){
+        $(".loader-wrapper").fadeOut("slow");
+    });
+</script>

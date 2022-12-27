@@ -9,7 +9,7 @@
                     @endforeach
                     <p class=" text-3xl">Como você avalia a <b>Ultrimagem?</b></p>
                     <div class="rating flex justify-center gap-5 font-bold text-xl py-10" id="rating" required>
-                        <div class="form-check form-check-inline h-60 w-60">
+                        <div class="form-check form-check-inline h-30 w-30">
                             <label class="radio-inline font-bold">
                                 <input type="radio" name="rate_clinica" value="1" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-01.png')}}" class="active:scale-125"></img>
@@ -17,7 +17,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-60 w-60">
+                        <div class="form-check form-check-inline h-30 w-30">
                             <label class="radio-inline">
                                 <input type="radio" name="rate_clinica" value="2" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-02.png')}}" class="active:scale-125"></img>
@@ -25,7 +25,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-60 w-60">
+                        <div class="form-check form-check-inline h-30 w-30">
                             <label class="radio-inline">
                                 <input type="radio" name="rate_clinica" value="3" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-03.png')}}" class="active:scale-125"></img>
@@ -33,7 +33,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-60 w-60">
+                        <div class="form-check form-check-inline h-30 w-30">
                             <label class="radio-inline">
                                 <input type="radio" name="rate_clinica" value="4" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-04.png')}}" class="active:scale-125"></img>
@@ -41,7 +41,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-60 w-60">
+                        <div class="form-check form-check-inline h-30 w-30">
                             <label class="radio-inline">
                                 <input type="radio" name="rate_clinica" value="5" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-05.png')}}" class="active:scale-125"></img>

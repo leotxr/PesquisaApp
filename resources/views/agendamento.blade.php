@@ -12,22 +12,22 @@
                     <input class="text-3xl font-bold" id="paciente_name" name="paciente_name" value="{{$requisicao->PACIENTE}}" style="display: none;"></input>
                     <p class="py-4 text-3xl">para melhor atendê-lo(a), gostaríamos de saber se foi atendido(a):</p>
 
-                    <div class="rating flex justify-center py-10" id="rating" required>
-                    <div class="h-24 w-24 form-check form-check-inline m-10">
+                    <div class="rating flex gap-3 justify-center py-5" id="rating" required>
+                    <div class="form-check form-check-inline h-30 w-30 m-10">
                             <label class="text-lg font-bold">
                                 <input type="radio" name="horario" value="3" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-05.png')}}" class="active:scale-125"></img>
                                 Antes do horário
                             </label>
                         </div>
-                        <div class="h-24 w-24 form-check form-check-inline m-10">
+                        <div class="form-check form-check-inline h-30 w-30 m-10">
                         <label class="text-lg font-bold">
                                 <input type="radio" name="horario" value="2" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-04.png')}}" class="active:scale-125"></img>
                                 No horário marcado
                             </label>
                         </div>
-                        <div class="h-24 w-24 form-check form-check-inline m-10">
+                        <div class="form-check form-check-inline h-30 w-30 m-10">
                         <label class="text-lg font-bold">
                                 <input type="radio" name="horario" value="1" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-01.png')}}" class="active:scale-125"></img>
