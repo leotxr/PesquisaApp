@@ -9,7 +9,7 @@ class Rating extends Model
 {
     protected $table='ratings';
     protected $fillable=[
-    'tipo_agendamento',
+    'grp_agendamento',
     'data_req',
     'pac_name',
     'pac_id',
@@ -19,7 +19,7 @@ class Rating extends Model
     'recep_rate',
     'nota_clinica',
     'comentario',
-    'finalizada',
+    'finalizado',
     'created_at',
     'updated_at'
 ];

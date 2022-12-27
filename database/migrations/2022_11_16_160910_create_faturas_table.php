@@ -22,7 +22,7 @@ return new class extends Migration
             ->constrained('ratings');
             $table->string('livro_name')->nullable();
             $table->integer('livro_rate')->nullable();
-            $table->integer('grp_livro')->nullable();
+            #$table->integer('grp_livro')->nullable();
             $table->string('tec_name')->nullable();
             $table->string('us_name')->nullable();
             $table->integer('us_rate')->nullable();

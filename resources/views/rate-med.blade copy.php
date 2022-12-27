@@ -10,7 +10,7 @@
                     <p class="text-3xl">Como você avalia o atendimento realizado pela recepcionista </p>
                     <p class=" py-10 text-3xl font-bold">{{$us->USUARIO}}</p>
                     <input type="text" style="display: none;" name="us_name[]" value="{{$us->USUARIO}}"></input>
-                    <div class="rating flex justify-center gap-5" id="rating" required>
+                    <div class="rating flex justify-center gap-5 py-10" id="rating" required>
 
                         <div class="form-check form-check-inline">
                             <label class="radio-inline">
@@ -69,7 +69,7 @@
                     <p class=" py-10 text-3xl font-bold">{{$enf->ENFERMEIRA}}</p>
                     <input type="text" style="display: none;" name="enf_name[]" value="{{$enf->ENFERMEIRA}}"></input>
 
-                    <div class="rating flex justify-center gap-5" id="rating" required>
+                    <div class="rating flex justify-center gap-5 py-10" id="rating" required>
 
                         <div class="form-check form-check-inline">
                             <label class="radio-inline">
@@ -140,7 +140,7 @@
                     <input type="text" class=" py-10 text-3xl font-bold" name="tecnico_name[]" value="{{$requisicao->TECNICO}}" style="display:none;"></input>
                     <input type="text" class=" py-10 text-3xl font-bold" name="setor[]" value="{{$requisicao->SETOR}}" style="display:none;"></input>
 
-                    <div class="rating flex justify-center gap-5" id="rating" required>
+                    <div class="rating flex justify-center gap-5 py-10" id="rating" required>
                         <div class="form-check form-check-inline">
                             <label class="radio-inline">
                                 <input type="checkbox" name="med_rate[]" value="1" class="radio" style="opacity: 0; position: absolute;" />

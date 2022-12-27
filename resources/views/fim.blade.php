@@ -1,13 +1,12 @@
 <x-guest-layout>
     <div class="hero min-h-screen bg-base-200">
         <div class="hero-content text-center">
-            <div class="max-w-md grid justify-items-center">
-                <img src="{{URL::asset('image/LOGO_ULTRIMAGEM.png')}}" width="200px" height="200px"></img>
-                <span class="flex align-items-center">
-                    <h1 class="text-5xl font-bold">Obrigado!   </h1>
+            <div class="max-w-full grid justify-items-center">
+                <img src="{{URL::asset('image/LOGO_ULTRIMAGEM.png')}}" class="py-20" width="350px" height="350px"></img>
+                <span class="flex align-items-center pt-10">
+                    <h1 class="text-3xl font-bold">A Ultrimagem agradece sua avaliação!   </h1>
                 </span>
 
-                <p class="py-6">A Ultrimagem agradece sua avaliação</p>
 
             </div>
         </div>
