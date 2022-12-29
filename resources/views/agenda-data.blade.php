@@ -34,7 +34,7 @@
                             <label class="radio-inline">
                                 <input type="radio" name="rating1" value="3" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-03.png')}}" class="active:scale-125"></img>
-                                Indiferente
+                                Normal
                             </label>
                         </div>
 

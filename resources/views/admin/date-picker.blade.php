@@ -17,7 +17,7 @@
         <select id="med_name" name="med_name" class="select select-primary align-item-left max-w-xs">
             <option value="%">Todos os Livros</option>
             @foreach($rating as $ratings)
-            <option value="{{$ratings->med_name}}">{{$ratings->med_name}}</option>
+            <option value="{{$ratings->livro_name}}">{{$ratings->livro_name}}</option>
             @endforeach
         </select>
     </div>
@@ -28,7 +28,7 @@
             <option value="DATA">Data</option>
             <option value="RECEPCIONISTA">Recepcionista</option>
             <option value="ATENDENTE">Atendente</option>
-            <option value="MEDICO">Médico</option>
+            <option value="LIVRO">Médico</option>
         </select>
     </div>
     <a type="button" id="pick-date" class="my-2 btn btn-primary btn-wide ">Buscar</a>
@@ -61,14 +61,14 @@
             dataInicio = $("#data_inicio").val();
             dataFinal = $("#data_final").val();
             ordem = $("#ordem").val();
-            med_name = $("#med_name").val();
+            livro_name = $("#livro_name").val();
             $.ajax({
                 url: url,
                 data: {
                     'data_inicio': dataInicio,
                     'data_final': dataFinal,
                     'ordem': ordem,
-                    'med_name': med_name
+                    'livro_name': livro_name
                 },
                 success: function(data) {
                     $("#show-result").html(data);

@@ -71,13 +71,13 @@ class FaturaController extends Controller
         $dataForm = $request->all();
         $data_inicio = $request->data_inicio;
         $data_final = $request->data_final;
-        $med_name = $dataForm['med_name'];
+        $livro_name = $dataForm['livro_name'];
         $ordem = $dataForm['ordem'];
 
         $sql = "select RA.data_req as DATA, RA.pac_name AS PACIENTE, ";
-        $sql = $sql . "FA.med_name AS MEDICO, FA.med_rate AS NOTA_MEDICO, FA.setor AS SETOR, RA.nota_clinica AS ULTRIMAGEM ";
+        $sql = $sql . "FA.livro_name AS MEDICO, FA.livro_rate AS NOTA_MEDICO, FA.setor AS SETOR, RA.nota_clinica AS ULTRIMAGEM ";
         $sql = $sql . "FROM faturas as FA INNER JOIN ratings as RA on RA.id = FA.req_id ";
-        $sql = $sql . "WHERE FA.med_name LIKE('$med_name') and RA.data_req BETWEEN '$data_inicio' and '$data_final' ORDER BY $ordem";
+        $sql = $sql . "WHERE FA.med_name LIKE('$livro_name') and RA.data_req BETWEEN '$data_inicio' and '$data_final' ORDER BY $ordem";
         $relusg = DB::connection('mysql')->select($sql);
         return view('admin.tables.table-usg', ['relusg' => $relusg]);
     }
