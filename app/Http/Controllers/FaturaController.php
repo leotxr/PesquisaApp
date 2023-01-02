@@ -60,6 +60,9 @@ class FaturaController extends Controller
 
             ]);
         }
+        DB::table('ratings')
+        ->where('id', $rating_id)
+        ->update(['recomenda' => $request->rec_rate]);
 
         #dd($request);
         return view('rate-ultri', ['rating_id' => $rating_id]);

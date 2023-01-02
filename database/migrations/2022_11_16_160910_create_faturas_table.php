@@ -19,7 +19,9 @@ return new class extends Migration
             $table->integer('fatura_id')->nullable();
             $table->date('fatura_data')->nullable();
             $table->foreignId('rating_id')
-            ->constrained('ratings');
+            ->constrained()
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->string('livro_name')->nullable();
             $table->integer('livro_rate')->nullable();
             #$table->integer('grp_livro')->nullable();
@@ -30,6 +32,7 @@ return new class extends Migration
             $table->integer('enf_rate')->nullable();
             $table->string('setor')->nullable();
             $table->timestamps();
+            $table->engine = "InnoDB";
         });
     }
 

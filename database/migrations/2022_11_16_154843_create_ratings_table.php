@@ -23,10 +23,13 @@ return new class extends Migration
             $table->integer('atend_rate')->nullable();
             $table->string('recep_name')->nullable();
             $table->integer('recep_rate')->nullable();
-            $table->integer('nota_clinica')->nullable();
-            $table->boolean('finalizado')->nullable();
+            $table->integer('nota_clinica')->nullable();            
             $table->string('comentario')->nullable();
+            $table->integer('tipo_atraso')->nullable();
+            $table->boolean('recomenda')->nullable();
+            $table->boolean('finalizado')->nullable();
             $table->timestamps();
+            $table->engine = "InnoDB";
 
         });
     }

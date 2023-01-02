@@ -35,7 +35,12 @@
 
         <!-- Page Content -->
         <main>
-            {{ $slot }}
+            <div>
+                {{ $slot }}
+                <div class="loader-wrapper bg-base-200 absolute w-full h-full grid place-items-center top-0 opacity-90">
+                    <span class="loader"></span>
+                </div>
+            </div>
         </main>
     </div>
 </body>
@@ -44,7 +49,7 @@
 <footer class="text-gray-600 body-font bg-base-200">
     <div class="container px-5 py-2 mx-auto flex items-center sm:flex-row flex-col">
         <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
-        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
+            <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
         </a>
         <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">© 2022 Desenvolvimento —
             <a href="https://uba.ultrimagem.com.br" class="text-gray-600 ml-1" rel="noopener noreferrer" target="_blank">TIC Ultrimagem</a>
@@ -77,3 +82,13 @@
 </footer>
 
 </html>
+<script>
+    window.addEventListener("contextmenu", ev => {
+        ev.preventDefault();
+        return false;
+    });
+
+    $(window).on("load", function() {
+        $(".loader-wrapper").fadeOut("slow");
+    });
+</script>

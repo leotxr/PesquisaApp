@@ -23,7 +23,7 @@
                                 <th>Nota</th>
                                 <th>Recepcionista</th>
                                 <th>Nota</th>
-                                <th>Medico</th>
+                                <th>Livro</th>
                                 <th>Nota</th>
                                 <th>Setor</th>
                                 <th>Ultrimagem</th>
@@ -40,8 +40,8 @@
                                 <td>{{$result->NOTA_ATENDENTE}}</td>
                                 <td>{{$result->RECEPCIONISTA}}</td>
                                 <td>{{$result->NOTA_RECEPCIONISTA}}</td>
-                                <td>{{$result->MEDICO}}</td>
-                                <td>{{$result->NOTA_MEDICO}}</td>
+                                <td>{{$result->LIVRO}}</td>
+                                <td>{{$result->NOTA_LIVRO}}</td>
                                 <td>{{$result->SETOR}}</td>
                                 <td>{{$result->ULTRIMAGEM}}</td>
                             </tr>

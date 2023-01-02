@@ -26,7 +26,7 @@ class RatingController extends Controller
     {
 
         $cad = DB::table('ratings')->insert([
-            //'grp_agendamento' => $request->grupo_id,
+            'tipo_atraso' => $request->horario,
             'data_req' => $request->data_req,
             'id' => $request->id,
             'pac_id' => $request->paciente_id,
@@ -291,7 +291,7 @@ class RatingController extends Controller
         $ordem = $dataForm['ordem'];
 
         $sql = "select RA.data_req as DATA, RA.pac_name AS PACIENTE, RA.atend_name AS ATENDENTE, RA.atend_rate AS NOTA_ATENDENTE, RA.recep_name AS RECEPCIONISTA, RA.recep_rate AS NOTA_RECEPCIONISTA, ";
-        $sql = $sql . "FA.livro_name AS MEDICO, FA.livro_rate AS NOTA_LIVRO, FA.setor AS SETOR, RA.nota_clinica AS ULTRIMAGEM ";
+        $sql = $sql . "FA.livro_name AS LIVRO, FA.livro_rate AS NOTA_LIVRO, FA.setor AS SETOR, RA.nota_clinica AS ULTRIMAGEM ";
         $sql = $sql . "FROM faturas as FA INNER JOIN ratings as RA on RA.id = FA.rating_id ";
         $sql = $sql . "WHERE RA.data_req BETWEEN '$data_inicio' and '$data_final' ORDER BY $ordem";
         $relgeral = DB::connection('mysql')->select($sql);

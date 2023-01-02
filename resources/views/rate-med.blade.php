@@ -204,7 +204,7 @@
 
                                 <div class="form-check form-check-inline h-30 w-30">
                                     <label class="radio-inline">
-                                        <input type="radio" name="rec_rate[]" value="0" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
+                                        <input type="radio" name="rec_rate" value="0" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                         <img src="{{URL::asset('image/SMILE-02.png')}}" class="active:scale-125"></img>
                                         Não
                                     </label>
@@ -212,7 +212,7 @@
 
                                 <div class="form-check form-check-inline h-30 w-30">
                                     <label class="radio-inline">
-                                        <input type="radio" name="rec_rate[]" value="1" class="radio" style="opacity: 0; position: absolute;" />
+                                        <input type="radio" name="rec_rate" value="1" class="radio" style="opacity: 0; position: absolute;" />
                                         <img src="{{URL::asset('image/SMILE-05.png')}}" class="active:scale-125"></img>
                                         Sim
                                     </label>
