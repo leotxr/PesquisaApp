@@ -5,7 +5,7 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-
+/*
 window.addEventListener("contextmenu", ev => {
     ev.preventDefault();
     return false;
@@ -27,7 +27,4 @@ window.addEventListener("keydown", ev => {
     }
 });
 
-function unloadScrollBars(){
-    document.documentElement.style.overflow = 'hidden';
-    document.body.scroll = "no";
-}
+*/

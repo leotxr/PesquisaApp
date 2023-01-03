@@ -34,8 +34,8 @@
                             <x-dropdown-link :href="route('busca-data')" :active="request()->routeIs('busca-data')">
                                 {{ __('Pesquisas por período') }}
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route('rel-usg')" :active="request()->routeIs('rel-usg')">
-                                {{ __('Pesquisas por Setor USG') }}
+                            <x-dropdown-link :href="route('rel-setores')" :active="request()->routeIs('rel-setores')">
+                                {{ __('Pesquisas por Setor') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('rel-coment')" :active="request()->routeIs('rel-coment')">
                                 {{ __('Comentários') }}
@@ -97,8 +97,8 @@
             <x-responsive-nav-link :href="route('busca-data')" :active="request()->routeIs('busca-data')">
                 {{ __('Relatório Geral') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('rel-usg')" :active="request()->routeIs('rel-usg')">
-                {{ __('Relatório Setor USG') }}
+            <x-responsive-nav-link :href="route('rel-setores')" :active="request()->routeIs('rel-setores')">
+                {{ __('Relatório Setor') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('rel-coment')" :active="request()->routeIs('rel-coment')">
                 {{ __('Comentários') }}

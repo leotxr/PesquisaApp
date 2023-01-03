@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Relatório de Comentários por Período') }}
+            {{ __('Relatório de Avaliação por Setor') }}
         </h2>
     </x-slot>
 
-    <div class="py-12" id="rel-coment">
+    <div class="py-12" id="rel-usg">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b text-center border-gray-200">
@@ -24,6 +24,15 @@
                     </div>
                     <div class="divider"></div>
 
+
+                    <div class="p-2 flex">
+                        <select id="setores" name="setores" class="select select-primary align-item-left max-w-xs">
+                            <option value="0" default>Setores</option>
+                            <option value="1">USG / Cardiologia</option>
+                            <option value="2">Ressonância / Tomografia</option>
+                            <option value="3">Radiologia</option>
+                        </select>
+                    </div>
 
                     <div class="p-2 flex">
                         <select id="ordem" name="ordem" class="select select-primary align-item-left max-w-xs">
@@ -47,14 +56,18 @@
 
 <script>
     $("#pick-date").click(function() {
-        const url = "{{ route('resultComent')}}";
+        const url = "{{ route('resultSetores')}}";
         dataInicio = $("#data_inicio").val();
         dataFinal = $("#data_final").val();
+        ordem = $("#ordem").val();
+        setores = $("#setores").val();
         $.ajax({
             url: url,
             data: {
                 'data_inicio': dataInicio,
-                'data_final': dataFinal
+                'data_final': dataFinal,
+                'ordem': ordem,
+                'setores': setores
             },
             success: function(data) {
                 $("#show-result").html(data);

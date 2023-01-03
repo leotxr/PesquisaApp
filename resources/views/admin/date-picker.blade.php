@@ -13,22 +13,15 @@
         </div>
     </div>
     <div class="divider"></div>
-    <div class="p-2 flex">
-        <select id="med_name" name="med_name" class="select select-primary align-item-left max-w-xs">
-            <option value="%">Todos os Livros</option>
-            @foreach($rating as $ratings)
-            <option value="{{$ratings->livro_name}}">{{$ratings->livro_name}}</option>
-            @endforeach
-        </select>
-    </div>
+
 
     <div class="p-2 flex">
         <select id="ordem" name="ordem" class="select select-primary align-item-left max-w-xs">
-            <option value="DATA" default>Ordenar por:</option>
-            <option value="DATA">Data</option>
-            <option value="RECEPCIONISTA">Recepcionista</option>
-            <option value="ATENDENTE">Atendente</option>
-            <option value="LIVRO">Médico</option>
+            <option value="data_req" default>Ordenar por:</option>
+            <option value="data_req">Data</option>
+            <option value="setor">Setor</option>
+            <option value="pac_name">Nome Paciente</option>
+            <option value="livro_name">Livro</option>
         </select>
     </div>
     <a type="button" id="pick-date" class="my-2 btn btn-primary btn-wide ">Buscar</a>

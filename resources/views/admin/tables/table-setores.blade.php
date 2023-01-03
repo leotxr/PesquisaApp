@@ -10,7 +10,7 @@
                 </button>
 
                 <div class="overflow-x-auto">
-                    <table id="table" class="table w-full">
+                    <table id="table" class="table w-full text-center">
                         <!-- head -->
                         <!-- TABELA RELATORIO SETORES -->
                         <thead>
@@ -23,10 +23,13 @@
                                 <th>Nota Atendente</th>
                                 <th>Recepcionista</th>
                                 <th>Nota Recepcionista</th>
+                                <th>Enfermeira</th>
+                                <th>Nota Enfermeira</th>
                                 <th>Recepcionista USG</th>
                                 <th>Nota Recep USG</th>
-                                <th>Medico</th>
-                                <th>Nota Medico</th>
+                                <th>Livro</th>
+                                <th>Nota Livro</th>
+                                <th>Tecnico</th>
                                 <th>Setor</th>
                                 <th>Ultrimagem</th>
                             </tr>
@@ -42,10 +45,13 @@
                                 <td>{{$result->atend_rate}}</td>
                                 <td>{{$result->recep_name}}</td>
                                 <td>{{$result->recep_rate}}</td>
+                                <td>{{$result->enf_name}}</td>
+                                <td>{{$result->enf_rate}}</td>
                                 <td>{{$result->us_name}}</td>
                                 <td>{{$result->us_rate}}</td>
                                 <td>{{$result->livro_name}}</td>
                                 <td>{{$result->livro_rate}}</td>
+                                <td>{{$result->tec_name}}</td>
                                 <td>{{$result->setor}}</td>
                                 <td>{{$result->nota_clinica}}</td>
                             </tr>
@@ -72,7 +78,7 @@
             type: 'base64'
         });
         const date = new Date();
-        XLSX.writeFile(file, 'relatorio_usg_' + date.toDateString() + '.' + type);
+        XLSX.writeFile(file, 'relatorio_rm-tc_' + date.toDateString() + '.' + type);
     }
 
     const export_button = document.getElementById('export_table');

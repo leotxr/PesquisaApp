@@ -39,9 +39,9 @@ Route::get('busca-data', function () {
     return view('admin.rel-geral');
 })->name('busca-data');
 
-Route::get('rel-usg', function () {
-    return view('admin.rel-usg');
-})->name('rel-usg');
+Route::get('rel-setores', function () {
+    return view('admin.rel-setores');
+})->name('rel-setores');
 
 Route::get('rel-coment', function () {
     return view('admin.rel-coment');
@@ -49,7 +49,7 @@ Route::get('rel-coment', function () {
 
 Route::any('resultByDate', 'App\Http\Controllers\RatingController@relatorioGeral')->name('resultByDate');
 Route::any('showdatepicker', 'App\Http\Controllers\RatingController@showdatepicker')->name('showdatepicker');
-Route::any('resultUSG', 'App\Http\Controllers\FaturaController@relatorioUSG')->name('resultUSG');
+Route::any('resultSetores', 'App\Http\Controllers\FaturaController@relatorioSetores')->name('resultSetores');
 Route::any('resultComent', 'App\Http\Controllers\RatingController@relatorioComentario')->name('resultComent');
 
 #Dashboard pós login

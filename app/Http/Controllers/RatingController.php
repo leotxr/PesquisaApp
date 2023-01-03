@@ -13,7 +13,7 @@ class RatingController extends Controller
 {
     public function __construct()
     {
-        $this->objRating = new Rating();
+        #$this->objRating = new Rating();
     }
 
     public function create()
@@ -303,6 +303,7 @@ class RatingController extends Controller
         return view('admin.tables.table-geral', ['relgeral' => $relgeral, 'avg' => $avg]);
     }
 
+
     public function relatorioComentario(Request $request)
     {
         $dataForm = $request->all();
@@ -331,9 +332,9 @@ class RatingController extends Controller
     public function showdatepicker()
     {
         $rating = DB::table('faturas')
-            ->select('livro_name')
+            ->select('setor')
             ->distinct()
-            ->orderBy('livro_name')
+            ->orderBy('setor')
             ->get();
         return view('admin.date-picker', compact('rating'));
     }
