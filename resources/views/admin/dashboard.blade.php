@@ -10,6 +10,7 @@
             <div class="bg-base-200 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-base border-b border-base-200">
                     <div class="flex flex-wrap justify-center">
+                    
                         <div class="stats stats-vertical lg:stats-horizontal shadow m-2" id="statstoday">
 
                         </div>

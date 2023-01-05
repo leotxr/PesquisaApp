@@ -21,27 +21,6 @@ class FaturaController extends Controller
 
         $rating_id = $dataForm['rating_id'];
 
-        /*
-        $table = new Fatura;    // Setando as propriedades
-        for ($i = 0; $i < count($request->req_id); $i++) {
-            $table->req_id = $request->req_id[$i];
-            $table->med_name = $request->medico_name[$i];
-            $table->med_rate = $request->med_rate[$i];
-            $table->tec_name = $request->tecnico_name[$i];
-            if (isset($request->us_name[$i])) {
-                $table->us_name = $request->us_name[$i];
-                $table->us_rate = $request->us_rate[$i];
-            }
-            if (isset($request->enf_name[$i])) {
-                $table->enf_name = $request->enf_name[$i];
-                $table->enf_rate = $request->enf_rate[$i];
-            }
-
-            $table->setor = $request->setor[$i];    // Inserindo os dados no DB
-
-            $table->save();
-        }
-*/
 
         for ($i = 0; $i < count($request->rating_id); $i++) {
             DB::table('faturas')->updateOrInsert([

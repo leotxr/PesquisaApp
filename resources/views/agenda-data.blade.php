@@ -6,15 +6,19 @@
                 <div class="max-w-full">
                     @foreach($agendas as $agenda)
                     <p class=" text-3xl">Como você avalia o agendamento do exame realizado pela </p>
-                    <p class=" py-10 text-3xl font-bold">{{$agenda->ATENDENTE}}</p>
+                    <div class="flex justify-center py-4 text-center">
+                        <img src="{{URL::asset('image/').'/' . $agenda->ATENDENTE . ('.jpg')}}" class="mask mask-square scale-125 max-h-28 max-w-28 justify-center"></img>
+                    </div>
+                    <p for="mask" class="text-3xl font-bold">{{$agenda->ATENDENTE}}</p>
                     <input type="text" class=" py-10 text-3xl font-bold" name="data_req" value="{{$agenda->DATA}}" style="display: none"></input>
                     <input type="text" class=" py-10 text-3xl font-bold" name="paciente_id" value="{{$agenda->PACIENTEID}}" style="display: none"></input>
                     <input type="text" class="text-3xl font-bold" id="id" name="id" value="{{$requisicao}}" style="display: none;"></input>
                     <input type="text" style="display: none;" name="atendente_name" id="atendente_name" value="{{$agenda->ATENDENTE}}"></input>
                     <input class="text-3xl font-bold" id="grupo_id" name="grupo_id" value="{{$agenda->GRUPOID}}" style="display: none;"></input>
+
                     @endforeach
                     <div class="rating flex justify-center gap-5 font-bold text-xl py-5" id="rating" required>
-                        <div class="form-check form-check-inline h-30 w-30">
+                        <div class="form-check form-check-inline h-24 w-24">
                             <label class="radio-inline">
                                 <input type="radio" name="rating1" value="1" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-01.png')}}" class="active:scale-125"></img>
@@ -22,7 +26,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-30 w-30">
+                        <div class="form-check form-check-inline h-24 w-24">
                             <label class="radio-inline">
                                 <input type="radio" name="rating1" value="2" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-02.png')}}" class="active:scale-125"></img>
@@ -30,7 +34,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-30 w-30">
+                        <div class="form-check form-check-inline h-24 w-24">
                             <label class="radio-inline">
                                 <input type="radio" name="rating1" value="3" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-03.png')}}" class="active:scale-125"></img>
@@ -38,7 +42,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-30 w-30">
+                        <div class="form-check form-check-inline h-24 w-24">
                             <label class="radio-inline">
                                 <input type="radio" name="rating1" value="4" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-04.png')}}" class="active:scale-125"></img>
@@ -46,7 +50,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-30 w-30">
+                        <div class="form-check form-check-inline h-24 w-24">
                             <label class="radio-inline">
                                 <input type="radio" name="rating1" value="5" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-05.png')}}" class="active:scale-125"></img>

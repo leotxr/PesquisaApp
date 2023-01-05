@@ -7,12 +7,16 @@
                 <div class="max-w-full">
 
                     <p class="text-3xl">Como você avalia o atendimento realizado pela recepcionista </p>
-                    <p class=" py-10 text-3xl font-bold">{{$requisicao->RECEPCIONISTA}}</p>
+                    <div class="flex justify-center py-4 text-center">
+                        <img src="{{URL::asset('image/').'/' . $requisicao->RECEPCIONISTA . ('.jpg')}}" class="mask mask-square scale-125 max-h-28 max-w-28 justify-center"></img>
+                        
+                    </div>
+                    <p for="mask" class="text-3xl font-bold">{{$requisicao->RECEPCIONISTA}}</p>
                     <input type="text" style="display: none;" name="recepcionista_name" value="{{$requisicao->RECEPCIONISTA}}"></input>
                     <input type="text" class="text-3xl font-bold" id="id" name="id" value="{{$id}}" style="display: none;"></input>
 
-                    <div class="rating flex justify-center gap-5 font-bold text-xl py-5" id="rating" required>
-                        <div class="form-check form-check-inline h-30 w-30">
+                    <div class="rating flex justify-center gap-5 font-bold text-xl pb-5" id="rating" required>
+                        <div class="form-check form-check-inline h-24 w-24">
                             <label class="radio-inline">
                                 <input type="radio" name="rating2" value="1" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-01.png')}}" class="active:scale-125"></img>
@@ -20,7 +24,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-30 w-30">
+                        <div class="form-check form-check-inline h-24 w-24">
                             <label class="radio-inline">
                                 <input type="radio" name="rating2" value="2" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-02.png')}}" class="active:scale-125"></img>
@@ -28,7 +32,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-30 w-30">
+                        <div class="form-check form-check-inline h-24 w-24">
                             <label class="radio-inline">
                                 <input type="radio" name="rating2" value="3" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-03.png')}}" class="active:scale-125"></img>
@@ -36,7 +40,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-30 w-30">
+                        <div class="form-check form-check-inline h-24 w-24">
                             <label class="radio-inline">
                                 <input type="radio" name="rating2" value="4" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-04.png')}}" class="active:scale-125"></img>
@@ -44,7 +48,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-30 w-30">
+                        <div class="form-check form-check-inline h-24 w-24">
                             <label class="radio-inline">
                                 <input type="radio" name="rating2" value="5" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-05.png')}}" class="active:scale-125"></img>
@@ -53,7 +57,7 @@
                         </div>
 
                     </div>
-                    <button type="submit" id="btn-recepcao" onclick="alterarDiv(this)" href="#div-4" class="my-10 btn btn-primary btn-wide ">Avançar</button>
+                    <button type="submit" id="btn-recepcao" onclick="alterarDiv(this)" href="#div-4" class="my-16 btn btn-primary btn-wide ">Avançar</button>
                 </div>
             </div>
         </div>
