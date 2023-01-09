@@ -6,8 +6,8 @@
                 <div class="max-w-full">
                     @foreach($agendas as $agenda)
                     <p class=" text-3xl">Como você avalia o agendamento do exame realizado pela </p>
-                    <div class="flex justify-center py-4 text-center">
-                        <img src="{{URL::asset('image/').'/' . $agenda->ATENDENTE . ('.jpg')}}" class="mask mask-square scale-125 max-h-28 max-w-28 justify-center"></img>
+                    <div class="flex justify-center pt-2 text-center">
+                        <img src="{{URL::asset('image/funcionarios/').'/' . $agenda->ATENDENTE . ('.png')}}" class="scale-100 max-h-44 max-w-44 justify-center"></img>
                     </div>
                     <p for="mask" class="text-3xl font-bold">{{$agenda->ATENDENTE}}</p>
                     <input type="text" class=" py-10 text-3xl font-bold" name="data_req" value="{{$agenda->DATA}}" style="display: none"></input>
@@ -59,7 +59,7 @@
                         </div>
 
                     </div>
-                    <button type="submit" id="btn-agenda" onclick="alterarDiv(this)" href="" class="my-10 btn btn-primary btn-wide ">Avançar</button>
+                    <button type="submit" id="btn-agenda" onclick="alterarDiv(this)" href="" class="my-16 btn btn-primary btn-wide ">Avançar</button>
                 </div>
             </div>
         </div>

@@ -7,8 +7,8 @@
                 <div class="max-w-full">
 
                     <p class="text-3xl">Como você avalia o atendimento realizado pela recepcionista </p>
-                    <div class="flex justify-center py-4 text-center">
-                        <img src="{{URL::asset('image/').'/' . $requisicao->RECEPCIONISTA . ('.jpg')}}" class="mask mask-square scale-125 max-h-28 max-w-28 justify-center"></img>
+                    <div class="flex justify-center pt-2 text-center">
+                        <img src="{{URL::asset('image/funcionarios').'/' . $requisicao->RECEPCIONISTA . ('.png')}}" class="scale-100 max-h-44 max-w-44 justify-center"></img>
                         
                     </div>
                     <p for="mask" class="text-3xl font-bold">{{$requisicao->RECEPCIONISTA}}</p>

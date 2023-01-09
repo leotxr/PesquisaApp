@@ -11,8 +11,8 @@
                         <p class="text-3xl">Como você avalia o atendimento realizado pela recepcionista da
                         <p class="text-3xl"> Ultra-sonografia </p>
                         </p>
-                        <div class="flex justify-center py-4 text-center">
-                            <img src="{{URL::asset('image/').'/' . $us->USUARIO . ('.jpg')}}" class="mask mask-square scale-125 max-h-28 max-w-28 justify-center"></img>
+                        <div class="flex justify-center pt-2 text-center">
+                            <img src="{{URL::asset('image/funcionarios/').'/' . $us->USUARIO . ('.png')}}" class="scale-100 max-h-44 max-w-44 justify-center"></img>
                         </div>
                         <p for="mask" class="text-3xl font-bold">{{$us->USUARIO}}</p>
                         <input type="text" style="display: none;" name="us_name[]" value="{{$us->USUARIO}}"></input>
@@ -59,7 +59,7 @@
                             </div>
 
                         </div>
-                        <a class="proximo my-10 btn btn-primary btn-wide ">Próximo</a>
+                        <a class="proximo my-16 btn btn-primary btn-wide ">Próximo</a>
                     </div>
                 </div>
             </div>
@@ -73,8 +73,8 @@
                     <div class="max-w-full">
 
                         <p class="text-3xl">Como você avalia o atendimento realizado pela enfermeira </p>
-                        <div class="flex justify-center py-4 text-center">
-                            <img src="{{URL::asset('image/').'/' . $enf->ENFERMEIRA . ('.jpg')}}" class="mask mask-square scale-125 max-h-28 max-w-28 justify-center"></img>
+                        <div class="flex justify-center pt-2 text-center">
+                            <img src="{{URL::asset('image/funcionarios/').'/' . $enf->ENFERMEIRA . ('.png')}}" class="scale-100 max-h-44 max-w-44 justify-center"></img>
                         </div>
                         <p for="mask" class="text-3xl font-bold">{{$enf->ENFERMEIRA}}</p>
                         <input type="text" style="display: none;" name="enf_name[]" value="{{$enf->ENFERMEIRA}}"></input>
@@ -122,7 +122,7 @@
                             </div>
 
                         </div>
-                        <a class="proximo my-10 btn btn-primary btn-wide ">Próximo</a>
+                        <a class="proximo my-16 btn btn-primary btn-wide ">Próximo</a>
                     </div>
                 </div>
             </div>
@@ -138,14 +138,14 @@
                         <p class="text-3xl">Como você avalia o exame de {{$requisicao->SETOR}}</p>
                         @if(($requisicao->SETOR != "ULTRA-SON" && $requisicao->SETOR != "CARDIOLOGIA"))
                         <p class="text-3xl">realizado pelo(a) técnico(a)</p>
-                        <div class="flex justify-center py-4 text-center">
-                            <img src="{{URL::asset('image/').'/' . $requisicao->TECNICO . ('.jpg')}}" class="mask mask-square scale-125 max-h-28 max-w-28 justify-center"></img>
+                        <div class="flex justify-center pt-2 text-center">
+                            <img src="{{URL::asset('image/funcionarios/').'/' . $requisicao->TECNICO . ('.png')}}" class=" scale-100 max-h-44 max-w-44 justify-center"></img>
                         </div>
                         <p for="mask" class="text-3xl font-bold">{{$requisicao->TECNICO}}</p>
                         @else
                         <p class="text-3xl">realizado pelo(a) médico(a)</p>
-                        <div class="flex justify-center py-4 text-center">
-                            <img src="{{URL::asset('image/').'/' . $requisicao->MEDICO . ('.jpg')}}" class="mask mask-square scale-125 max-h-28 max-w-28 justify-center"></img>
+                        <div class="flex justify-center pt-2 text-center">
+                            <img src="{{URL::asset('image/medicos/').'/' . $requisicao->MEDICO . ('.png')}}" class="rounded-sm scale-100 max-h-44 max-w-44 justify-center"></img>
                         </div>
                         <p for="mask" class="text-3xl font-bold">{{$requisicao->MEDICO}}</p>
                         @endif
@@ -199,7 +199,7 @@
                                 </label>
                             </div>
                         </div>
-                        <a class="proximo my-10 btn btn-primary btn-wide ">Próximo</a>
+                        <a class="proximo my-16 btn btn-primary btn-wide ">Próximo</a>
                     </div>
                 </div>
             </div>
