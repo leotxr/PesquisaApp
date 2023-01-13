@@ -240,6 +240,7 @@
 
     </form>
 </x-guest-layout>
+
 <script>
     $(document).ready(function() {
 

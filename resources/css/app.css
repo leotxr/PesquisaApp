@@ -36,6 +36,19 @@
         /*só pra estética do demo */
 }
 
+/*
+x-app-layout {
+    height:100%;
+}
+div.wrap {
+    height: 100%;
+    overflow: hidden;
+}
+body {
+    overflow: hidden;
+}
+*/
+
 /*LOADER*/
 
 .loader {
