@@ -12,10 +12,14 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+/*
 #Rota principal da pesquisa
 Route::get('/', function () {
     return view('welcome');
 });
+*/
+Route::get('/', 'App\Http\Controllers\RatingController@checkKey');
+
 
 #Selects entre formularios da pesquisa para busca de dados no XClinic
 Route::any('get-dados', 'App\Http\Controllers\RatingController@getDados')->name('get-dados');

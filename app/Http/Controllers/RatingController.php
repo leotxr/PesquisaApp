@@ -338,4 +338,22 @@ class RatingController extends Controller
             ->get();
         return view('admin.date-picker', compact('rating'));
     }
+
+
+    function checkKey()
+    {
+        $hoje = date('Y-m-d');
+
+        $datadif = DB::connection('extmysql')
+            ->table('keys')
+            ->where('cliente_id', '=', 1)
+            ->where('hash_key', '=', 'df0f7a747de1135ad2a1dfbef0a5915c')
+            ->latest('data_criacao')
+            ->first();
+
+        if ($datadif->data_expiracao >= $hoje)
+            return view('welcome', ['datadif' => $datadif->data_expiracao]);
+        else
+            return view('error', ['datadif' => $datadif->data_expiracao, 'hoje' => $hoje]);
+    }
 }
