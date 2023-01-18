@@ -186,8 +186,9 @@ class RatingController extends Controller
         $request->validate([
             'id' => 'required|unique:ratings|max:10',
         ]);
-
-        $requisicao_id = $dataForm['id'];
+        $data = date('Y/m/d');
+        $datainicio = date('Y/m/d', strtotime('-7 days'));
+        $paciente_id = $dataForm['id'];
         $sqlsrv = "Select TOP 1 FORMAT(FAT.DATA, 'yyyy/MM/dd') AS DATA, WL.REQUISICAOID AS REQUISICAO, FAT.PACIENTEID AS PACIENTEID, PAC.NOME AS PACIENTE, PR.DESCRICAO AS PROCEDIMENTO, SE.DESCRICAO AS SETOR, TEC.NOME AS TECNICO, WF.FILANOME AS MEDICO, US.NOME_SOCIAL AS RECEPCIONISTA, FAT.REQUISICAOID from WORK_LIST AS WL ";
         $sqlsrv = $sqlsrv . "LEFT OUTER JOIN FATURA FAT ON FAT.FATURAID = WL.FATURAID AND FAT.UNIDADEID = WL.UNIDADEID AND FAT.PACIENTEID = WL.PACIENTEID ";
         $sqlsrv = $sqlsrv . "LEFT OUTER JOIN PACIENTE PAC ON PAC.PACIENTEID = WL.PACIENTEID AND PAC.UNIDADEID = FAT.UNIDADEPACIENTEID ";
@@ -196,7 +197,7 @@ class RatingController extends Controller
         $sqlsrv = $sqlsrv . "LEFT JOIN MEDICOS TEC ON TEC.MEDICOID = FAT.TECNICOID ";
         $sqlsrv = $sqlsrv . "LEFT JOIN WORK_FILAS WF ON WF.FILAID = WL.FILAID ";
         $sqlsrv = $sqlsrv . "LEFT JOIN USUARIOS US ON US.USERID = FAT.USUARIO ";
-        $sqlsrv = $sqlsrv . "WHERE WL.REQUISICAOID = '$requisicao_id'";
+        $sqlsrv = $sqlsrv . "WHERE WL.PACIENTEID = '$paciente_id' AND FAT.DATA between '$datainicio' AND '$data' ";
         $requisicoes = DB::connection('sqlsrv')->select($sqlsrv);
 
         if ($requisicoes) {
@@ -346,14 +347,14 @@ class RatingController extends Controller
 
         $datadif = DB::connection('extmysql')
             ->table('keys')
-            ->where('cliente_id', '=', 1)
+            ->where('client_id', '=', 1)
             ->where('hash_key', '=', 'df0f7a747de1135ad2a1dfbef0a5915c')
-            ->latest('data_criacao')
+            ->latest('created_at')
             ->first();
 
-        if ($datadif->data_expiracao >= $hoje)
-            return view('welcome', ['datadif' => $datadif->data_expiracao]);
+        if ($datadif->end_date >= $hoje)
+            return view('welcome', ['datadif' => $datadif->end_date]);
         else
-            return view('error', ['datadif' => $datadif->data_expiracao, 'hoje' => $hoje]);
+            return view('error', ['datadif' => $datadif->end_date, 'hoje' => $hoje]);
     }
 }
