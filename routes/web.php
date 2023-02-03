@@ -12,19 +12,19 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
+
 #Rota principal da pesquisa
 Route::get('/', function () {
     return view('welcome');
 });
-*/
-Route::get('/', 'App\Http\Controllers\RatingController@checkKey');
+
+//Route::get('/', 'App\Http\Controllers\RatingController@checkKey');
 
 
 #Selects entre formularios da pesquisa para busca de dados no XClinic
 Route::any('get-dados', 'App\Http\Controllers\RatingController@getDados')->name('get-dados');
-Route::any('show-agenda', 'App\Http\Controllers\RatingController@getAgenda')->name('show-agenda');
-Route::any('sendDados', 'App\Http\Controllers\RatingController@storeAgendamento')->name('sendDados');
+#Route::any('show-agenda', 'App\Http\Controllers\RatingController@getAgenda')->name('show-agenda');
+Route::any('sendDados', 'App\Http\Controllers\RatingController@store')->name('sendDados');
 Route::any('sendDadosAgenda', 'App\Http\Controllers\RatingController@storeAgenda')->name('sendDadosAgenda');
 Route::any('sendDadosRecepcao', 'App\Http\Controllers\RatingController@storeRecepcao')->name('sendDadosRecepcao');
 Route::any('sendDadosMed', 'App\Http\Controllers\FaturaController@store')->name('sendDadosMed');

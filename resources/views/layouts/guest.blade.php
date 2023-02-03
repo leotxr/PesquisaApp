@@ -19,9 +19,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
+<body class="bg-base-200">
 
-    <div class="font-sans text-gray-900 antialiased">
+    <div class="font-sans text-gray-900 antialiased bg-base-200">
         @if($errors->any())
         @foreach($errors->all() as $error)
         <div class="alert alert-warning shadow-lg absolute">

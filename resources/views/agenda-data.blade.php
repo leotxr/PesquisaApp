@@ -3,22 +3,22 @@
         @csrf
         <div class="hero h-screen bg-base-200">
             <div class="hero-content text-center">
-                <div class="max-w-full">
+                <div class="max-w-full max-h-full">
                     @foreach($agendas as $agenda)
-                    <p class=" text-3xl">Como você avalia o agendamento do exame realizado pela </p>
-                    <div class="flex justify-center pt-2 text-center">
+                    <p class=" text-2xl">Como você avalia o agendamento do exame realizado pela </p>
+                    <div class="flex justify-center pt-1 text-center">
                         <img src="{{URL::asset('image/funcionarios/').'/' . $agenda->ATENDENTE . ('.png')}}" class="scale-100 max-h-44 max-w-44 justify-center"></img>
                     </div>
-                    <p for="mask" class="text-3xl font-bold">{{$agenda->ATENDENTE}}</p>
-                    <input type="text" class=" py-10 text-3xl font-bold" name="data_req" value="{{$agenda->DATA}}" style="display: none"></input>
-                    <input type="text" class=" py-10 text-3xl font-bold" name="paciente_id" value="{{$agenda->PACIENTEID}}" style="display: none"></input>
-                    <input type="text" class="text-3xl font-bold" id="id" name="id" value="{{$requisicao}}" style="display: none;"></input>
+                    <p for="mask" class="text-2xl font-bold">{{$agenda->ATENDENTE}}</p>
+                    <input type="text" class=" py-10 text-2xl font-bold" name="data_req" value="{{$agenda->DATA}}" style="display: none"></input>
+                    <input type="text" class=" py-10 text-2xl font-bold" name="paciente_id" value="{{$agenda->PACIENTEID}}" style="display: none"></input>
+                    <input type="text" class="text-2xl font-bold" id="id" name="id" value="{{$requisicao}}" style="display: none;"></input>
                     <input type="text" style="display: none;" name="atendente_name" id="atendente_name" value="{{$agenda->ATENDENTE}}"></input>
-                    <input class="text-3xl font-bold" id="grupo_id" name="grupo_id" value="{{$agenda->GRUPOID}}" style="display: none;"></input>
+                    <input class="text-2xl font-bold" id="grupo_id" name="grupo_id" value="{{$agenda->GRUPOID}}" style="display: none;"></input>
 
                     @endforeach
-                    <div class="rating flex justify-center gap-5 font-bold text-xl py-5" id="rating" required>
-                        <div class="form-check form-check-inline h-24 w-24">
+                    <div class="rating flex justify-center gap-4 sm:gap-4 font-bold text-lg py-2" id="rating" required>
+                        <div class="form-check form-check-inline h-24 w-24 p-2">
                             <label class="radio-inline">
                                 <input type="radio" name="rating1" value="1" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-01.png')}}" class="active:scale-125"></img>
@@ -26,7 +26,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-24 w-24">
+                        <div class="form-check form-check-inline h-24 w-24 p-2">
                             <label class="radio-inline">
                                 <input type="radio" name="rating1" value="2" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-02.png')}}" class="active:scale-125"></img>
@@ -34,7 +34,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-24 w-24">
+                        <div class="form-check form-check-inline h-24 w-24 p-2">
                             <label class="radio-inline">
                                 <input type="radio" name="rating1" value="3" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-03.png')}}" class="active:scale-125"></img>
@@ -42,7 +42,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-24 w-24">
+                        <div class="form-check form-check-inline h-24 w-24 p-2">
                             <label class="radio-inline">
                                 <input type="radio" name="rating1" value="4" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-04.png')}}" class="active:scale-125"></img>
@@ -50,7 +50,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-24 w-24">
+                        <div class="form-check form-check-inline h-24 w-24 p-2">
                             <label class="radio-inline">
                                 <input type="radio" name="rating1" value="5" id="checkbox" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{URL::asset('image/SMILE-05.png')}}" class="active:scale-125"></img>
@@ -69,6 +69,6 @@
     $(document).ready(function() {
         setTimeout(function() {
             window.location.href = "/";
-        }, 30000);
+        }, 60000);
     });
 </script>

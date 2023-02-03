@@ -18,10 +18,11 @@ return new class extends Migration
             $table->increments('id')->unique();
             $table->integer('fatura_id')->nullable();
             $table->date('fatura_data')->nullable();
-            $table->foreignId('rating_id')
-            ->constrained()
+            $table->unsignedBigInteger('rating_id');
+            $table->foreign('rating_id')->references('id')->on('ratings')
             ->onUpdate('cascade')
             ->onDelete('cascade');
+            $table->integer('requisicao_id');
             $table->string('livro_name')->nullable();
             $table->integer('livro_rate')->nullable();
             #$table->integer('grp_livro')->nullable();

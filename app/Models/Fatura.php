@@ -10,10 +10,11 @@ class Fatura extends Model
     protected $table='faturas';
     protected $fillable=[
     'rating_id',
+    'requisicao_id',
     'fatura_id',
     'fatura_data',
-    'med_name',
-    'med_rate',
+    'livro_name',
+    'livro_rate',
     'tec_name',
     'tec_rate',
     'us_name',

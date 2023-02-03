@@ -9,7 +9,9 @@ class Rating extends Model
 {
     protected $table='ratings';
     protected $fillable=[
+    'requisicao_id',
     'grp_agendamento',
+    'tipo_atraso',
     'data_req',
     'pac_name',
     'pac_id',

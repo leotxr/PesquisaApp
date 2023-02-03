@@ -21,56 +21,35 @@ class RatingController extends Controller
 
         return view('welcome');
     }
-
-
-    public function store(Request $request)
+    #ARMAZENA AS INFORMACOES INICIAIS DO ATENDIMENTO
+    public function storeAgendamento(Request $request)
     {
-        $rating = Rating::create([
-            'pac_name' => $request->paciente_name ?? NULL,
-            'pac_id' => $request->paciente_id ?? NULL,
-            'grp_agendamento' => $request->grupo_id ?? NULL,
-            'data_req' => $request->data_req ?? NULL,
-            'atend_name' => $request->atendente_name ?? NULL,
-            'atend_rate' => $request->rating1 ?? NULL,
-            'recep_name' => $request->recepcionista_name ?? NULL,
-            'recep_rate' => $request->rating2 ?? NULL,
-            'tipo_atraso' => $request->horario ?? NULL,
-            'requisicao_id' => $request->requisicao_id ?? NULL
 
+        DB::table('ratings')->updateOrInsert([
+            'tipo_atraso' => $request->horario,
+            'data_req' => $request->data_req,
+            'id' => $request->id,
+            'pac_id' => $request->paciente_id ?? NULL,
+            'pac_name' => $request->paciente_name ?? NULL,
         ]);
 
-        if ($rating) {
-
-            $sqlsrv = "Select DISTINCT FORMAT(FAT.DATA, 'yyyy/MM/dd') AS DATA, WL.REQUISICAOID AS REQUISICAO, SE.DESCRICAO AS SETOR, TEC.NOME_SOCIAL AS TECNICO, WF.FILANOME AS MEDICO from WORK_LIST AS WL ";
-            $sqlsrv = $sqlsrv . "LEFT OUTER JOIN FATURA FAT ON FAT.FATURAID = WL.FATURAID AND FAT.UNIDADEID = WL.UNIDADEID AND FAT.PACIENTEID = WL.PACIENTEID ";
-            $sqlsrv = $sqlsrv . "LEFT OUTER JOIN PACIENTE PAC ON PAC.PACIENTEID = WL.PACIENTEID AND PAC.UNIDADEID = FAT.UNIDADEPACIENTEID ";
-            $sqlsrv = $sqlsrv . "LEFT OUTER JOIN SETORES SE ON SE.SETORID = FAT.SETORID ";
-            $sqlsrv = $sqlsrv . "LEFT JOIN MEDICOS TEC ON TEC.MEDICOID = FAT.TECNICOID ";
-            $sqlsrv = $sqlsrv . "LEFT JOIN WORK_FILAS WF ON WF.FILAID = WL.FILAID ";
-            $sqlsrv = $sqlsrv . "WHERE WL.REQUISICAOID = '$rating->requisicao_id' ";
-            $requisicoes = DB::connection('sqlsrv')->select($sqlsrv);
-
-            $sqlsrv2 = "Select DISTINCT O.DATA AS DATA, F.REQUISICAOID, SE.DESCRICAO, USU.NOME_SOCIAL AS USUARIO ";
-            $sqlsrv2 = $sqlsrv2 . "FROM RASOCORRENCIAS O ";
-            $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN FATURA F ON O.PACIENTEID=F.PACIENTEID AND O.UNIDADEID=F.UNIDADEID AND O.FATURAID=F.FATURAID ";
-            $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN USUARIOS USU ON (O.USERID = USU.USERID) ";
-            $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN SETORES SE ON (SE.SETORID = F.SETORID) ";
-            $sqlsrv2 = $sqlsrv2 . "WHERE O.RASEVENTOID IN (39) AND SE.DESCRICAO IN ('ULTRA-SON', 'CARDIOLOGIA') AND F.REQUISICAOID = '$rating->requisicao_id' ";
-            $recepus = DB::connection('sqlsrv')->select($sqlsrv2);
-
-            $sqlsrv3 = "Select TOP 1 US.NOME_SOCIAL AS ENFERMEIRA, WL.REQUISICAOID FROM RASOCORRENCIAS AS RA ";
-            $sqlsrv3 = $sqlsrv3 . "INNER JOIN WORK_LIST AS WL ON WL.PACIENTEID = RA.PACIENTEID AND WL.DATA = RA.DATA ";
-            $sqlsrv3 = $sqlsrv3 . "INNER JOIN USUARIOS AS US ON US.USERID = RA.USERID ";
-            $sqlsrv3 = $sqlsrv3 . "WHERE RA.RASEVENTOID = 250003 AND WL.REQUISICAOID = '$rating->requisicao_id' ";
-            $enfermeiras = DB::connection('sqlsrv')->select($sqlsrv3);
-
-
-
-            return view('rate-med', ['requisicoes' => $requisicoes, 'recepus' => $recepus, 'enfermeiras' => $enfermeiras, 'requisicao_id' => $rating->requisicao_id, 'rating_id' => $rating->id]);
-        }
+        #SE ARMAZENAR, REALIZA UM SELECT NA AGENDA PARA PEGAR OS DADOS DO AGENDAMENTO
+        
+            $dataForm = $request->all();
+            $data_req = $dataForm['data_req'];
+            $paciente_id = $dataForm['paciente_id'];
+            $requisicao = $dataForm['id'];
+            //$requisicao = $request->id;
+            $sqlsrv = "Select TOP 1 A.PACIENTEID, FORMAT(A.DATA, 'yyyy/MM/dd') AS DATA, G.GRUPOID, A.NOMEPAC AS PACIENTE, U.NOME_SOCIAL AS ATENDENTE, A.USUARIO, A.NOME_EXAME AS PROCEDIMENTO FROM VW_AGENDA AS A ";
+            $sqlsrv = $sqlsrv . "INNER JOIN USUARIOS AS U ON U.USERID = A.USUARIO ";
+            $sqlsrv = $sqlsrv . "INNER JOIN USUARIOSGRUPOS G ON G.GRUPOID = U.GRUPOID ";
+            $sqlsrv = $sqlsrv . "WHERE A.DATA = '$data_req' AND ";
+            $sqlsrv = $sqlsrv . "A.PACIENTEID = '$paciente_id' AND ";
+            $sqlsrv = $sqlsrv . "A.USERNAME IS NOT NULL";
+            $agendas = DB::connection('sqlsrv')->select($sqlsrv);
+            return view('agenda-data', ['agendas' => $agendas, 'requisicao' => $requisicao]);
+       
     }
-
-
 
     public function edit(Rating $id)
     {
@@ -86,6 +65,104 @@ class RatingController extends Controller
         return view('agenda-data', compact('agendas'));
     }
 
+
+    #ARMAZENA INFORMACOES DO AGENDAMENTO NA TABELA
+    public function storeAgenda(Request $request)
+    {
+        //$dataForm = $request->all();
+
+        $id = $request->id;
+
+        /*
+        $agendas = DB::table('ratings')
+            ->where('id', $id)
+            ->update([
+                'grp_agendamento' => $request->grupo_id,
+                'atend_name' => $request->atendente_name,
+                'atend_rate' => $request->rating1
+            ]);
+            */
+
+        $agendas = DB::table('ratings')->updateOrInsert([
+            'id' => $request->$id,
+            'grp_agendamento' => $request->grupo_id,
+            'atend_name' => $request->atendente_name,
+            'atend_rate' => $request->rating1
+        ]);
+
+        #SE ARMAZENAR, REALIZA UM SELECT NA WORKLIST NOVAMENTE
+        if ($agendas) {
+
+            $sqlsrv = "Select TOP 1 WL.REQUISICAOID AS REQUISICAO, SE.DESCRICAO AS SETOR, US.NOME_SOCIAL AS RECEPCIONISTA from WORK_LIST AS WL ";
+            $sqlsrv = $sqlsrv . "LEFT OUTER JOIN FATURA FAT ON FAT.FATURAID = WL.FATURAID AND FAT.UNIDADEID = WL.UNIDADEID AND FAT.PACIENTEID = WL.PACIENTEID ";
+            #$sqlsrv = $sqlsrv . "LEFT OUTER JOIN PACIENTE PAC ON PAC.PACIENTEID = WL.PACIENTEID AND PAC.UNIDADEID = FAT.UNIDADEPACIENTEID ";
+            #$sqlsrv = $sqlsrv . "LEFT OUTER JOIN PROCEDIMENTOS PR ON PR.PROCID = FAT.PROCID ";
+            $sqlsrv = $sqlsrv . "LEFT OUTER JOIN SETORES SE ON SE.SETORID = FAT.SETORID ";
+            #$sqlsrv = $sqlsrv . "LEFT JOIN MEDICOS TEC ON TEC.MEDICOID = FAT.TECNICOID ";
+            #$sqlsrv = $sqlsrv . "LEFT JOIN WORK_FILAS WF ON WF.FILAID = WL.FILAID ";
+            $sqlsrv = $sqlsrv . "LEFT JOIN USUARIOS US ON US.USERID = FAT.USUARIO ";
+            $sqlsrv = $sqlsrv . "WHERE WL.REQUISICAOID = '$id'";
+            $requisicoes = DB::connection('sqlsrv')->select($sqlsrv);
+            return view('rate-recepcao', ['requisicoes' => $requisicoes, 'id' => $id]);
+        }
+    }
+
+    public function storeRecepcao(Request $request)
+    {
+        // $dataForm = $request->all();
+
+        $id = $request->id;
+
+
+        
+        $recep = DB::table('ratings')
+            ->where('id', $id)
+            ->update([
+                'recep_name' => $request->recepcionista_name,
+                'recep_rate' => $request->rating2,
+
+            ]);
+
+/*
+        $recep = DB::table('ratings')->updateOrInsert([
+            'id' => $request->id,
+            'recep_name' => $request->recepcionista_name,
+            'recep_rate' => $request->rating2,
+        ]);
+        
+        */
+
+        #SE ARMAZENAR, REALIZA UM SELECT NA WORKLIST NOVAMENTE
+        
+
+            $sqlsrv = "Select DISTINCT FORMAT(FAT.DATA, 'yyyy/MM/dd') AS DATA, WL.REQUISICAOID AS REQUISICAO, SE.DESCRICAO AS SETOR, TEC.NOME_SOCIAL AS TECNICO, WF.FILANOME AS MEDICO from WORK_LIST AS WL ";
+            $sqlsrv = $sqlsrv . "LEFT OUTER JOIN FATURA FAT ON FAT.FATURAID = WL.FATURAID AND FAT.UNIDADEID = WL.UNIDADEID AND FAT.PACIENTEID = WL.PACIENTEID ";
+            $sqlsrv = $sqlsrv . "LEFT OUTER JOIN PACIENTE PAC ON PAC.PACIENTEID = WL.PACIENTEID AND PAC.UNIDADEID = FAT.UNIDADEPACIENTEID ";
+            $sqlsrv = $sqlsrv . "LEFT OUTER JOIN SETORES SE ON SE.SETORID = FAT.SETORID ";
+            $sqlsrv = $sqlsrv . "LEFT JOIN MEDICOS TEC ON TEC.MEDICOID = FAT.TECNICOID ";
+            $sqlsrv = $sqlsrv . "LEFT JOIN WORK_FILAS WF ON WF.FILAID = WL.FILAID ";
+            $sqlsrv = $sqlsrv . "WHERE WL.REQUISICAOID = '$id' ";
+            $requisicoes = DB::connection('sqlsrv')->select($sqlsrv);
+
+            $sqlsrv2 = "Select DISTINCT O.DATA AS DATA, F.REQUISICAOID, SE.DESCRICAO, USU.NOME_SOCIAL AS USUARIO ";
+            $sqlsrv2 = $sqlsrv2 . "FROM RASOCORRENCIAS O ";
+            $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN FATURA F ON O.PACIENTEID=F.PACIENTEID AND O.UNIDADEID=F.UNIDADEID AND O.FATURAID=F.FATURAID ";
+            $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN USUARIOS USU ON (O.USERID = USU.USERID) ";
+            $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN SETORES SE ON (SE.SETORID = F.SETORID) ";
+            $sqlsrv2 = $sqlsrv2 . "WHERE O.RASEVENTOID IN (39) AND SE.DESCRICAO IN ('ULTRA-SON', 'CARDIOLOGIA') AND F.REQUISICAOID = '$id' ";
+            $recepus = DB::connection('sqlsrv')->select($sqlsrv2);
+
+            $sqlsrv3 = "Select TOP 1 US.NOME_SOCIAL AS ENFERMEIRA, WL.REQUISICAOID FROM RASOCORRENCIAS AS RA ";
+            $sqlsrv3 = $sqlsrv3 . "INNER JOIN WORK_LIST AS WL ON WL.PACIENTEID = RA.PACIENTEID AND WL.DATA = RA.DATA ";
+            $sqlsrv3 = $sqlsrv3 . "INNER JOIN USUARIOS AS US ON US.USERID = RA.USERID ";
+            $sqlsrv3 = $sqlsrv3 . "WHERE RA.RASEVENTOID = 250003 AND WL.REQUISICAOID = '$id' ";
+            $enfermeiras = DB::connection('sqlsrv')->select($sqlsrv3);
+
+
+
+            return view('rate-med', ['requisicoes' => $requisicoes, 'recepus' => $recepus, 'enfermeiras' => $enfermeiras, 'rating_id' => $id]);
+        
+    }
 
     public function storeUltri(Request $request)
     {
@@ -119,10 +196,12 @@ class RatingController extends Controller
 
     public function getDados(Request $request)
     {
+        $dataForm = $request->all();
+
+
         $data = date('Y/m/d');
         #$datainicio = date('Y/m/d', strtotime('-7 days'));
-        $paciente_id = $request->pacienteid;
-
+        $paciente_id = $request->id;
         $sqlsrv = "Select TOP 1 FORMAT(FAT.DATA, 'yyyy/MM/dd') AS DATA, WL.REQUISICAOID AS REQUISICAO, FAT.PACIENTEID AS PACIENTEID, PAC.NOME AS PACIENTE, PR.DESCRICAO AS PROCEDIMENTO, SE.DESCRICAO AS SETOR, TEC.NOME AS TECNICO, WF.FILANOME AS MEDICO, US.NOME_SOCIAL AS RECEPCIONISTA, FAT.REQUISICAOID from WORK_LIST AS WL ";
         $sqlsrv = $sqlsrv . "LEFT OUTER JOIN FATURA FAT ON FAT.FATURAID = WL.FATURAID AND FAT.UNIDADEID = WL.UNIDADEID AND FAT.PACIENTEID = WL.PACIENTEID ";
         $sqlsrv = $sqlsrv . "LEFT OUTER JOIN PACIENTE PAC ON PAC.PACIENTEID = WL.PACIENTEID AND PAC.UNIDADEID = FAT.UNIDADEPACIENTEID ";
@@ -134,22 +213,28 @@ class RatingController extends Controller
         $sqlsrv = $sqlsrv . "WHERE WL.PACIENTEID = '$paciente_id' AND FAT.DATA = '$data' ";
         $requisicoes = DB::connection('sqlsrv')->select($sqlsrv);
 
-        $sqlsrv_a = "Select TOP 1 A.PACIENTEID, FORMAT(A.DATA, 'yyyy/MM/dd') AS DATA, G.GRUPOID, A.NOMEPAC AS PACIENTE, U.NOME_SOCIAL AS ATENDENTE, A.USUARIO, A.NOME_EXAME AS PROCEDIMENTO FROM VW_AGENDA AS A ";
-        $sqlsrv_a = $sqlsrv_a . "INNER JOIN USUARIOS AS U ON U.USERID = A.USUARIO ";
-        $sqlsrv_a = $sqlsrv_a . "INNER JOIN USUARIOSGRUPOS G ON G.GRUPOID = U.GRUPOID ";
-        $sqlsrv_a = $sqlsrv_a . "WHERE A.DATA = '$data' AND ";
-        $sqlsrv_a = $sqlsrv_a . "A.PACIENTEID = '$paciente_id' AND ";
-        $sqlsrv_a = $sqlsrv_a . "A.USERNAME IS NOT NULL";
-        $agendas = DB::connection('sqlsrv')->select($sqlsrv_a);
-
         if ($requisicoes) {
-            return view('agendamento', ['requisicoes' => $requisicoes, 'agendas' => $agendas]);
+            return view('agendamento', ['requisicoes' => $requisicoes]);
         } else {
             return redirect()->back()
                 ->withErrors('Código não encontrado! Verifique seu protocolo e tente novamente.')
                 ->withInput();
         }
     }
+
+    public function getAgenda(Request $request)
+    {
+        $dataForm = $request->all();
+        $data_req = $dataForm['data_req'];
+        $paciente_id = $dataForm['paciente_id'];
+        $sqlsrv = "Select TOP 1 A.PACIENTEID, FORMAT(A.DATA, 'yyyy/MM/dd') AS DATA, A.NOMEPAC AS PACIENTE, U.NOME_SOCIAL AS ATENDENTE, A.USUARIO, A.NOME_EXAME AS PROCEDIMENTO FROM VW_AGENDA AS A ";
+        $sqlsrv = $sqlsrv . "WHERE A.DATA = '$data_req' AND ";
+        $sqlsrv = $sqlsrv . "A.PACIENTEID = '$paciente_id' AND ";
+        $sqlsrv = $sqlsrv . "A.USERNAME IS NOT NULL";
+        $agendas = DB::connection('sqlsrv')->select($sqlsrv);
+        return view('agenda-data', ['agendas' => $agendas]);
+    }
+
 
 
 
@@ -158,8 +243,8 @@ class RatingController extends Controller
         $hoje = date('d/m/Y');
         $hojeconvert = date('Y/m/d');
 
-        $todays = DB::table('ratings')->where('data_req', $hojeconvert)->where('finalizado', '=', 1)->count('id');
-        $avg = DB::table('ratings')->where('data_req', $hojeconvert)->where('finalizado', '=', 1)->avg('nota_clinica');
+        $todays = DB::table('ratings')->where('data_req', $hojeconvert)->count('id');
+        $avg = DB::table('ratings')->where('data_req', $hojeconvert)->avg('nota_clinica');
         $exams = DB::table('faturas')->where('fatura_data', $hojeconvert)->count('id');
         return view('admin.stats.ratings-hoje', ['todays' => $todays, 'hoje' => $hoje, 'avg' => $avg, 'exams' => $exams]);
     }
@@ -170,8 +255,8 @@ class RatingController extends Controller
         $hojeconvert = date('Y/m/d');
         $iniciomes = date('m');
 
-        $month = DB::table('ratings')->whereMonth('data_req', $iniciomes)->where('finalizado', '=', 1)->count('id');
-        $avg = DB::table('ratings')->whereMonth('data_req', $iniciomes)->where('finalizado', '=', 1)->avg('nota_clinica');
+        $month = DB::table('ratings')->whereMonth('data_req', $iniciomes)->count('id');
+        $avg = DB::table('ratings')->whereMonth('data_req', $iniciomes)->avg('nota_clinica');
         $exams = DB::table('faturas')->where('fatura_data', $hojeconvert)->count('id');
         return view('admin.stats.ratings-mes', ['month' => $month, 'hoje' => $hoje, 'avg' => $avg, 'exams' => $exams]);
     }
@@ -182,8 +267,8 @@ class RatingController extends Controller
         $hojeconvert = date('Y/m/d');
         $inicioano = date('Y');
 
-        $year = DB::table('ratings')->whereYear('data_req', $inicioano)->where('finalizado', '=', 1)->count('id');
-        $avg = DB::table('ratings')->whereYear('data_req', $inicioano)->where('finalizado', '=', 1)->avg('nota_clinica');
+        $year = DB::table('ratings')->whereYear('data_req', $inicioano)->count('id');
+        $avg = DB::table('ratings')->whereYear('data_req', $inicioano)->avg('nota_clinica');
         $exams = DB::table('faturas')->where('fatura_data', $hojeconvert)->count('id');
         return view('admin.stats.ratings-ano', ['year' => $year, 'hoje' => $hoje, 'avg' => $avg, 'exams' => $exams]);
     }
@@ -268,4 +353,22 @@ class RatingController extends Controller
         return view('admin.date-picker', compact('rating'));
     }
 
+    /*
+    function checkKey()
+    {
+        $hoje = date('Y-m-d');
+
+        $datadif = DB::connection('extmysql')
+            ->table('keys')
+            ->where('client_id', '=', 1)
+            ->where('hash_key', '=', 'df0f7a747de1135ad2a1dfbef0a5915c')
+            ->latest('created_at')
+            ->first();
+
+        if ($datadif->end_date >= $hoje)
+            return view('welcome', ['datadif' => $datadif->end_date]);
+        else
+            return view('error', ['datadif' => $datadif->end_date, 'hoje' => $hoje]);
+    }
+    */
 }

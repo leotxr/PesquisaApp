@@ -15,18 +15,15 @@ class FaturaController extends Controller
     {
         $this->fatura = new Fatura();
     }
+
+
     public function store(Request $request)
     {
-        $dataForm = $request->all();
-
-        $rating_id = $dataForm['rating_id'];
-
-
         for ($i = 0; $i < count($request->rating_id); $i++) {
-            DB::table('faturas')->updateOrInsert([
-                #'fatura_id' => $request->fatura_id[$i],
-                'rating_id' => $request->rating_id[$i],
-                'fatura_data' => $request->data_fatura[$i],
+            $fatura = Fatura::create([
+                'rating_id' => $request->rating_id[$i] ?? NULL,
+                'requisicao_id' => $request->requisicao_id[$i] ?? NULL,
+                'fatura_data' => $request->data_fatura[$i] ?? NULL,
                 'livro_name' => $request->medico_name[$i] ?? NULL,
                 'livro_rate' => $request->med_rate[$i] ?? NULL,
                 #'grp_livro' => $request->grp_livro[$i]??NULL,
@@ -36,15 +33,16 @@ class FaturaController extends Controller
                 'enf_name' => $request->enf_name[$i] ?? NULL,
                 'enf_rate' => $request->enf_rate[$i] ?? NULL,
                 'setor' => $request->setor[$i] ?? NULL
-
             ]);
-        }
-        DB::table('ratings')
-            ->where('id', $rating_id)
-            ->update(['recomenda' => $request->rec_rate]);
+        };
 
-        #dd($request);
-        return view('rate-ultri', ['rating_id' => $rating_id]);
+        DB::table('ratings')
+        ->where('id', $fatura->rating_id)
+        ->update([
+            'recomenda' => $request->rec_rate
+        ]);
+
+        return view('rate-ultri', ['rating_id' => $request->rating_id]);
     }
 
 
