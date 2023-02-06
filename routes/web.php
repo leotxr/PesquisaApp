@@ -15,8 +15,17 @@ use Illuminate\Support\Facades\Route;
 
 #Rota principal da pesquisa
 Route::get('/', function () {
+    return view('inicio');
+});
+
+Route::get('welcome', function () {
     return view('welcome');
 });
+
+Route::get('teste', function () {
+    return view('teste');
+});
+
 
 //Route::get('/', 'App\Http\Controllers\RatingController@checkKey');
 

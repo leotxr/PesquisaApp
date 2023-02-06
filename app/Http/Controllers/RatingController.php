@@ -193,12 +193,11 @@ class RatingController extends Controller
         $hoje = date('d/m/Y');
         $hojeconvert = date('Y/m/d');
 
-        $positivas = DB::table('ratings')->where('nota_clinica', '>', '3')->count('nota_clinica');
-        $neutras = DB::table('ratings')->where('nota_clinica', '=', '3')->count('nota_clinica');
-        $negativas = DB::table('ratings')->where('nota_clinica', '<', '3')->count('nota_clinica');
+        $positivas = DB::table('ratings')->where('nota_clinica', '>=', '4')->count('nota_clinica');
+        $negativas = DB::table('ratings')->where('nota_clinica', '<=', '3')->count('nota_clinica');
         $avg = DB::table('ratings')->where('data_req', $hojeconvert)->avg('nota_clinica');
         $exams = DB::table('faturas')->where('fatura_data', $hojeconvert)->count('id');
-        return view('admin.stats.stats-clinica', ['positivas' => $positivas, 'neutras' => $neutras, 'negativas' => $negativas]);
+        return view('admin.stats.stats-clinica', ['positivas' => $positivas, 'negativas' => $negativas]);
     }
 
     public function totalRatings()

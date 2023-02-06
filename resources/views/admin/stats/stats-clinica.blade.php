@@ -5,24 +5,17 @@
         <div class="stat">
             <div class="stat-title">Total de Notas positivas</div>
             <div class="stat-value">{{$positivas}}</div>
+            <div class="stat-desc">notas entre 4 e 5</div>
         </div>
 
     </div>
-
-    <div class="stats bg-warning text-warning-content my-5">
-
-        <div class="stat">
-            <div class="stat-title">Total de Notas neutras</div>
-            <div class="stat-value">{{$neutras}}</div>
-        </div>
-    </div>
-
 
     <div class="stats bg-error text-error-content my-5">
 
         <div class="stat">
             <div class="stat-title">Total de Notas negativas</div>
             <div class="stat-value">{{$negativas}}</div>
+            <div class="stat-desc">notas entre 1 e 3</div>
         </div>
     </div>
 </div>

@@ -18,3 +18,10 @@
 
 
 </x-guest-layout>
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            window.location.href = "/";
+        }, 120000);
+    });
+</script>
