@@ -86,5 +86,10 @@
         setTimeout(function() {
             window.location.href = "/";
         }, 60000);
+
+        $('.btn').click(function()
+        {
+            $('.btn').addClass("loading");
+        });
     });
 </script>

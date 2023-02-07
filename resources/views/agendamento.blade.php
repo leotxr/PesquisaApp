@@ -221,7 +221,7 @@
 
                             </div>
                             <button type="submit" id="btn-recepcao"
-                                class="my-16 btn btn-primary btn-wide ">Avançar</button>
+                                class="enviar btn my-16 btn-primary btn-wide ">Avançar</button>
 
                         </div>
 
@@ -273,6 +273,11 @@
             $(".formMed > .hero").eq(indice).show();
         });
 
+        $('.enviar').click(function()
+        {
+            $('.enviar').addClass("loading");
+        });
+     
         
 
     });

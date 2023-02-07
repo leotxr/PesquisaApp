@@ -8,7 +8,7 @@
                     <input type="text" class="text-3xl font-bold" id="id" name="id" value="{{$id}}" style="display: none;"></input>
 
                     <textarea type="text" name="comentario" oninput='if(this.scrollHeight > this.offsetHeight) this.rows += 1' placeholder="Comentários / Sugestões - (Opcional)" class="textarea textarea-primary w-full justify-center mb-10 text-xl" autofocus></textarea>
-                    <button type="submit" id="btn-end" href="" class="my-10 btn btn-primary btn-wide ">Finalizar</button>
+                    <button type="submit" id="btn-end" href="" class="btn btn-primary btn-wide my-10 ">Finalizar</button>
                 </div>
             </div>
         </div>
@@ -19,7 +19,10 @@
         setTimeout(function() {
             window.location.href = "/";
         }, 120000);
-
+        $('.btn').click(function()
+        {
+            $('.btn').addClass("loading");
+        });
 
     });
 </script>

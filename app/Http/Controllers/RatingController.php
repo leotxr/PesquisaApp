@@ -48,6 +48,7 @@ class RatingController extends Controller
             $sqlsrv = $sqlsrv . "LEFT JOIN MEDICOS TEC ON TEC.MEDICOID = FAT.TECNICOID ";
             $sqlsrv = $sqlsrv . "LEFT JOIN WORK_FILAS WF ON WF.FILAID = WL.FILAID ";
             $sqlsrv = $sqlsrv . "WHERE WL.REQUISICAOID = '$rating->requisicao_id' ";
+            $sqlsrv = $sqlsrv . "ORDER BY WF.FILANOME";
             $requisicoes = DB::connection('sqlsrv')->select($sqlsrv);
 
             $sqlsrv2 = "Select DISTINCT O.DATA AS DATA, F.REQUISICAOID, SE.DESCRICAO, USU.NOME_SOCIAL AS USUARIO ";
@@ -55,7 +56,7 @@ class RatingController extends Controller
             $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN FATURA F ON O.PACIENTEID=F.PACIENTEID AND O.UNIDADEID=F.UNIDADEID AND O.FATURAID=F.FATURAID ";
             $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN USUARIOS USU ON (O.USERID = USU.USERID) ";
             $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN SETORES SE ON (SE.SETORID = F.SETORID) ";
-            $sqlsrv2 = $sqlsrv2 . "WHERE O.RASEVENTOID IN (39) AND SE.DESCRICAO IN ('ULTRA-SON', 'CARDIOLOGIA') AND F.REQUISICAOID = '$rating->requisicao_id' ";
+            $sqlsrv2 = $sqlsrv2 . "WHERE O.RASEVENTOID IN (38) AND SE.DESCRICAO IN ('ULTRA-SON', 'CARDIOLOGIA') AND F.REQUISICAOID = '$rating->requisicao_id' ";
             $recepus = DB::connection('sqlsrv')->select($sqlsrv2);
 
             $sqlsrv3 = "Select TOP 1 US.NOME_SOCIAL AS ENFERMEIRA, WL.REQUISICAOID FROM RASOCORRENCIAS AS RA ";
@@ -119,9 +120,15 @@ class RatingController extends Controller
 
     public function getDados(Request $request)
     {
+
         $data = date('Y/m/d');
         #$datainicio = date('Y/m/d', strtotime('-7 days'));
         $paciente_id = $request->pacienteid;
+
+        $request->validate([
+            'pacienteid' => 'required',
+        ]);
+
 
         $sqlsrv = "Select TOP 1 FORMAT(FAT.DATA, 'yyyy/MM/dd') AS DATA, WL.REQUISICAOID AS REQUISICAO, FAT.PACIENTEID AS PACIENTEID, PAC.NOME AS PACIENTE, PR.DESCRICAO AS PROCEDIMENTO, SE.DESCRICAO AS SETOR, TEC.NOME AS TECNICO, WF.FILANOME AS MEDICO, US.NOME_SOCIAL AS RECEPCIONISTA, FAT.REQUISICAOID from WORK_LIST AS WL ";
         $sqlsrv = $sqlsrv . "LEFT OUTER JOIN FATURA FAT ON FAT.FATURAID = WL.FATURAID AND FAT.UNIDADEID = WL.UNIDADEID AND FAT.PACIENTEID = WL.PACIENTEID ";
