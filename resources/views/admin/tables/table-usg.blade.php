@@ -36,7 +36,7 @@
                             @foreach($setor as $result)
                             <tr>
                                 <th></th>
-                                <td>{{$result->data_req}}</td>
+                                <td>{{date('d/M/y', strtotime($result->data_req))}}</td>
                                 <td>{{$result->pac_name}}</td>
                                 <td>{{$result->atend_name}}</td>
                                 <td>{{$result->atend_rate}}</td>
@@ -71,8 +71,8 @@
             bookSST: true,
             type: 'base64'
         });
-        const date = new Date();
-        XLSX.writeFile(file, 'relatorio_usg_' + date.toDateString() + '.' + type);
+        
+        XLSX.writeFile(file, 'relatorio_usg_' + '.' + type);
     }
 
     const export_button = document.getElementById('export_table');

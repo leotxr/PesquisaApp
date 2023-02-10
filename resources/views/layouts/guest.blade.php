@@ -19,7 +19,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-base-200">
+<body class="">
 
     <div class="font-sans text-gray-900 antialiased bg-base-200">
         @if($errors->any())

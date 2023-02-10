@@ -48,9 +48,9 @@ Route::any('countRatings', 'App\Http\Controllers\RatingController@countRatings')
 
 
 #Relatorios
-Route::get('busca-data', function () {
+Route::get('rel-geral', function () {
     return view('admin.rel-geral');
-})->name('busca-data');
+})->name('rel-geral');
 
 Route::get('rel-setores', function () {
     return view('admin.rel-setores');
@@ -60,7 +60,9 @@ Route::get('rel-coment', function () {
     return view('admin.rel-coment');
 })->name('rel-coment');
 
+
 Route::any('resultByDate', 'App\Http\Controllers\RatingController@relatorioGeral')->name('resultByDate');
+Route::any('report', 'App\Http\Controllers\RatingController@report')->name('report');
 Route::any('showdatepicker', 'App\Http\Controllers\RatingController@showdatepicker')->name('showdatepicker');
 Route::any('resultSetores', 'App\Http\Controllers\FaturaController@relatorioSetores')->name('resultSetores');
 Route::any('resultComent', 'App\Http\Controllers\RatingController@relatorioComentario')->name('resultComent');

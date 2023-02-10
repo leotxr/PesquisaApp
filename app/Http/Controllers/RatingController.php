@@ -218,26 +218,6 @@ class RatingController extends Controller
         return view('admin.ratings-hoje', ['ratings' => $ratings, 'hoje' => $hoje, 'avg' => $avg, 'exams' => $exams]);
     }
 
-    public function relatorioGeral(Request $request)
-    {
-        $dataForm = $request->all();
-        $data_inicio = $request->data_inicio;
-        $data_final = $request->data_final;
-        $ordem = $dataForm['ordem'];
-
-        $sql = "select RA.data_req as DATA, RA.pac_name AS PACIENTE, RA.atend_name AS ATENDENTE, RA.atend_rate AS NOTA_ATENDENTE, RA.recep_name AS RECEPCIONISTA, RA.recep_rate AS NOTA_RECEPCIONISTA, ";
-        $sql = $sql . "FA.livro_name AS LIVRO, FA.livro_rate AS NOTA_LIVRO, FA.setor AS SETOR, RA.nota_clinica AS ULTRIMAGEM ";
-        $sql = $sql . "FROM faturas as FA INNER JOIN ratings as RA on RA.id = FA.rating_id ";
-        $sql = $sql . "WHERE RA.data_req BETWEEN '$data_inicio' and '$data_final' ORDER BY $ordem";
-        $relgeral = DB::connection('mysql')->select($sql);
-
-        $avg = DB::table('ratings')
-            ->whereBetween('data_req', [$data_inicio, $data_final])
-            ->avg('nota_clinica');
-
-        return view('admin.tables.table-geral', ['relgeral' => $relgeral, 'avg' => $avg]);
-    }
-
 
     public function relatorioComentario(Request $request)
     {
@@ -248,20 +228,242 @@ class RatingController extends Controller
 
         $relcoment = DB::table('ratings')
             ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->where('finalizado', 1)
             ->whereNotNull('comentario')
             ->get();
         return view('admin.tables.table-coment', ['relcoment' => $relcoment]);
     }
 
-    public function teste(Request $request)
+    public function report(Request $request)
     {
         $data_inicio = $request->data_inicio;
         $data_final = $request->data_final;
-        $results = DB::table('faturas')
-            ->join('ratings', 'ratings.id', '=', 'faturas.rating_id')
-            ->whereBetween('ratings.data_req', $data_inicio, 'between', $data_final)
-            ->select('ratings.data_req AS DATA', 'ratings.pac_nome AS PACIENTE', 'orders.price')
-            ->get();
+
+        //contador de pesquisas incompletas
+        $total = Rating::where('finalizado', 1)
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+        //INICIO NOTA CLINICA
+
+        //contador de pesquisas no periodo
+        $countratings = Rating::where('finalizado', 1)
+            ->whereNotNull('nota_clinica')
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+        //contador de notas positivas no periodo
+        $countpositivas = Rating::where('finalizado', 1)
+            ->where('nota_clinica', '>', 3)
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+        //contador de notas positivas no periodo
+        $countnegativas = Rating::where('finalizado', 1)
+            ->where('nota_clinica', '<', 4)
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+        //porcentagem nota clinica
+        $prcntclinica = ($countpositivas / $countratings) * 100;
+
+        //FIM NOTA CLINICA
+
+
+
+        //INICIO NOTA AGENDAMENTO
+
+        //contador de notas positivas no periodo
+        $agpositivas = Rating::where('finalizado', 1)
+            ->where('atend_rate', '>', 3)
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+        //contador de notas negativas
+        $agnegativas = Rating::where('finalizado', 1)
+            ->where('atend_rate', '<', 4)
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+
+        //contador de pesquisas no periodo
+        $countagenda = Rating::where('finalizado', 1)
+            ->whereNotNull('atend_rate')
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+        //porcentagem nota clinica
+        $prcntagenda = ($agpositivas / $countagenda) * 100;
+
+        //FIM NOTA AGENDAMENTO
+
+
+
+        //INICIO NOTA RECEPCAO
+
+        //contador de notas positivas no periodo
+        $recpositivas = Rating::where('finalizado', 1)
+            ->where('recep_rate', '>', 3)
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+        $recnegativas = Rating::where('finalizado', 1)
+            ->where('recep_rate', '<', 4)
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+        //contador de pesquisas no periodo
+        $countrecep = Rating::where('finalizado', 1)
+            ->whereNotNull('recep_rate')
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+        //porcentagem nota recepcionista
+        $prcntrecep = ($recpositivas / $countrecep) * 100;
+
+        //FIM NOTA RECEPCAO
+
+        //INICIO NOTA RECEPCIONISTA USG
+        $countusg = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+            ->where('ratings.finalizado', 1)
+            ->whereNotNull('us_rate')
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('us_rate');
+
+        $usgpositivas = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+            ->where('ratings.finalizado', 1)
+            ->where('faturas.us_rate', '>', 3)
+            ->whereNotNull('faturas.us_rate')
+            ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+            ->count('us_rate');
+
+        $usgnegativas = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+            ->where('ratings.finalizado', 1)
+            ->where('faturas.us_rate', '<', 4)
+            ->whereNotNull('faturas.us_rate')
+            ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+            ->count('us_rate');
+
+        $prcntusg = ($usgpositivas / $countusg) * 100;
+
+        //fim NOTA RECEPCIONISTA USG
+
+        //INICIO NOTA ENFERMAGEM
+        $countenf = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+            ->where('ratings.finalizado', 1)
+            ->whereNotNull('enf_rate')
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('enf_rate');
+
+        $enfpositivas = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+            ->where('ratings.finalizado', 1)
+            ->where('faturas.enf_rate', '>', 3)
+            ->whereNotNull('faturas.enf_rate')
+            ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+            ->count('enf_rate');
+
+        $enfnegativas = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+            ->where('ratings.finalizado', 1)
+            ->where('faturas.enf_rate', '<', 4)
+            ->whereNotNull('faturas.enf_rate')
+            ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+            ->count('enf_rate');
+
+        $prcntenf = ($enfpositivas / $countenf) * 100;
+
+        //fim NOTA ENFERMAGEM
+
+        //INICIO NOTA TECNICOS
+        $counttec = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+            ->where('ratings.finalizado', 1)
+            ->whereNotNull('faturas.livro_rate')
+            ->whereNotNull('faturas.tec_name')
+            ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+            ->count('tec_name');
+
+        $tecpositivas = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+            ->where('ratings.finalizado', 1)
+            ->where('faturas.livro_rate', '>', 3)
+            ->whereNotNull('faturas.livro_rate')
+            ->whereNotNull('faturas.tec_name')
+            ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+            ->count('tec_name');
+
+        $tecnegativas = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+            ->where('ratings.finalizado', 1)
+            ->where('faturas.livro_rate', '<', 4)
+            ->whereNotNull('faturas.livro_rate')
+            ->whereNotNull('faturas.tec_name')
+            ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+            ->count('tec_name');
+
+        $prcnttec = ($tecpositivas / $counttec) * 100;
+
+        //fim NOTA TECNICOS
+
+                //INICIO NOTA MEDICOS
+                $countmed = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+                ->where('ratings.finalizado', 1)
+                ->whereIn('faturas.setor', ['ULTRA-SON', 'CARDIOLOGIA'])
+                ->whereNotNull('faturas.livro_rate')
+                ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+                ->count('livro_rate');
+    
+            $medpositivas = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+                ->where('ratings.finalizado', 1)
+                ->whereIn('faturas.setor', ['ULTRA-SON', 'CARDIOLOGIA'])
+                ->where('faturas.livro_rate', '>', 3)
+                ->whereNotNull('faturas.livro_rate')
+                ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+                ->count('livro_rate');
+    
+            $mednegativas = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+                ->where('ratings.finalizado', 1)
+                ->whereIn('faturas.setor', ['ULTRA-SON', 'CARDIOLOGIA'])
+                ->where('faturas.livro_rate', '<', 4)
+                ->whereNotNull('faturas.livro_rate')
+                ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+                ->count('livro_rate');
+    
+            $prcntmed = ($medpositivas / $countmed) * 100;
+    
+            //fim NOTA TECNICOS
+
+
+
+        return view('admin.tables.reports', compact(
+            'data_inicio',
+            'data_final',
+            'countratings',
+            'countpositivas',
+            'countnegativas',
+            'prcntclinica',
+            'recpositivas',
+            'recnegativas',
+            'countrecep',
+            'prcntrecep',
+            'agpositivas',
+            'agnegativas',
+            'countagenda',
+            'prcntagenda',
+            'total',
+            'countusg',
+            'usgpositivas',
+            'usgnegativas',
+            'prcntusg',
+            'countenf',
+            'enfpositivas',
+            'enfnegativas',
+            'prcntenf',
+            'counttec',
+            'tecpositivas',
+            'tecnegativas',
+            'prcnttec',
+            'countmed',
+            'medpositivas',
+            'mednegativas',
+            'prcntmed'
+        ));
     }
 
     public function showdatepicker()
@@ -273,5 +475,4 @@ class RatingController extends Controller
             ->get();
         return view('admin.date-picker', compact('rating'));
     }
-
 }

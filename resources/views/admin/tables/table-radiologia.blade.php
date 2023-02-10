@@ -34,7 +34,7 @@
                             @foreach($setor as $result)
                             <tr>
                                 <th></th>
-                                <td>{{$result->data_req}}</td>
+                                <td>{{date('d/M/y', strtotime($result->data_req))}}</td>
                                 <td>{{$result->pac_name}}</td>
                                 <td>{{$result->atend_name}}</td>
                                 <td>{{$result->atend_rate}}</td>

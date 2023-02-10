@@ -28,7 +28,7 @@
                             @foreach($relcoment as $result)
                             <tr>
                                 <th></th>
-                                <td>{{$result->data_req}}</td>
+                                <td>{{date('d/M/y', strtotime($result->data_req))}}</td>
                                 <td>{{$result->comentario}}</td>
                                 <td></td>
                                 <td>{{$result->nota_clinica}}</td>
@@ -65,8 +65,8 @@
             bookSST: true,
             type: 'base64'
         });
-        const date = new Date();
-        XLSX.writeFile(file, 'relatorio_usg_' + date.toDateString() + '.' + type);
+       
+        XLSX.writeFile(file, 'relatorio_usg_' + '.' + type);
     }
 
     const export_button = document.getElementById('export_table');

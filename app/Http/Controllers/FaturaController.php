@@ -37,10 +37,10 @@ class FaturaController extends Controller
         };
 
         DB::table('ratings')
-        ->where('id', $fatura->rating_id)
-        ->update([
-            'recomenda' => $request->rec_rate
-        ]);
+            ->where('id', $fatura->rating_id)
+            ->update([
+                'recomenda' => $request->rec_rate
+            ]);
 
         return view('rate-ultri', ['rating_id' => $request->rating_id]);
     }
@@ -69,47 +69,132 @@ class FaturaController extends Controller
         $data_final = $request->data_final;
         $ordem = $dataForm['ordem'];
         $setores = $dataForm['setores'];
+        $nota = $dataForm['nota'];
 
         switch ($setores) {
             case 1:
-                $setor = DB::table('faturas')
-                    ->where('faturas.setor', '=', 'ULTRA-SON')
-                    ->orWhere('faturas.setor', '=', 'CARDIOLOGIA')
-                    ->whereBetween('data_req', [$data_inicio, $data_final])
-                    ->join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+
+                $query = DB::table('faturas')
+                    ->whereIn('faturas.setor', ['ULTRA-SON', 'CARDIOLOGIA'])
+                    ->whereBetween('data_req', [$data_inicio, $data_final]);
+
+                if ($nota == 1) {
+                    $query->where('ratings.finalizado', 1)
+                        ->where(function ($query) {
+                            $query->where('ratings.nota_clinica', '>', 3)
+                                ->orWhere('ratings.recep_rate', '>', 3)
+                                ->orWhere('ratings.atend_rate', '>', 3)
+                                ->orWhere('faturas.livro_rate', '>', 3)
+                                ->orWhere('faturas.us_rate', '>', 3);
+                        });
+                } elseif ($nota == 2) {
+                    $query->where('ratings.finalizado', 1)
+                        ->where(function ($query) {
+                            $query->where('ratings.nota_clinica', '<', 4)
+                                ->orWhere('ratings.recep_rate', '<', 4)
+                                ->orWhere('ratings.atend_rate', '<', 4)
+                                ->orWhere('faturas.livro_rate', '<', 4)
+                                ->orWhere('faturas.us_rate', '<', 4);
+                        });
+                };
+
+                $setor = $query->join('ratings', 'ratings.id', '=', 'faturas.rating_id')
                     ->orderBy($ordem)
                     ->get();
                 return view('admin.tables.table-usg', ['setor' => $setor]);
+                #dd($setor);
                 break;
 
             case 2:
-                $setor = DB::table('faturas')
-                    ->where('faturas.setor', '=', 'TOMOGRAFIA')
-                    ->orWhere('faturas.setor', '=', 'RESSONANCIA')
-                    ->whereBetween('data_req', [$data_inicio, $data_final])
-                    ->join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+                $query = DB::table('faturas')
+                    ->whereIn('faturas.setor', ['TOMOGRAFIA', 'RESSONANCIA'])
+                    ->whereBetween('data_req', [$data_inicio, $data_final]);
+
+                if ($nota == 1) {
+                    $query->where('ratings.finalizado', 1)
+                        ->where(function ($query) {
+                            $query->where('ratings.nota_clinica', '>', 3)
+                                ->orWhere('ratings.recep_rate', '>', 3)
+                                ->orWhere('ratings.atend_rate', '>', 3)
+                                ->orWhere('faturas.livro_rate', '>', 3)
+                                ->orWhere('faturas.enf_rate', '>', 3);
+                        });
+                } elseif ($nota == 2) {
+                    $query->where('ratings.finalizado', 1)
+                        ->where(function ($query) {
+                            $query->where('ratings.nota_clinica', '<', 4)
+                                ->orWhere('ratings.recep_rate', '<', 4)
+                                ->orWhere('ratings.atend_rate', '<', 4)
+                                ->orWhere('faturas.livro_rate', '<', 4)
+                                ->orWhere('faturas.enf_rate', '<', 4);
+                        });
+                };
+
+                $setor = $query->join('ratings', 'ratings.id', '=', 'faturas.rating_id')
                     ->orderBy($ordem)
                     ->get();
                 return view('admin.tables.table-rm', ['setor' => $setor]);
+                #dd($setor);
                 break;
 
             case 3:
-                $setor = DB::table('faturas')
+                $query = DB::table('faturas')
                     ->whereIn('faturas.setor', ['DENSITOMETRIA', 'MAMOGRAFIA', 'RAIOS X', 'MAPA', 'ELETROCARDIOGRAMA'])
-                    ->whereBetween('data_req', [$data_inicio, $data_final])
-                    ->join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+                    ->whereBetween('data_req', [$data_inicio, $data_final]);
+
+                if ($nota == 1) {
+                    $query->where('ratings.finalizado', 1)
+                        ->where(function ($query) {
+                            $query->where('ratings.nota_clinica', '>', 3)
+                                ->orWhere('ratings.recep_rate', '>', 3)
+                                ->orWhere('ratings.atend_rate', '>', 3)
+                                ->orWhere('faturas.livro_rate', '>', 3);
+                        });
+                } elseif ($nota == 2) {
+                    $query->where('ratings.finalizado', 1)
+                        ->where(function ($query) {
+                            $query->where('ratings.nota_clinica', '<', 4)
+                                ->orWhere('ratings.recep_rate', '<', 4)
+                                ->orWhere('ratings.atend_rate', '<', 4)
+                                ->orWhere('faturas.livro_rate', '<', 4);
+                        });
+                };
+
+                $setor = $query->join('ratings', 'ratings.id', '=', 'faturas.rating_id')
                     ->orderBy($ordem)
                     ->get();
                 return view('admin.tables.table-radiologia', ['setor' => $setor]);
+                #dd($setor);
                 break;
 
             default:
-                $setor = DB::table('faturas')
-                    ->whereBetween('data_req', [$data_inicio, $data_final])
-                    ->join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+                $query = DB::table('faturas')
+                    ->whereBetween('data_req', [$data_inicio, $data_final]);
+
+                if ($nota == 1) {
+                    $query->where('ratings.finalizado', 1)
+                        ->where(function ($query) {
+                            $query->where('ratings.nota_clinica', '>', 3)
+                                ->orWhere('ratings.recep_rate', '>', 3)
+                                ->orWhere('ratings.atend_rate', '>', 3)
+                                ->orWhere('faturas.livro_rate', '>', 3);
+                        });
+                } elseif ($nota == 2) {
+                    $query->where('ratings.finalizado', 1)
+                        ->where(function ($query) {
+                            $query->where('ratings.nota_clinica', '<', 4)
+                                ->orWhere('ratings.recep_rate', '<', 4)
+                                ->orWhere('ratings.atend_rate', '<', 4)
+                                ->orWhere('faturas.livro_rate', '<', 4);
+                        });
+                };
+
+                $setor = $query->join('ratings', 'ratings.id', '=', 'faturas.rating_id')
                     ->orderBy($ordem)
                     ->get();
                 return view('admin.tables.table-setores', ['setor' => $setor]);
+                #dd($setor);
+                break;
         }
     }
 }

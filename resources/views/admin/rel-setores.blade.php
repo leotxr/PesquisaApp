@@ -43,6 +43,14 @@
                             <option value="livro_name">Livro</option>
                         </select>
                     </div>
+
+                    <div class="p-2 flex">
+                        <select id="nota" name="nota" class="select select-primary align-item-left max-w-xs">
+                            <option value="0" default>Nota</option>
+                            <option value="1">Positivas</option>
+                            <option value="2">Negativas</option>
+                        </select>
+                    </div>
                     <a type="button" id="pick-date" class="my-2 btn btn-primary btn-wide ">Buscar</a>
                 </div>
 
@@ -61,13 +69,15 @@
         dataFinal = $("#data_final").val();
         ordem = $("#ordem").val();
         setores = $("#setores").val();
+        nota = $("#nota").val();
         $.ajax({
             url: url,
             data: {
                 'data_inicio': dataInicio,
                 'data_final': dataFinal,
                 'ordem': ordem,
-                'setores': setores
+                'setores': setores,
+                'nota' : nota
             },
             success: function(data) {
                 $("#show-result").html(data);

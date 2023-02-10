@@ -31,7 +31,7 @@
 
                         </x-slot>
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('busca-data')" :active="request()->routeIs('busca-data')">
+                            <x-dropdown-link :href="route('rel-geral')" :active="request()->routeIs('rel-geral')">
                                 {{ __('Pesquisas por período') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('rel-setores')" :active="request()->routeIs('rel-setores')">
@@ -94,7 +94,7 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('busca-data')" :active="request()->routeIs('busca-data')">
+            <x-responsive-nav-link :href="route('rel-geral')" :active="request()->routeIs('rel-geral')">
                 {{ __('Relatório Geral') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('rel-setores')" :active="request()->routeIs('rel-setores')">
