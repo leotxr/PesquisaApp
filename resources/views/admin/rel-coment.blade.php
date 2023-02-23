@@ -34,6 +34,15 @@
                             <option value="livro_name">Livro</option>
                         </select>
                     </div>
+                    <div class="p-2 flex">
+                        <select id="class_comentario" name="class_comentario" class="select select-primary align-item-left max-w-xs">
+                            <option dafault>Classificação</option>
+                            <option value="1">Positivo</option>
+                            <option value="2">Sugestão</option>
+                            <option value="0">Negativo</option>
+                            <option value="3">Oculto</option>
+                        </select>
+                    </div>
                     <a type="button" id="pick-date" class="my-2 btn btn-primary btn-wide ">Buscar</a>
                 </div>
 
@@ -50,11 +59,13 @@
         const url = "{{ route('resultComent')}}";
         dataInicio = $("#data_inicio").val();
         dataFinal = $("#data_final").val();
+        class_comentario = $("#class_comentario").val();
         $.ajax({
             url: url,
             data: {
                 'data_inicio': dataInicio,
-                'data_final': dataFinal
+                'data_final': dataFinal,
+                'class_comentario' : class_comentario
             },
             success: function(data) {
                 $("#show-result").html(data);

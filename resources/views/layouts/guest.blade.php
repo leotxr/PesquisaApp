@@ -2,9 +2,6 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="winter">
 
 <head>
-    <script>
-        unloadScrollBars();
-    </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -56,4 +53,8 @@
     $(window).on("load",function(){
         $(".loader-wrapper").fadeOut("slow");
     });
+
+    setTimeout(function() {
+        $('.alert').fadeOut('slow');
+    }, 5000);
 </script>

@@ -117,6 +117,21 @@ class RatingController extends Controller
         return view('fim');
     }
 
+    public function editComent(Request $request)
+    {
+        //$dataForm = $request->all();
+        $id = $request->id;
+
+        for ($i = 0; $i < count($request->id); $i++) {
+        DB::table('ratings')
+            ->where('id', $id[$i])
+            ->update([
+                'class_comentario' => $request->class_comentario[$i]
+            ]);
+        };
+        return redirect()->back();
+    }
+
 
     public function getDados(Request $request)
     {
@@ -224,13 +239,33 @@ class RatingController extends Controller
         $dataForm = $request->all();
         $data_inicio = $request->data_inicio;
         $data_final = $request->data_final;
+        $classificacao = $request->class_comentario;
         #$ordem = $dataForm['ordem'];
 
         $relcoment = DB::table('ratings')
             ->whereBetween('data_req', [$data_inicio, $data_final])
             ->where('finalizado', 1)
-            ->whereNotNull('comentario')
-            ->get();
+            ->whereNotNull('comentario');
+
+            if($classificacao == 1)
+            {
+            $relcoment->where('class_comentario', 1);
+            
+            }elseif($classificacao == 2)
+            {
+                $relcoment->where('class_comentario', 2);
+            }elseif($classificacao == 0)
+            {
+                $relcoment->where('class_comentario', 0);
+
+            }elseif($classificacao == 3)
+            {
+                $relcoment->where('class_comentario', 3);
+            };
+
+
+            $relcoment = $relcoment->get();
+
         return view('admin.tables.table-coment', ['relcoment' => $relcoment]);
     }
 
@@ -271,17 +306,19 @@ class RatingController extends Controller
 
 
 
-        //INICIO NOTA AGENDAMENTO
+        //INICIO NOTA AGENDAMENTO TELEFONIA
 
         //contador de notas positivas no periodo
         $agpositivas = Rating::where('finalizado', 1)
             ->where('atend_rate', '>', 3)
+            ->whereNotIn('grp_agendamento', [45, 34])
             ->whereBetween('data_req', [$data_inicio, $data_final])
             ->count('id');
 
         //contador de notas negativas
         $agnegativas = Rating::where('finalizado', 1)
             ->where('atend_rate', '<', 4)
+            ->whereNotIn('grp_agendamento', [45, 34])
             ->whereBetween('data_req', [$data_inicio, $data_final])
             ->count('id');
 
@@ -289,6 +326,7 @@ class RatingController extends Controller
         //contador de pesquisas no periodo
         $countagenda = Rating::where('finalizado', 1)
             ->whereNotNull('atend_rate')
+            ->whereNotIn('grp_agendamento', [45, 34])
             ->whereBetween('data_req', [$data_inicio, $data_final])
             ->count('id');
 
@@ -296,6 +334,36 @@ class RatingController extends Controller
         $prcntagenda = ($agpositivas / $countagenda) * 100;
 
         //FIM NOTA AGENDAMENTO
+
+        //INICIO NOTA AGENDAMENTO RECEPCAO
+
+        //contador de notas positivas no periodo
+        $agreceppositivas = Rating::where('finalizado', 1)
+            ->where('atend_rate', '>', 3)
+            ->whereIn('grp_agendamento', [45, 34])
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+        //contador de notas negativas
+        $agrecepnegativas = Rating::where('finalizado', 1)
+            ->where('atend_rate', '<', 4)
+            ->whereIn('grp_agendamento', [45, 34])
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+
+        //contador de pesquisas no periodo
+        $countagendarecep = Rating::where('finalizado', 1)
+            ->whereNotNull('atend_rate')
+            ->whereIn('grp_agendamento', [45, 34])
+            ->whereBetween('data_req', [$data_inicio, $data_final])
+            ->count('id');
+
+        //porcentagem nota clinica
+        $prcntagendarecep = ($agreceppositivas / $countagendarecep) * 100;
+
+        //FIM NOTA AGENDAMENTO
+
 
 
 
@@ -446,6 +514,10 @@ class RatingController extends Controller
             'agnegativas',
             'countagenda',
             'prcntagenda',
+            'agreceppositivas',
+            'agrecepnegativas',
+            'countagendarecep',
+            'prcntagendarecep',
             'total',
             'countusg',
             'usgpositivas',

@@ -98,4 +98,7 @@
     $(window).on("load", function() {
         $(".loader-wrapper").fadeOut("slow");
     });
+    setTimeout(function() {
+        $('.alert').fadeOut('slow');
+    }, 5000);
 </script>

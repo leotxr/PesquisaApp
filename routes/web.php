@@ -39,6 +39,7 @@ Route::any('sendDadosRecepcao', 'App\Http\Controllers\RatingController@storeRece
 Route::any('sendDadosMed', 'App\Http\Controllers\FaturaController@store')->name('sendDadosMed');
 Route::any('sendDadosUltri', 'App\Http\Controllers\RatingController@storeUltri')->name('sendDadosUltri');
 Route::any('sendComent', 'App\Http\Controllers\RatingController@storeComent')->name('sendComent');
+Route::any('editComent', 'App\Http\Controllers\RatingController@editComent')->name('editComent');
 
 
 Route::any('ratingsHoje', 'App\Http\Controllers\RatingController@todayRatings')->name('ratingsHoje');

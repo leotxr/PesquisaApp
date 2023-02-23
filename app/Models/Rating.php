@@ -23,7 +23,8 @@ class Rating extends Model
     'comentario',
     'finalizado',
     'created_at',
-    'updated_at'
+    'updated_at',
+    'class_comentario'
 ];
     use HasFactory;
 
