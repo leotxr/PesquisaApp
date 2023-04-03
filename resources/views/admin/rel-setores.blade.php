@@ -27,10 +27,14 @@
 
                     <div class="p-2 flex">
                         <select id="setores" name="setores" class="select select-primary align-item-left max-w-xs">
-                            <option value="0" default>Setores</option>
+                            <option value="0" default>Geral</option>
                             <option value="1">USG / Cardiologia</option>
                             <option value="2">Ressonância / Tomografia</option>
                             <option value="3">Radiologia</option>
+                            <option value="4">Recepção(Agendamento)</option>
+                            <option value="5">Telefonia</option>
+                            <option value="6">WhatsApp</option>
+                            <option value="7">Recepção</option>
                         </select>
                     </div>
 

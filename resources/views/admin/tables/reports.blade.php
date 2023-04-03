@@ -91,6 +91,8 @@
                     </div>
                     <div class="stat-title">Notas Negativas</div>
                     <div class="stat-value text-error">{{ $countnegativas }}</div>
+                    <div class="stat-desc">{{ $prcntclinicang = number_format($prcntclinicang, 2, '.', '') }}%</div>
+                    
                 </div>
 
                 <div class="stat">
@@ -152,6 +154,7 @@
                     </div>
                     <div class="stat-title">Notas Negativas</div>
                     <div class="stat-value text-error">{{ $agnegativas }}</div>
+                    <div class="stat-desc">{{ $prcntagendang = number_format($prcntagendang, 2, '.', '') }}%</div>
                 </div>
 
                 <div class="stat">
@@ -213,6 +216,7 @@
                     </div>
                     <div class="stat-title">Notas Negativas</div>
                     <div class="stat-value text-error">{{ $agrecepnegativas }}</div>
+                    <div class="stat-desc">{{ $prcntagendarecepng = number_format($prcntagendarecepng, 2, '.', '') }}%</div>
                 </div>
 
                 <div class="stat">
@@ -273,6 +277,7 @@
                     </div>
                     <div class="stat-title">Notas Negativas</div>
                     <div class="stat-value text-error">{{ $recnegativas }}</div>
+                    <div class="stat-desc">{{ $prcntrecepng = number_format($prcntrecepng, 2, '.', '') }}%</div>
                 </div>
 
                 <div class="stat">
@@ -333,6 +338,7 @@
                     </div>
                     <div class="stat-title">Notas Negativas</div>
                     <div class="stat-value text-error">{{ $usgnegativas }}</div>
+                    <div class="stat-desc">{{ $prcntusgng = number_format($prcntusgng, 2, '.', '') }}%</div>
                 </div>
 
                 <div class="stat">
@@ -393,6 +399,7 @@
                     </div>
                     <div class="stat-title">Notas Negativas</div>
                     <div class="stat-value text-error">{{ $enfnegativas }}</div>
+                    <div class="stat-desc">{{ $prcntenfng = number_format($prcntenfng, 2, '.', '') }}%</div>
                 </div>
 
                 <div class="stat">
@@ -453,6 +460,7 @@
                     </div>
                     <div class="stat-title">Notas Negativas</div>
                     <div class="stat-value text-error">{{ $tecnegativas }}</div>
+                    <div class="stat-desc">{{ $prcnttecng = number_format($prcnttecng, 2, '.', '') }}%</div>
                 </div>
 
                 <div class="stat">
@@ -513,6 +521,7 @@
                     </div>
                     <div class="stat-title">Notas Negativas</div>
                     <div class="stat-value text-error">{{ $mednegativas }}</div>
+                    <div class="stat-desc">{{ $prcntmedng = number_format($prcntmedng, 2, '.', '') }}%</div>
                 </div>
 
                 <div class="stat">

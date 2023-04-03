@@ -167,6 +167,49 @@ class FaturaController extends Controller
                 #dd($setor);
                 break;
 
+            case 4: //Agendamento recepcao
+                $setor = Rating::whereBetween('data_req', [$data_inicio, $data_final])
+                    ->where('grp_agendamento', 45)
+                    ->whereNotNull('atend_rate')
+                    ->where('finalizado', 1)
+                    ->orderBy($ordem)
+                    ->get();
+                return view('admin.tables.table-agendamento', ['setor' => $setor]);
+                #dd($setor);
+                break;
+
+            case 5: //Agendamento telefone
+                $setor = Rating::whereBetween('data_req', [$data_inicio, $data_final])
+                    ->whereIn('grp_agendamento', [51, 57])
+                    ->whereNotNull('atend_rate')
+                    ->where('finalizado', 1)
+                    ->orderBy($ordem)
+                    ->get();
+                return view('admin.tables.table-agendamento', ['setor' => $setor]);
+                #dd($setor);
+                break;
+
+            case 6: //Agendamento whatsapp
+                $setor = Rating::whereBetween('data_req', [$data_inicio, $data_final])
+                    ->where('grp_agendamento', 56)
+                    ->whereNotNull('atend_rate')
+                    ->where('finalizado', 1)
+                    ->orderBy($ordem)
+                    ->get();
+                return view('admin.tables.table-agendamento', ['setor' => $setor]);
+                #dd($setor);
+                break;
+
+            case 7: //Atendimento recepcao
+                $setor = Rating::whereBetween('data_req', [$data_inicio, $data_final])
+                    ->where('finalizado', 1)
+                    ->whereNotNull('recep_rate')
+                    ->orderBy($ordem)
+                    ->get();
+                return view('admin.tables.table-recepcao', ['setor' => $setor]);
+                #dd($setor);
+                break;
+
             default:
                 $query = DB::table('faturas')
                     ->whereBetween('data_req', [$data_inicio, $data_final]);

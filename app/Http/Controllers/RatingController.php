@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cookie;
 use App\Models\Rating;
 use App\Models\Fatura;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -41,6 +42,8 @@ class RatingController extends Controller
 
         if ($rating) {
 
+
+
             $sqlsrv = "Select DISTINCT FORMAT(FAT.DATA, 'yyyy/MM/dd') AS DATA, WL.REQUISICAOID AS REQUISICAO, SE.DESCRICAO AS SETOR, TEC.NOME_SOCIAL AS TECNICO, WF.FILANOME AS MEDICO from WORK_LIST AS WL ";
             $sqlsrv = $sqlsrv . "LEFT OUTER JOIN FATURA FAT ON FAT.FATURAID = WL.FATURAID AND FAT.UNIDADEID = WL.UNIDADEID AND FAT.PACIENTEID = WL.PACIENTEID ";
             $sqlsrv = $sqlsrv . "LEFT OUTER JOIN PACIENTE PAC ON PAC.PACIENTEID = WL.PACIENTEID AND PAC.UNIDADEID = FAT.UNIDADEPACIENTEID ";
@@ -62,10 +65,8 @@ class RatingController extends Controller
             $sqlsrv3 = "Select TOP 1 US.NOME_SOCIAL AS ENFERMEIRA, WL.REQUISICAOID FROM RASOCORRENCIAS AS RA ";
             $sqlsrv3 = $sqlsrv3 . "INNER JOIN WORK_LIST AS WL ON WL.PACIENTEID = RA.PACIENTEID AND WL.DATA = RA.DATA ";
             $sqlsrv3 = $sqlsrv3 . "INNER JOIN USUARIOS AS US ON US.USERID = RA.USERID ";
-            $sqlsrv3 = $sqlsrv3 . "WHERE RA.RASEVENTOID = 250003 AND WL.REQUISICAOID = '$rating->requisicao_id' ";
+            $sqlsrv3 = $sqlsrv3 . "WHERE RA.OBSERVACAO = 'OBSERVAÇÃO' AND WL.REQUISICAOID = '$rating->requisicao_id' ";
             $enfermeiras = DB::connection('sqlsrv')->select($sqlsrv3);
-
-
 
             return view('rate-med', ['requisicoes' => $requisicoes, 'recepus' => $recepus, 'enfermeiras' => $enfermeiras, 'requisicao_id' => $rating->requisicao_id, 'rating_id' => $rating->id]);
         }
@@ -98,8 +99,8 @@ class RatingController extends Controller
         DB::table('ratings')
             ->where('id', $id)
             ->update([
-                'nota_clinica' => $request->rate_clinica,
-                'finalizado' => 1
+                'nota_clinica' => $request->rate_clinica
+
 
             ]);
         return view('optional-coment', ['id' => $id]);
@@ -108,13 +109,23 @@ class RatingController extends Controller
     {
         //$dataForm = $request->all();
         $id = $request->id;
+        $rating = Rating::find($id);
+        if ($rating->finalizado == 1) {
+            return redirect('welcome')
+                ->withErrors('Essa pesquisa já foi finalizada. Não foi possível salvar novamente.')
+                ->withInput();
+        } else {
+            DB::table('ratings')
+                ->where('id', $id)
+                ->update([
+                    'comentario' => $request->comentario,
+                    'finalizado' => 1
+                ]);
 
-        DB::table('ratings')
-            ->where('id', $id)
-            ->update([
-                'comentario' => $request->comentario
-            ]);
-        return view('fim');
+                #$cookie = Cookie::forget('pesquisa_ultrimagem_session');
+
+            return view('fim');
+        }
     }
 
     public function editComent(Request $request)
@@ -123,11 +134,11 @@ class RatingController extends Controller
         $id = $request->id;
 
         for ($i = 0; $i < count($request->id); $i++) {
-        DB::table('ratings')
-            ->where('id', $id[$i])
-            ->update([
-                'class_comentario' => $request->class_comentario[$i]
-            ]);
+            DB::table('ratings')
+                ->where('id', $id[$i])
+                ->update([
+                    'class_comentario' => $request->class_comentario[$i]
+                ]);
         };
         return redirect()->back();
     }
@@ -243,28 +254,23 @@ class RatingController extends Controller
         #$ordem = $dataForm['ordem'];
 
         $relcoment = DB::table('ratings')
-            ->whereBetween('data_req', [$data_inicio, $data_final])
-            ->where('finalizado', 1)
-            ->whereNotNull('comentario');
+        ->join('faturas', 'faturas.rating_id', '=', 'ratings.id')
+            ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+            ->where('ratings.finalizado', 1)
+            ->whereNotNull('ratings.comentario');
 
-            if($classificacao == 1)
-            {
-            $relcoment->where('class_comentario', 1);
-            
-            }elseif($classificacao == 2)
-            {
-                $relcoment->where('class_comentario', 2);
-            }elseif($classificacao == 0)
-            {
-                $relcoment->where('class_comentario', 0);
-
-            }elseif($classificacao == 3)
-            {
-                $relcoment->where('class_comentario', 3);
-            };
+        if ($classificacao == 1) {
+            $relcoment->where('ratings.class_comentario', 1);
+        } elseif ($classificacao == 2) {
+            $relcoment->where('ratings.class_comentario', 2);
+        } elseif ($classificacao == 0) {
+            $relcoment->where('ratings.class_comentario', 0);
+        } elseif ($classificacao == 3) {
+            $relcoment->where('ratings.class_comentario', 3);
+        };
 
 
-            $relcoment = $relcoment->get();
+        $relcoment = $relcoment->get(['ratings.id', 'ratings.data_req', 'ratings.comentario', 'ratings.nota_clinica', 'ratings.class_comentario', 'faturas.setor', 'faturas.livro_name', 'faturas.tec_name']);
 
         return view('admin.tables.table-coment', ['relcoment' => $relcoment]);
     }
@@ -302,6 +308,8 @@ class RatingController extends Controller
         //porcentagem nota clinica
         $prcntclinica = ($countpositivas / $countratings) * 100;
 
+        $prcntclinicang = ($countnegativas / $countratings) * 100;
+
         //FIM NOTA CLINICA
 
 
@@ -332,6 +340,8 @@ class RatingController extends Controller
 
         //porcentagem nota clinica
         $prcntagenda = ($agpositivas / $countagenda) * 100;
+        $prcntagendang = ($agnegativas / $countagenda) * 100;
+
 
         //FIM NOTA AGENDAMENTO
 
@@ -361,6 +371,7 @@ class RatingController extends Controller
 
         //porcentagem nota clinica
         $prcntagendarecep = ($agreceppositivas / $countagendarecep) * 100;
+        $prcntagendarecepng = ($agrecepnegativas / $countagendarecep) * 100;
 
         //FIM NOTA AGENDAMENTO
 
@@ -388,6 +399,7 @@ class RatingController extends Controller
 
         //porcentagem nota recepcionista
         $prcntrecep = ($recpositivas / $countrecep) * 100;
+        $prcntrecepng = ($recnegativas / $countrecep) * 100;
 
         //FIM NOTA RECEPCAO
 
@@ -413,6 +425,7 @@ class RatingController extends Controller
             ->count('us_rate');
 
         $prcntusg = ($usgpositivas / $countusg) * 100;
+        $prcntusgng = ($usgnegativas / $countusg) * 100;
 
         //fim NOTA RECEPCIONISTA USG
 
@@ -438,6 +451,7 @@ class RatingController extends Controller
             ->count('enf_rate');
 
         $prcntenf = ($enfpositivas / $countenf) * 100;
+        $prcntenfng = ($enfnegativas / $countenf) * 100;
 
         //fim NOTA ENFERMAGEM
 
@@ -466,36 +480,38 @@ class RatingController extends Controller
             ->count('tec_name');
 
         $prcnttec = ($tecpositivas / $counttec) * 100;
+        $prcnttecng = ($tecnegativas / $counttec) * 100;
 
         //fim NOTA TECNICOS
 
-                //INICIO NOTA MEDICOS
-                $countmed = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
-                ->where('ratings.finalizado', 1)
-                ->whereIn('faturas.setor', ['ULTRA-SON', 'CARDIOLOGIA'])
-                ->whereNotNull('faturas.livro_rate')
-                ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
-                ->count('livro_rate');
-    
-            $medpositivas = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
-                ->where('ratings.finalizado', 1)
-                ->whereIn('faturas.setor', ['ULTRA-SON', 'CARDIOLOGIA'])
-                ->where('faturas.livro_rate', '>', 3)
-                ->whereNotNull('faturas.livro_rate')
-                ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
-                ->count('livro_rate');
-    
-            $mednegativas = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
-                ->where('ratings.finalizado', 1)
-                ->whereIn('faturas.setor', ['ULTRA-SON', 'CARDIOLOGIA'])
-                ->where('faturas.livro_rate', '<', 4)
-                ->whereNotNull('faturas.livro_rate')
-                ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
-                ->count('livro_rate');
-    
-            $prcntmed = ($medpositivas / $countmed) * 100;
-    
-            //fim NOTA TECNICOS
+        //INICIO NOTA MEDICOS
+        $countmed = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+            ->where('ratings.finalizado', 1)
+            ->whereIn('faturas.setor', ['ULTRA-SON', 'CARDIOLOGIA'])
+            ->whereNotNull('faturas.livro_rate')
+            ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+            ->count('livro_rate');
+
+        $medpositivas = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+            ->where('ratings.finalizado', 1)
+            ->whereIn('faturas.setor', ['ULTRA-SON', 'CARDIOLOGIA'])
+            ->where('faturas.livro_rate', '>', 3)
+            ->whereNotNull('faturas.livro_rate')
+            ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+            ->count('livro_rate');
+
+        $mednegativas = Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
+            ->where('ratings.finalizado', 1)
+            ->whereIn('faturas.setor', ['ULTRA-SON', 'CARDIOLOGIA'])
+            ->where('faturas.livro_rate', '<', 4)
+            ->whereNotNull('faturas.livro_rate')
+            ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
+            ->count('livro_rate');
+
+        $prcntmed = ($medpositivas / $countmed) * 100;
+        $prcntmedng = ($mednegativas / $countmed) * 100;
+
+        //fim NOTA TECNICOS
 
 
 
@@ -506,35 +522,43 @@ class RatingController extends Controller
             'countpositivas',
             'countnegativas',
             'prcntclinica',
+            'prcntclinicang',
             'recpositivas',
             'recnegativas',
             'countrecep',
             'prcntrecep',
+            'prcntrecepng',
             'agpositivas',
             'agnegativas',
             'countagenda',
             'prcntagenda',
+            'prcntagendang',
             'agreceppositivas',
             'agrecepnegativas',
             'countagendarecep',
             'prcntagendarecep',
+            'prcntagendarecepng',
             'total',
             'countusg',
             'usgpositivas',
             'usgnegativas',
             'prcntusg',
+            'prcntusgng',
             'countenf',
             'enfpositivas',
             'enfnegativas',
             'prcntenf',
+            'prcntenfng',
             'counttec',
             'tecpositivas',
             'tecnegativas',
             'prcnttec',
+            'prcnttecng',
             'countmed',
             'medpositivas',
             'mednegativas',
-            'prcntmed'
+            'prcntmed',
+            'prcntmedng'
         ));
     }
 

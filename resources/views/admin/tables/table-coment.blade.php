@@ -43,7 +43,7 @@
                 <form method="POST" action="{{ route('editComent') }}">
                     @csrf
                     <div class="overflow-x-auto">
-                        <table id="table" class="table w-full">
+                        <table id="table" class="table w-full text-center">
                             <!-- head -->
                             <!-- TABELA RELATORIO MEDICO -->
                             <thead>
@@ -63,7 +63,7 @@
                                             <td><input type="number" name="id[]" value="{{ $result->id }}" hidden>
                                             </td>
                                             <td>{{ date('d/M/y', strtotime($result->data_req)) }}</td>
-                                            <td class="whitespace-pre-line max-w-sm">{{ $result->comentario }}</td>
+                                            <td class="whitespace-pre-line max-w-sm">{{ $result->comentario }} @if($result->setor == 'ULTRA-SON' || $result->setor == 'CARDIOLOGIA' ) <b>. {{$result->livro_name}}</b> @else <b>. {{$result->tec_name}}</b> @endif</td>
                                             <td>{{ $result->nota_clinica }}</td>
                                             <td>
                                                 <select name="class_comentario[]"
@@ -129,8 +129,8 @@
             bookSST: true,
             type: 'base64'
         });
-
-        XLSX.writeFile(file, 'relatorio_usg_' + '.' + type);
+        
+        XLSX.writeFile(file, 'relatorio_comentarios_' + '.' + type);
     }
 
     const export_button = document.getElementById('export_table');

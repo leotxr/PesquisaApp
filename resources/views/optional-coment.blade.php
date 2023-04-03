@@ -23,6 +23,6 @@
         {
             $('.btn').addClass("loading");
         });
-
     });
+    
 </script>

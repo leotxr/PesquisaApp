@@ -32,7 +32,7 @@
                         </x-slot>
                         <x-slot name="content">
                             <x-dropdown-link :href="route('rel-geral')" :active="request()->routeIs('rel-geral')">
-                                {{ __('Pesquisas por período') }}
+                                {{ __('Resumo por Período') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('rel-setores')" :active="request()->routeIs('rel-setores')">
                                 {{ __('Pesquisas por Setor') }}

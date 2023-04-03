@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="hero min-h-screen" style="background-image: url(/image/logochamado.png);">
+    <div class="hero min-h-screen" style="background-image: url(/image/logofundo.png);">
         <div class="hero-overlay bg-opacity-95 bg-white"></div>
         <div class="hero-content text-center text-neutral-content">
             <div class="max-w-xl">
