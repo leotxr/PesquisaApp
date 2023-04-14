@@ -47,4 +47,7 @@
 
         </div>
     </div>
+    @foreach($requisicoes as $requisicao)
+    {{$requisicao->PACIENTE}}
+    @endforeach
 </x-guest-layout>

@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\GetDadosCliente;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GetDadosClienteController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\StoreDadosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,26 +31,26 @@ Route::get('teste', function () {
 });
 
 
-//Route::get('/', 'App\Http\Controllers\RatingController@checkKey');
+
 
 
 #Selects entre formularios da pesquisa para busca de dados no XClinic
-Route::any('get-dados', 'App\Http\Controllers\RatingController@getDados')->name('get-dados');
-#Route::any('show-agenda', 'App\Http\Controllers\RatingController@getAgenda')->name('show-agenda');
-Route::any('sendDados', 'App\Http\Controllers\RatingController@store')->name('sendDados');
-Route::any('sendDadosAgenda', 'App\Http\Controllers\RatingController@storeAgenda')->name('sendDadosAgenda');
-Route::any('sendDadosRecepcao', 'App\Http\Controllers\RatingController@storeRecepcao')->name('sendDadosRecepcao');
-Route::any('sendDadosMed', 'App\Http\Controllers\FaturaController@store')->name('sendDadosMed');
-Route::any('sendDadosUltri', 'App\Http\Controllers\RatingController@storeUltri')->name('sendDadosUltri');
-Route::any('sendComent', 'App\Http\Controllers\RatingController@storeComent')->name('sendComent');
-Route::any('editComent', 'App\Http\Controllers\RatingController@editComent')->name('editComent');
+Route::post('GetDadosCliente', GetDadosClienteController::class)->name('GetDadosCliente');
+Route::get('/AvaliarEmpresa/{id}', function () {
+    return view('rate-ultri');
+});
+Route::get('/fim', function () {
+    return view('fim');
+});
+#Route::post('StoreDados', RatingController::class, 'store')->name('StoreDados');
 
 
+/*
 Route::any('ratingsHoje', 'App\Http\Controllers\RatingController@todayRatings')->name('ratingsHoje');
 Route::any('ratingsMes', 'App\Http\Controllers\RatingController@monthRatings')->name('ratingsMes');
 Route::any('ratingsAno', 'App\Http\Controllers\RatingController@yearRatings')->name('ratingsAno');
 Route::any('countRatings', 'App\Http\Controllers\RatingController@countRatings')->name('countRatings');
-
+*/
 
 #Relatorios
 Route::get('rel-geral', function () {

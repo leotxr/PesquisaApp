@@ -11,14 +11,17 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
+    <livewire:styles />
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <livewire:scripts />
 </head>
 
-<body class="">
+<body class="sm:overflow-hidden">
 
     <div class="font-sans text-gray-900 antialiased bg-base-200">
+        
         @if($errors->any())
         @foreach($errors->all() as $error)
         <div class="alert alert-warning shadow-lg absolute">
@@ -31,11 +34,19 @@
         </div>
         @endforeach
         @endif
+        
         <div>
             {{ $slot }}
-            <div class="loader-wrapper bg-base-200 absolute w-full h-full grid place-items-center top-0 opacity-90">
+            
+            
+            <div class="loader-wrapper bg-base-200 absolute w-full h-full grid place-items-center top-0 opacity-95" style="display:none">
+                <div class="flex items-center ">
                 <span class="loader"></span>
+                
+                    <h1 class="text-xl font-bold p-2">Aguarde, estamos carregando suas informações...</h1>
+                </div>
             </div>
+            
         </div>
 
     </div>
@@ -45,16 +56,18 @@
 </html>
 
 <script>
+    /*
     window.addEventListener("contextmenu", ev => {
         ev.preventDefault();
         return false;
     });
-
-    $(window).on("load",function(){
-        $(".loader-wrapper").fadeOut("slow");
+*/
+    $("form").submit(function(){
+        $(".loader-wrapper").show();
     });
 
     setTimeout(function() {
         $('.alert').fadeOut('slow');
     }, 5000);
+    
 </script>
