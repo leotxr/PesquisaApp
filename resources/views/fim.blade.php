@@ -16,6 +16,6 @@
     $(document).ready(function() {
         setTimeout(function() {
             window.location.href = "welcome";
-        }, 5000);
+        }, 3000);
     });
 </script>

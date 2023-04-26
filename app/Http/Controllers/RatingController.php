@@ -18,6 +18,13 @@ class RatingController extends Controller
         #$this->objRating = new Rating();
     }
 
+    public function index()
+    {
+        $day = Rating::where('data_req', date('Y/m/d'))->count();
+        $month = Rating::whereMonth('data_req', date('m'))->count();
+        return view('admin.dashboard', ['day' => $day, 'month' => $month]);
+    }
+
     public function create()
     {
 

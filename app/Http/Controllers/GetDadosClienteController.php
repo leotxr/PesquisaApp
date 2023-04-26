@@ -83,7 +83,7 @@ class GetDadosClienteController extends Controller
 
         #PERCORRE O VETOR DE REQUISICOES PARA SALVAR CADA EXAME SEPARADAMENTE
         foreach ($requisicoes as $requisicao) {
-            if($requisicao->SETOR == "RESSONANCIA")
+            if($requisicao->SETOR == "RESSONANCIA" || $requisicao->SETOR == "TOMOGRAFIA")
             {
             Fatura::updateOrCreate([
                 'rating_id' => $rating->id,
@@ -94,7 +94,7 @@ class GetDadosClienteController extends Controller
                 'enf_name' => $rasocorrencias[0]->ENFERMEIRA ?? NULL,
                 'setor' => $requisicao->SETOR ?? NULL
             ]);
-            }elseif($requisicao->SETOR == "ULTRA-SON"){
+            }elseif($requisicao->SETOR == "ULTRA-SON" || $requisicao->SETOR == "CARDIOLOGIA"){
                 Fatura::updateOrCreate([
                     'rating_id' => $rating->id,
                     'requisicao_id' => $rating->requisicao_id ?? NULL,

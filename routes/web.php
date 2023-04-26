@@ -73,8 +73,6 @@ Route::any('resultSetores', 'App\Http\Controllers\FaturaController@relatorioSeto
 Route::any('resultComent', 'App\Http\Controllers\RatingController@relatorioComentario')->name('resultComent');
 
 #Dashboard pós login
-Route::get('/dashboard', function () {
-    return view('admin/dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [RatingController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
