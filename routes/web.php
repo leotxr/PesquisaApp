@@ -61,10 +61,11 @@ Route::get('rel-setores', function () {
     return view('admin.rel-setores');
 })->name('rel-setores');
 
-Route::get('rel-coment', function () {
+Route::get('comentarios', function () {
     return view('admin.rel-coment');
 })->name('rel-coment');
 
+Route::any('editComent', 'App\Http\Controllers\RatingController@editComment')->name('editComment');
 
 Route::any('resultByDate', 'App\Http\Controllers\RatingController@relatorioGeral')->name('resultByDate');
 Route::any('report', 'App\Http\Controllers\RatingController@report')->name('report');

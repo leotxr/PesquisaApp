@@ -22,15 +22,21 @@ class Rating extends Model
     'nota_clinica',
     'comentario',
     'finalizado',
+    'class_comentario',
+    'status_comentario_id',
     'created_at',
     'updated_at',
-    'class_comentario'
 ];
     use HasFactory;
 
     public function relFaturas()
     {
         return $this->hasMany(Fatura::class);
+    }
+
+    public function relStatus()
+    {
+        return $this->hasOne('App\Models\Rating', 'status_comentario_id', 'id');
     }
 
 
