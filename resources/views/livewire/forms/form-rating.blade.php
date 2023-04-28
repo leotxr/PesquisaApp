@@ -5,8 +5,10 @@
             <div id="RATING">
                 <p class="text-3xl">{{$text}} </p>
                 <div class="flex justify-center pt-2 text-center">
-                    <img src="{{URL::asset('image/funcionarios').'/' . $label . ('.png')}}"
+                    @if ($label != 'Ultrimagem')
+                    <img src="{{ URL::asset('image/funcionarios') . '/' . $label . '.png' }}"
                         class="scale-100 max-h-44 max-w-44 justify-center"></img>
+                    @endif
 
                 </div>
                 <p for="mask" class="text-3xl font-bold">{{$label}}</p>

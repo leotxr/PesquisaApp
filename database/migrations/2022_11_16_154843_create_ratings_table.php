@@ -29,6 +29,10 @@ return new class extends Migration
             $table->integer('tipo_atraso')->nullable();
             $table->boolean('recomenda')->nullable();
             $table->boolean('finalizado')->nullable();
+            $table->unsignedBigInteger('status_comentario_id')->nullable();
+            $table->foreign('status_comentario_id')->references('id')->on('statuses')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->timestamps();
             $table->engine = "InnoDB";
 
