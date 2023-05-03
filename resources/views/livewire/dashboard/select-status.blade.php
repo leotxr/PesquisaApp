@@ -1,5 +1,5 @@
 
-    <div class="form-check form-check-inline m-2 ">
+    <div wire:key="rating.status-{{$comment->rating_id}}" class="rating form-check form-check-inline m-2 ">
         <label class="radio-inline">
             <input type="radio" wire:click="edit_status" wire:model="value" name="nota" value="{{$status->id}}" class="radio"
                 style="opacity: 0; position: absolute;" />

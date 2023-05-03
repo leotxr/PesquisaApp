@@ -31,31 +31,6 @@ class RatingController extends Controller
         return view('welcome');
     }
 
-
-    public static function store($requisicoes)
-    {
-        /*
-        foreach ($requisicoes as $requisicao) {
-            $rating = Rating::updateOrCreate([
-                'pac_name' => $requisicao->PACIENTE ?? NULL,
-                'pac_id' => $requisicao->PACIENTEID ?? NULL,
-                'data_req' => $requisicao->DATA ?? NULL,
-                'recep_name' => $requisicao->RECEPCIONISTA ?? NULL,
-                'requisicao_id' => $requisicao->REQUISICAO ?? NULL
-            ]);
-        }
-
-        if ($rating)
-        return redirect()->action(
-            [RatingController::class, 'edit'], [$rating]
-        );
-        else
-            return redirect()->back()->withErrors('DEU CERTO NAO');
-            */
-    }
-
-
-
     public function edit(Rating $id)
     {
         $rating = Rating::find($id);
@@ -119,11 +94,7 @@ class RatingController extends Controller
         return redirect()->back();
     }
 
-    public function export() 
-    {
-        //$range = ['initial_date'=>$request->initial_date, 'final_date'=>$request->final_date, 'search_status'=>$request->search_status];
-        return Excel::download(new CommentsExport, 'comentarios.xlsx');
-    }
+
 
     public function todayRatings()
     {

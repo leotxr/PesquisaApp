@@ -25,6 +25,18 @@
     pointer-events: auto
 }
 
+.rating svg {
+    opacity: 0.4;
+    transition: .3s;
+    pointer-events: auto
+}
+
+.rating input:checked~svg {
+    opacity: 1;
+    pointer-events: auto;
+    color: rgb(49, 121, 255);
+}
+
 .rating input:checked~img {
     opacity: 1;
     pointer-events: auto;

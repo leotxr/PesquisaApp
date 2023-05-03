@@ -45,6 +45,12 @@ class SearchComments extends Component
        return view('livewire.dashboard.search-comments', ['comments' => $this->comments, 'statuses' => $this->statuses]);
     }
 
+    public function export() 
+    {
+        $range = ['initial_date'=>$this->initial_date, 'final_date'=>$this->final_date, 'search_status'=>$this->search_status];
+        return Excel::download(new CommentsExport($range), 'comentarios.xlsx');
+    }
+
 
     public function render()
     {

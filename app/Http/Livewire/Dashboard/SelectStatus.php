@@ -19,7 +19,7 @@ class SelectStatus extends Component
         $this->comment = Rating::find($comment);
 
         
-        $this->fill_color = 'currentColor';
+        $this->fill_color = $status->color;
 
 
         $this->status = $status;
@@ -31,9 +31,7 @@ class SelectStatus extends Component
         $comentario = $this->comment;
         $comentario->status_comentario_id = $this->status->id;
         $comentario->save();
-    
 
-        $this->fill_color = $this->status->color;
     }
     
     public function render()

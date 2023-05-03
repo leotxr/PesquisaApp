@@ -33,7 +33,7 @@
                         {{$rating->us_name}}</b> @else <b>{{$rating->enf_name}}</b> @endif
                 </td>
                 <td class="px-6 py-4">
-                    {{$current_status ?? 'Sem Status'}}
+                    {{$rating->status_comentario_id}}
                 </td>
             </tr>
             @endforeach

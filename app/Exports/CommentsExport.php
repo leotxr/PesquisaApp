@@ -16,11 +16,20 @@ class CommentsExport implements FromView
     public $end;
     public $status;
 
+    public function __construct($range)
+    {
+        $this->start = $range['initial_date'];
+        $this->end = $range['final_date'];
+        $this->status = $range['search_status'];
+    }
+
     public function view(): View
     {
-        return view('admin.tables.table-comment', ['ratings' =>  Rating::with('relFaturas')
+        return view('admin.tables.table-comment', ['ratings' => Rating::with('relFaturas')
             ->join('faturas', 'faturas.rating_id', '=', 'ratings.id')
-            ->whereBetween('ratings.data_req', ['2023-04-01', '2023-04-30'])
-            ->whereNotNull('ratings.comentario')->get()]);
+            ->whereBetween('ratings.data_req', [$this->start, $this->end])
+            ->whereNotNull('ratings.comentario')
+            ->whereIn('status_comentario_id', $this->status)
+            ->get()]);
     }
 }
