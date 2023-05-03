@@ -22,8 +22,8 @@
                 </x-input-label>
                 <select wire:model='search_status' name="search_status" multiple size="3"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    @foreach ($statuses as $status)
-                        <option selected value="{{ $status->id }}">{{ $status->name }}</option>
+                    @foreach($statuses as $status)
+                    <option selected value="{{$status->id}}">{{$status->name}}</option>
                     @endforeach
                 </select>
             </div>
@@ -69,43 +69,38 @@
                         </svg>
 
                         Salvar</button>
-                        --}}
-                    </div>
                 </div>
-                <table id="table" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            </div>
+            <table id="table" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">
-                                Comentário
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Médico/Técnico
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Enfermeira/USG
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Status
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Ação
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($comments as $comment)
-                            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                                    {{ $comment->comentario }}
-                                </th>
-                                <td class="px-6 py-4 whitespace-pre-line max-w-sm">
-                                    @if ($comment->setor == 'ULTRA-SON' || $comment->setor == 'CARDIOLOGIA')
-                                        <b>
-                                            {{ $comment->livro_name }}</b>
-                                    @else
-                                        <b>{{ $comment->tec_name }}</b>
-                                    @endif
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Comentário
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Médico/Técnico
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Enfermeira/USG
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Status
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Ação
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($comments as $comment)
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                            {{$comment->comentario}}
+                        </th>
+                        <td class="px-6 py-4 whitespace-pre-line max-w-sm">
+                            @if($comment->setor == 'ULTRA-SON' || $comment->setor == 'CARDIOLOGIA' ) <b>
+                                {{$comment->livro_name}}</b> @else <b>{{$comment->tec_name}}</b> @endif
 
                         </td>
                         <td class="px-6 py-4">
@@ -113,7 +108,7 @@
                                 {{$comment->us_name}}</b> @else <b>{{$comment->enf_name}}</b> @endif
                         </td>
                         <td class="px-6 py-4">
-                            {{$comment->status_comentario_id ?? 'Sem Status'}}
+                            {{$current_status ?? 'Sem Status'}}
                         </td>
                         <td class="px-6 py-4 dropdown dropdown-left dropdown-end">
                             <div class="flex radio-group">
@@ -126,36 +121,12 @@
                     </tr>
                     @endforeach
 
-                    </tbody>
 
+                </tbody>
 
-                </table>
-            </div>
+            </table>
+        </div>
         @endisset
     </div>
-
-    <script>
-        function html_table_to_excel(type) {
-            var data = document.getElementById('table');
-    
-            var file = XLSX.utils.table_to_book(data, {
-                sheet: "sheet1"
-            });
-    
-            XLSX.write(file, {
-                bookType: type,
-                bookSST: true,
-                type: 'base64'
-            });
-            
-            XLSX.writeFile(file, 'relatorio_comentarios_' + '.' + type);
-        }
-    
-        const export_button = document.getElementById('export_table');
-    
-        export_button.addEventListener('click', () => {
-            html_table_to_excel('xlsx');
-        });
-    </script>
 
 </div>
