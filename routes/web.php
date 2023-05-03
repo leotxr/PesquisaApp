@@ -53,27 +53,29 @@ Route::any('countRatings', 'App\Http\Controllers\RatingController@countRatings')
 */
 
 #Relatorios
-Route::get('rel-geral', function () {
-    return view('admin.rel-geral');
-})->name('rel-geral');
+Route::middleware('auth')->group(function () {
+    Route::get('rel-geral', function () {
+        return view('admin.rel-geral');
+    })->name('rel-geral');
 
-Route::get('rel-setores', function () {
-    return view('admin.rel-setores');
-})->name('rel-setores');
+    Route::get('rel-setores', function () {
+        return view('admin.rel-setores');
+    })->name('rel-setores');
 
-Route::get('comentarios', function () {
-    return view('admin.rel-coment');
-})->name('rel-coment');
+    Route::get('comentarios', function () {
+        return view('admin.rel-coment');
+    })->name('rel-coment');
 
-Route::any('editComent', 'App\Http\Controllers\RatingController@editComment')->name('editComment');
+    Route::any('editComent', 'App\Http\Controllers\RatingController@editComment')->name('editComment');
 
-Route::any('resultByDate', 'App\Http\Controllers\RatingController@relatorioGeral')->name('resultByDate');
-Route::any('report', 'App\Http\Controllers\RatingController@report')->name('report');
-Route::any('showdatepicker', 'App\Http\Controllers\RatingController@showdatepicker')->name('showdatepicker');
-Route::any('resultSetores', 'App\Http\Controllers\FaturaController@relatorioSetores')->name('resultSetores');
-Route::any('resultComent', 'App\Http\Controllers\RatingController@relatorioComentario')->name('resultComent');
+    Route::any('resultByDate', 'App\Http\Controllers\RatingController@relatorioGeral')->name('resultByDate');
+    Route::any('report', 'App\Http\Controllers\RatingController@report')->name('report');
+    Route::any('showdatepicker', 'App\Http\Controllers\RatingController@showdatepicker')->name('showdatepicker');
+    Route::any('resultSetores', 'App\Http\Controllers\FaturaController@relatorioSetores')->name('resultSetores');
+    Route::any('resultComent', 'App\Http\Controllers\RatingController@relatorioComentario')->name('resultComent');
+});
 
 #Dashboard pós login
 Route::get('/dashboard', [RatingController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -1,7 +1,7 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Pesquisa de Satisfação Ultrimagem.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.12",
+        "maatwebsite/excel": "^3.1.48",
         "spatie/laravel-ignition": "^1.6"
     },
     "require-dev": {

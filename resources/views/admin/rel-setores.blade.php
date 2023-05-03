@@ -61,7 +61,7 @@
             </div>
         </div>
         <div id="show-result">
-
+            
         </div>
     </div>
 </x-app-layout>

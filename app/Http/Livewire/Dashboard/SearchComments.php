@@ -7,8 +7,10 @@ use App\Models\Rating;
 use App\Models\Fatura;
 use App\Models\Status;
 use Livewire\WithPagination;
+use Maatwebsite\Excel;
+use Maatwebsite\Excel\Concerns\FromQuery;
 
-class SearchComments extends Component
+class SearchComments extends Component 
 {
     use WithPagination;
 
@@ -42,6 +44,7 @@ class SearchComments extends Component
         
        return view('livewire.dashboard.search-comments', ['comments' => $this->comments, 'statuses' => $this->statuses]);
     }
+
 
     public function render()
     {

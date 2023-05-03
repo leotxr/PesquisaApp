@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Cookie;
 use App\Models\Rating;
 use App\Models\Fatura;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-use Symfony\Component\Finder\Finder;
+use App\Exports\RatingsExport;
+use Maatwebsite\Excel;
 
 
 class RatingController extends Controller
@@ -185,37 +186,6 @@ class RatingController extends Controller
     }
 
 
-    public function relatorioComentario(Request $request)
-    {
-        $dataForm = $request->all();
-        $data_inicio = $request->data_inicio;
-        $data_final = $request->data_final;
-        $classificacao = $request->class_comentario;
-        #$ordem = $dataForm['ordem'];
-
-        $relcoment = DB::table('ratings')
-            ->join('faturas', 'faturas.rating_id', '=', 'ratings.id')
-            ->whereBetween('ratings.data_req', [$data_inicio, $data_final])
-            ->where('ratings.finalizado', 1)
-            ->whereNotNull('ratings.comentario');
-
-        if ($classificacao == 1) {
-            $relcoment->where('ratings.class_comentario', 1);
-        } elseif ($classificacao == 2) {
-            $relcoment->where('ratings.class_comentario', 2);
-        } elseif ($classificacao == 0) {
-            $relcoment->where('ratings.class_comentario', 0);
-        } elseif ($classificacao == 3) {
-            $relcoment->where('ratings.class_comentario', 3);
-        };
-
-
-        $relcoment = $relcoment->get(['ratings.id', 'ratings.data_req', 'ratings.comentario', 'ratings.nota_clinica', 'ratings.class_comentario', 'faturas.setor', 'faturas.livro_name', 'faturas.tec_name']);
-
-        return view('admin.tables.table-coment', ['relcoment' => $relcoment]);
-    }
-
-
 
     public function showdatepicker()
     {
@@ -226,4 +196,6 @@ class RatingController extends Controller
             ->get();
         return view('admin.date-picker', compact('rating'));
     }
+
+
 }
