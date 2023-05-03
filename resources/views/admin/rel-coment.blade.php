@@ -8,5 +8,5 @@
     <div class="py-2">
         @livewire('dashboard.search-comments')
     </div>
-</x-app-layout>
 
+</x-app-layout>

@@ -7,8 +7,8 @@ use App\Models\Rating;
 use App\Models\Fatura;
 use App\Models\Status;
 use Livewire\WithPagination;
-use Maatwebsite\Excel;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CommentsExport;
 
 class SearchComments extends Component 
 {

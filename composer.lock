@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca5e780932a659048bbc4da48a470932",
+    "content-hash": "8c2e3fa22b75386e4d02c02cabeaaab3",
     "packages": [
         {
             "name": "brick/math",
@@ -2256,16 +2256,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "3.1.48",
+            "version": "3.1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SpartnerNL/Laravel-Excel.git",
-                "reference": "6d0fe2a1d195960c7af7bf0de760582da02a34b9"
+                "reference": "ec02ed6e1f718d9d85f703ff7c599567b57b8218"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/6d0fe2a1d195960c7af7bf0de760582da02a34b9",
-                "reference": "6d0fe2a1d195960c7af7bf0de760582da02a34b9",
+                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/ec02ed6e1f718d9d85f703ff7c599567b57b8218",
+                "reference": "ec02ed6e1f718d9d85f703ff7c599567b57b8218",
                 "shasum": ""
             },
             "require": {
@@ -2280,6 +2280,7 @@
                 "orchestra/testbench": "^6.0|^7.0|^8.0",
                 "predis/predis": "^1.1"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -2320,7 +2321,7 @@
             ],
             "support": {
                 "issues": "https://github.com/SpartnerNL/Laravel-Excel/issues",
-                "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1.48"
+                "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1"
             },
             "funding": [
                 {
@@ -2332,7 +2333,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-22T21:01:38+00:00"
+            "time": "2023-02-28T15:14:00+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
