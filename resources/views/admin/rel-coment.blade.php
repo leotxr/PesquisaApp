@@ -6,6 +6,7 @@
     </x-slot>
 
     <div class="py-2">
-       @livewire('dashboard.search-comments')
+        @livewire('dashboard.search-comments')
     </div>
+
 </x-app-layout>

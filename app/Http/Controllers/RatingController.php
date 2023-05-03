@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
 use App\Models\Rating;
 use App\Models\Fatura;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-use Symfony\Component\Finder\Finder;
+use App\Exports\CommentsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class RatingController extends Controller
@@ -119,12 +119,11 @@ class RatingController extends Controller
         return redirect()->back();
     }
 
-
-    public function getDados(Request $request)
+    public function export() 
     {
+        //$range = ['initial_date'=>$request->initial_date, 'final_date'=>$request->final_date, 'search_status'=>$request->search_status];
+        return Excel::download(new CommentsExport, 'comentarios.xlsx');
     }
-
-
 
     public function todayRatings()
     {
