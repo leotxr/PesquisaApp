@@ -14,7 +14,10 @@ class FormComentario extends Component
     public function enviaComentario()
     {
         Rating::where('id', $this->rating->id)
-            ->update(['comentario' => $this->comentario]);
+            ->update([
+                'comentario' => $this->comentario,
+                'status_comentario_id' => 1
+        ]);
 
             return redirect()->to('fim');
     }

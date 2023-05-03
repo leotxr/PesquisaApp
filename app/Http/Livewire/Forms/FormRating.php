@@ -33,8 +33,6 @@ class FormRating extends Component
         $this->text = $text;
         $this->label = $label;
         $this->wire_function = $wire_function;
-
-
     }
 
 
@@ -45,19 +43,19 @@ class FormRating extends Component
 
 
         $this->hideForm = true;
-       
+
         /*
             $this->text = "Como você avalia o técnico";
             $this->label = $this->faturas;
             
             */
     }
-    
+
 
     public function avaliaEnfermeira()
     {
         Fatura::where('id', $this->fatura->id)
-        ->update(['enf_rate' => $this->rate]);
+            ->update(['enf_rate' => $this->rate]);
 
         $this->hideForm = true;
     }
@@ -65,7 +63,7 @@ class FormRating extends Component
     public function avaliaUSG()
     {
         Fatura::where('id', $this->fatura->id)
-        ->update(['us_rate' => $this->rate]);
+            ->update(['us_rate' => $this->rate]);
 
         $this->hideForm = true;
     }
@@ -74,10 +72,13 @@ class FormRating extends Component
     public function avaliaEmpresa()
     {
         Rating::where('id', $this->rating->id)
-            ->update(['nota_clinica' => $this->rate]);
+            ->update([
+                'nota_clinica' => $this->rate,
+                'finalizado' => 1
+            ]);
 
-            $this->hideForm = true;
-            $this->showTextArea = true;
+        $this->hideForm = true;
+        $this->showTextArea = true;
     }
 
 
