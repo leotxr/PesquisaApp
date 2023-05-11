@@ -5,9 +5,9 @@
             <div class="max-w-xl">
 
                 <div class="grid max-w-xl grid-cols-1 sm:grid-cols-1 justify-items-center">
-                    <h1 class="py-5 text-5xl font-bold text-primary">Sua opinião é muito importante para nós!</h1>
+                    <h1 class="py-5 text-5xl font-bold text-blue-700">Sua opinião é muito importante para nós!</h1>
                     <a href="{{ url('welcome') }}" type="button"
-                        class="h-24 p-2 text-xl font-bold rounded-md shadow-md btn btn-primary w-88">Iniciar Pesquisa</a>
+                        class="h-16 p-2 text-xl font-bold text-white bg-blue-800 border-2 border-none rounded-md btn w-96">Iniciar Pesquisa</a>
 
                 </div>
 
