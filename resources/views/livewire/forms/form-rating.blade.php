@@ -1,20 +1,20 @@
 @if ($hideForm != true)
-    <div wire:loading.remove class="hero h-screen bg-base-200" id="div-3">
-        <div class="hero-content text-center">
-            <div class="md:max-w-full max-w-full">
+    <div wire:loading.remove class="h-screen hero bg-base-200" id="div-3">
+        <div class="text-center hero-content">
+            <div class="max-w-lg md:max-w-lg">
                 <div id="RATING">
                     <p class="text-3xl">{{ $text }} </p>
                     <div class="flex justify-center pt-2 text-center">
                         @if ($label != 'Ultrimagem')
                             <img src="{{ URL::asset('image/funcionarios') . '/' . $label . '.png' }}"
-                                class="scale-100 max-h-44 max-w-44 justify-center"></img>
+                                class="justify-center scale-100 max-h-44 max-w-44"></img>
                         @endif
 
                     </div>
                     <p for="mask" class="text-3xl font-bold">{{ $label }}</p>
 
-                    <div class="rating flex justify-center gap-5 font-bold text-xl py-2" id="rating" required>
-                        <div class="form-check form-check-inline h-24 w-24 p-2">
+                    <div class="flex justify-center gap-5 py-2 text-xl font-bold rating" id="rating" required>
+                        <div class="w-24 h-24 p-2 form-check form-check-inline">
                             <label class="radio-inline">
                                 <input type="radio" wire:click="{{ $wire_function }}" wire:model="rate" name="nota"
                                     value="1" class="radio" style="opacity: 0; position: absolute;" />
@@ -23,7 +23,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-24 w-24 p-2">
+                        <div class="w-24 h-24 p-2 form-check form-check-inline">
                             <label class="radio-inline">
                                 <input type="radio" wire:click="{{ $wire_function }}" wire:model="rate" name="nota"
                                     value="2" id="checkbox" class="radio"
@@ -33,7 +33,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-24 w-24 p-2">
+                        <div class="w-24 h-24 p-2 form-check form-check-inline">
                             <label class="radio-inline">
                                 <input type="radio" wire:click="{{ $wire_function }}" wire:model="rate" name="nota"
                                     value="3" id="checkbox" class="radio"
@@ -43,7 +43,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-24 w-24 p-2">
+                        <div class="w-24 h-24 p-2 form-check form-check-inline">
                             <label class="radio-inline">
                                 <input type="radio" wire:click="{{ $wire_function }}" wire:model="rate" name="nota"
                                     value="4" id="checkbox" class="radio"
@@ -53,7 +53,7 @@
                             </label>
                         </div>
 
-                        <div class="form-check form-check-inline h-24 w-24 p-2">
+                        <div class="w-24 h-24 p-2 form-check form-check-inline">
                             <label class="radio-inline">
                                 <input type="radio" wire:click="{{ $wire_function }}" wire:model="rate"
                                     name="nota" value="5" id="checkbox" class="radio"
