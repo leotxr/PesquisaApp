@@ -15,7 +15,7 @@
 <script>
     $(document).ready(function() {
         setTimeout(function() {
-            window.location.href = "welcome";
+            window.location.href = "/";
         }, 3000);
     });
 </script>

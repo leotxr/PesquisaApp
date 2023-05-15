@@ -59,10 +59,25 @@
     </div>
 </div>
 <script>
-    let button = document.querySelector("#export_table");
+    function html_table_to_excel(type) {
+        var data = document.getElementById('table');
 
-    button.addEventListener("click", e => {
-        let table = document.querySelector("#table");
-        TableToExcel.convert(table);
+        var file = XLSX.utils.table_to_book(data, {
+            sheet: "sheet1"
+        });
+
+        XLSX.write(file, {
+            bookType: type,
+            bookSST: true,
+            type: 'base64'
+        });
+        const date = new Date();
+        XLSX.writeFile(file, 'relatorio_rm-tc_' + date.toDateString() + '.' + type);
+    }
+
+    const export_button = document.getElementById('export_table');
+
+    export_button.addEventListener('click', () => {
+        html_table_to_excel('xlsx');
     });
 </script>
