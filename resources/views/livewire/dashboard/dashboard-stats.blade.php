@@ -45,10 +45,10 @@
                 <x-slot name="description">{{today()->format('d/m/Y')}}</x-slot>
             </x-single-stat>
             <x-single-stat>
-                <x-slot name="title">Pesquisas Ultimo mês</x-slot>
+                <x-slot name="title">Pesquisas Este mês</x-slot>
                 <x-slot name="value">{{$month}}</x-slot>
                 <x-slot name="statistic"></x-slot>
-                <x-slot name="description">{{today()->submonths(1)->format('m/Y')}}</x-slot>
+                <x-slot name="description">{{today()->format('m/Y')}}</x-slot>
             </x-single-stat>
 
         </div>
