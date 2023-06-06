@@ -33,6 +33,7 @@ Route::get('teste', function () {
 
 
 Route::get('comentarios/exportar/', [RatingController::class, 'export'])->name('export.comments');
+Route::get('avaliacoes/exportar/', [RatingController::class, 'exportRatings'])->name('export.ratings');
 
 #Selects entre formularios da pesquisa para busca de dados no XClinic
 Route::post('GetDadosCliente', GetDadosClienteController::class)->name('GetDadosCliente');
