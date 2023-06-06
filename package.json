@@ -16,6 +16,7 @@
         "vite": "^3.0.0"
     },
     "dependencies": {
+        "apexcharts": "^3.40.0",
         "daisyui": "^3.0.3",
         "flowbite": "^1.6.5",
         "tw-elements": "^1.0.0-alpha12"

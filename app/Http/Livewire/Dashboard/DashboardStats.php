@@ -3,22 +3,19 @@
 namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
+use App\Models\Rating;
 
 class DashboardStats extends Component
 {
-    public $title;
-    public $value;
+    public $initial_date;
+    public $final_date;
     public $description;
 
-    public function mount($title, $value, $description)
-    {
-        $this->title = $title;
-        $this->value = $value;
-        $this->description = $description;
-    }
 
     public function render()
     {
-        return view('livewire.dashboard.dashboard-stats');
+        return view('livewire.dashboard.dashboard-stats', [
+            'today' => Rating::where('data_req', date('Y/m/d'))->count(),
+        'month' => Rating::whereMonth('data_req', date('m'))->count()]);
     }
 }

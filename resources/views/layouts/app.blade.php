@@ -21,7 +21,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
     
-
+    @livewireChartsScripts
 
 </head>
 
@@ -32,7 +32,7 @@
         <!-- Page Heading -->
         @if (isset($header))
             <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
             </header>
@@ -43,7 +43,7 @@
             <div>
                 {{ $slot }}
                 {{--
-                <div class="loader-wrapper bg-base-200 absolute w-full h-full grid place-items-center top-0 opacity-90">
+                <div class="absolute top-0 grid w-full h-full loader-wrapper bg-base-200 place-items-center opacity-90">
                     <span class="loader"></span>
                 </div>
                 --}}
