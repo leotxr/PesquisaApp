@@ -69,6 +69,6 @@ class SectorsReport extends Component
         ->whereBetween('data_req', [$this->initial_date, $this->final_date])
         ->whereIn('faturas.setor', $this->selectedSector)
         ->orderBy($this->sortField, $this->sortDirection)
-        ->get()] );
+        ->paginate(10)] );
     }
 }

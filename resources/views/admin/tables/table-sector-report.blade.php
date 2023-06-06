@@ -6,7 +6,7 @@
             </x-text-input>
         </div>
     </div>
-    
+    {{$data->links()}}
     <x-table>
         <x-slot name="head">
             <x-table.heading sortable wire:click="sortBy('ratings.data_req')"
@@ -66,6 +66,6 @@
             @endforeach
         </x-slot>
     </x-table>
-   
+    {{$data->links()}}
 
 </div>
