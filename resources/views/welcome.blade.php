@@ -14,7 +14,7 @@
                         <input autofocus minlength="6" maxlength="6" type="number"
                             placeholder="Insira o código de pesquisa" id="pacienteid" name="pacienteid"
                             class="w-full max-w-sm text-lg input input-bordered input-primary" />
-                        <button type="submit" class="mt-10 text-white bg-blue-800 border-none btn btn-wide">Buscar</button>
+                        <button type="submit" class="mt-10 text-white bg-blue-800 border-none hover:bg-blue-900 btn btn-wide">Buscar</button>
                     </div>
 
             </div>
