@@ -13,10 +13,10 @@
                     </div>
                     <p for="mask" class="text-3xl font-bold">{{ $label }}</p>
 
-                    <div class="flex justify-center gap-5 py-2 text-xl font-bold rating" id="rating" required>
+                    <div class="grid justify-center grid-cols-5 gap-5 py-2 text-xl font-bold rating" id="rating" required>
                         <div class="w-24 h-24 p-2 form-check form-check-inline">
                             <label class="radio-inline">
-                                <input type="radio" wire:click="{{ $wire_function }}" wire:model="rate" name="nota"
+                                <input type="radio" wire:click="{{ $wire_function }}_1" wire:model="rate" name="nota"
                                     value="1" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{ URL::asset('image/SMILE-01.png') }}" class="active:scale-125"></img>
                                 Péssimo
@@ -26,7 +26,7 @@
                         <div class="w-24 h-24 p-2 form-check form-check-inline">
                             <label class="radio-inline">
                                 <input type="radio" wire:click="{{ $wire_function }}" wire:model="rate" name="nota"
-                                    value="2" id="checkbox" class="radio"
+                                    value="2" id="checkbox_{{$wire_function}}_2" class="radio"
                                     style="opacity: 0; position: absolute;" />
                                 <img src="{{ URL::asset('image/SMILE-02.png') }}" class="active:scale-125"></img>
                                 Ruim
@@ -36,7 +36,7 @@
                         <div class="w-24 h-24 p-2 form-check form-check-inline">
                             <label class="radio-inline">
                                 <input type="radio" wire:click="{{ $wire_function }}" wire:model="rate" name="nota"
-                                    value="3" id="checkbox" class="radio"
+                                    value="3" id="checkbox_{{$wire_function}}_3" class="radio"
                                     style="opacity: 0; position: absolute;" />
                                 <img src="{{ URL::asset('image/SMILE-03.png') }}" class="active:scale-125"></img>
                                 Normal
@@ -46,7 +46,7 @@
                         <div class="w-24 h-24 p-2 form-check form-check-inline">
                             <label class="radio-inline">
                                 <input type="radio" wire:click="{{ $wire_function }}" wire:model="rate" name="nota"
-                                    value="4" id="checkbox" class="radio"
+                                    value="4" id="checkbox_{{$wire_function}}_4" class="radio"
                                     style="opacity: 0; position: absolute;" />
                                 <img src="{{ URL::asset('image/SMILE-04.png') }}" class="active:scale-125"></img>
                                 Bom
@@ -56,7 +56,7 @@
                         <div class="w-24 h-24 p-2 form-check form-check-inline">
                             <label class="radio-inline">
                                 <input type="radio" wire:click="{{ $wire_function }}" wire:model="rate"
-                                    name="nota" value="5" id="checkbox" class="radio"
+                                    name="nota" value="5" id="checkbox_{{$wire_function}}_5" class="radio"
                                     style="opacity: 0; position: absolute;" />
                                 <img src="{{ URL::asset('image/SMILE-05.png') }}" class="active:scale-125"></img>
                                 Ótimo
