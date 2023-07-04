@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GetDadosCliente;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GetDadosClienteController;
@@ -12,8 +13,8 @@ use App\Http\Controllers\StoreDadosController;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
 |
 */
 
@@ -30,6 +31,15 @@ Route::get('teste', function () {
     return view('teste');
 });
 
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 
 Route::get('comentarios/exportar/', [RatingController::class, 'export'])->name('export.comments');
@@ -43,15 +53,6 @@ Route::get('/AvaliarEmpresa/{id}', function () {
 Route::get('/fim', function () {
     return view('fim');
 });
-#Route::post('StoreDados', RatingController::class, 'store')->name('StoreDados');
-
-
-/*
-Route::any('ratingsHoje', 'App\Http\Controllers\RatingController@todayRatings')->name('ratingsHoje');
-Route::any('ratingsMes', 'App\Http\Controllers\RatingController@monthRatings')->name('ratingsMes');
-Route::any('ratingsAno', 'App\Http\Controllers\RatingController@yearRatings')->name('ratingsAno');
-Route::any('countRatings', 'App\Http\Controllers\RatingController@countRatings')->name('countRatings');
-*/
 
 #Relatorios
 Route::middleware('auth')->group(function () {
@@ -75,8 +76,5 @@ Route::middleware('auth')->group(function () {
     Route::any('resultSetores', 'App\Http\Controllers\FaturaController@relatorioSetores')->name('resultSetores');
     Route::any('resultComent', 'App\Http\Controllers\RatingController@relatorioComentario')->name('resultComent');
 });
-
-#Dashboard pós login
-Route::get('/dashboard', [RatingController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__ . '/auth.php';

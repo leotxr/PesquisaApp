@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-rating-layout>
     {{--RECEPCIONISTA--}}
     @livewire('forms.form-rating', ['rating' => $rating, 'fatura' => $fatura, 'text' => "Como você avalia o atendimento
     realizado pela recepcionista", 'label' => $rating->recep_name, 'wire_function' => "avaliaRecepcao"],
@@ -26,4 +26,4 @@
     @livewire('forms.form-rating', ['rating' => $rating, 'text' => "Como você avalia a", 'label' => "Ultrimagem",
     'wire_function' => "avaliaEmpresa"], key($rating->id))
 
-</x-guest-layout>
+</x-rating-layout>

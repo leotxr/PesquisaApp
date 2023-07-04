@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-rating-layout>
     <div class="min-h-screen hero bg-base-200">
         <div class="text-center hero-content">
             <div class="grid max-w-full justify-items-center">
@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-</x-guest-layout>
+</x-rating-layout>
 <script>
     $(document).ready(function() {
         setTimeout(function() {

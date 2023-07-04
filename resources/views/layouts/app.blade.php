@@ -9,60 +9,39 @@
     <title>{{ config('app.name', 'Pesquisa de satisfação') }}</title>
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <livewire:styles />
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <livewire:scripts />
-
     <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
-    
-    @livewireChartsScripts
 
+    @livewireChartsScripts
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
         @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
+        <header class="bg-white shadow dark:bg-gray-800">
+            <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                {{ $header }}
+            </div>
+        </header>
         @endif
 
         <!-- Page Content -->
         <main>
-            <div>
-                {{ $slot }}
-                {{--
-                <div class="absolute top-0 grid w-full h-full loader-wrapper bg-base-200 place-items-center opacity-90">
-                    <span class="loader"></span>
-                </div>
-                --}}
-            </div>
+            {{ $slot }}
         </main>
     </div>
 </body>
 
-
-
-
 </html>
-<script>
-    /*
-    $(window).on("load", function() {
-        $(".loader-wrapper").fadeOut("slow");
-    });
-    */
-    setTimeout(function() {
-        $('.alert').fadeOut('slow');
-    }, 5000);
-</script>

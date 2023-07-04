@@ -4,7 +4,7 @@
 ])
 
 <th {{$attributes->merge(['class' => 'px-6 py-4 font-medium text-gray-900 whitespace-nowrap
-    dark:text-white'])->only('class')}}
+   '])->only('class')}}
     >
     @unless ($sortable)
     <span class="text-xs font-medium leading-4 tracking-wider text-left uppercase text-cool-gray-500">

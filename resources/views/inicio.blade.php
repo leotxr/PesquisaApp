@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-rating-layout>
     <div class="min-h-screen hero" style="background-image: url(/image/logofundo.png);">
         <div class="bg-white hero-overlay bg-opacity-95"></div>
         <div class="text-center hero-content text-neutral-content">
@@ -16,4 +16,4 @@
         </div>
     </div>
 
-</x-guest-layout>
+</x-rating-layout>

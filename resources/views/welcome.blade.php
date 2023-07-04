@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-rating-layout>
     <div class="h-screen hero bg-base-200">
         <div class="text-center hero-content">
             <div class="max-w-full max-h-full">
@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-</x-guest-layout>
+</x-rating-layout>
 <script>
     
     /*

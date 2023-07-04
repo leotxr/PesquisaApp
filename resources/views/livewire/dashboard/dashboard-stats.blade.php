@@ -2,10 +2,10 @@
 
     <div class="mx-auto space-y-6 max-w-7xl sm:px-6 lg:px-8">
         {{--
-        <div class="p-2 bg-white shadow sm:p-4 dark:bg-gray-800 sm:rounded-lg">
+        <div class="p-2 bg-white shadow sm:p-4 sm:rounded-lg">
             <x-accordion>
                 <x-slot name="title">
-                    <div class="flex justify-start mx-2 font-bold text-gray-900 dark:text-white">
+                    <div class="flex justify-start mx-2 font-bold text-gray-900">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -19,14 +19,14 @@
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
                                 <label for="initial_date"
-                                    class="text-sm font-light text-gray-900 label dark:text-gray-50">Data
+                                    class="text-sm font-light text-gray-900 label">Data
                                     inicial</label>
                                 <input type="date" wire:model='initial_date' id="initial_date"
                                     class="border-gray-300 input">
                             </div>
                             <div>
                                 <label for="final_date"
-                                    class="text-sm font-light text-gray-900 label dark:text-gray-50">Data Final</label>
+                                    class="text-sm font-light text-gray-900 label">Data Final</label>
                                 <input type="date" wire:model='final_date' id="final_date"
                                     class="border-gray-300 input">
                             </div>
