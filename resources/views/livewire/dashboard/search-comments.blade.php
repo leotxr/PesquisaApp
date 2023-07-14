@@ -54,7 +54,7 @@
         </div>
     </form>
 
-    <div wire:loading>
+    <div wire:loading wire:target='render'>
         Aguarde. Carregando Comentários...
     </div>
 
