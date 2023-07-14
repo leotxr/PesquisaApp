@@ -16,11 +16,13 @@ class SearchComments extends Component
 
     public $initial_date;
     public $final_date;
-    public $comments;
     public $statuses;
     public $comment;
-    public $search_status;
+    public $search_status = [1, 2, 3];
     public $fill_color;
+    public Rating $rating;
+    public Status $status;
+    public $modalComment = false;
     
     public function mount()
     {
@@ -31,7 +33,7 @@ class SearchComments extends Component
 
     public function search()
     {
-        //dd($this->search_status);
+        /*
 
         $this->comments = Rating::with('relFaturas')
         ->join('faturas', 'faturas.rating_id', '=', 'ratings.id')
@@ -40,9 +42,27 @@ class SearchComments extends Component
         ->whereIn('ratings.status_comentario_id', $this->search_status)->get();
 
 
-        //dd($this->comments);
+       
         
        return view('livewire.dashboard.search-comments', ['comments' => $this->comments, 'statuses' => $this->statuses]);
+        */
+    }
+
+    public function setStatus(Rating $rating, Status $status)
+    {
+        $this->rating = $rating;
+        $this->status = $status;
+
+        $this->rating->status_comentario_id = $this->status->id;
+        $this->rating->save();
+
+       
+    }
+
+    public function showDetails(Rating $rating)
+    {
+        $this->modalComment = true;
+        $this->rating = $rating;
     }
 
     public function export() 
@@ -54,6 +74,10 @@ class SearchComments extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.search-comments');
+        return view('livewire.dashboard.search-comments', ['comments' => Rating::with('relFaturas')
+        ->join('faturas', 'faturas.rating_id', '=', 'ratings.id')
+        ->whereBetween('ratings.data_req', [$this->initial_date, $this->final_date])
+        ->whereNotNull('ratings.comentario') 
+        ->whereIn('ratings.status_comentario_id', $this->search_status)->get()]);
     }
 }

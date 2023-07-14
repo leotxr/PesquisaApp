@@ -36,7 +36,7 @@ class Rating extends Model
 
     public function relStatus()
     {
-        return $this->hasOne('App\Models\Rating', 'status_comentario_id', 'id');
+        return $this->hasOne('App\Models\Status', 'status_comentario_id', 'id');
     }
 
 

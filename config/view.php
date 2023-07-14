@@ -17,6 +17,10 @@ return [
         resource_path('views'),
     ],
 
+    'icons' => [
+        'style' => env('ICONS_STYLE', 'outline'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Compiled View Path
