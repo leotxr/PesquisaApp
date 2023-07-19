@@ -27,7 +27,7 @@ class SectorsReport extends Component
     public function mount()
     {
         
-        $this->setoresRadiologia = ['DENSITOMETRIA', 'MAMOGRAFIA', 'RAIOSX', 'MAPA', 'ELETROCARDIOGRAMA'];
+        $this->setoresRadiologia = ['DENSITOMETRIA', 'MAMOGRAFIA', 'RAIOSX', 'MAPA', 'ELETROCARDIOGRAMA', 'TC-ODONTOLOGICA', 'RX-ODONTOLOGICA'];
         $this->setoresRMTC = ['TOMOGRAFIA', 'RESSONANCIA'];
         $this->setoresUSG = ['ULTRA-SON', 'CARDIOLOGIA'];
 

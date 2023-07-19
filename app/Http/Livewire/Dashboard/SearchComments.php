@@ -30,24 +30,6 @@ class SearchComments extends Component
 
     }
 
-
-    public function search()
-    {
-        /*
-
-        $this->comments = Rating::with('relFaturas')
-        ->join('faturas', 'faturas.rating_id', '=', 'ratings.id')
-        ->whereBetween('ratings.data_req', [$this->initial_date, $this->final_date])
-        ->whereNotNull('ratings.comentario') 
-        ->whereIn('ratings.status_comentario_id', $this->search_status)->get();
-
-
-       
-        
-       return view('livewire.dashboard.search-comments', ['comments' => $this->comments, 'statuses' => $this->statuses]);
-        */
-    }
-
     public function setStatus(Rating $rating, Status $status)
     {
         $this->rating = $rating;
