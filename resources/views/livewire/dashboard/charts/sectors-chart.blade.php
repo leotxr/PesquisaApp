@@ -2,7 +2,7 @@
     <div class="px-4 py-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <h1>Avaliações por setores</h1>
         <span class="text-xs font-light text-gray-500">Exibe o total de avaliações para cada setor no mês atual.</span>
-        <div class="h-64">
+        <div class="h-56">
             <livewire:livewire-column-chart :column-chart-model="$columnChartSectors" />
         </div>
     </div>
