@@ -12,7 +12,7 @@
                                 <div class="text-3xl font-bold">
                                     {{$value}}
                                 </div>
-                                <div class="p-1 text-xs text-green-800 bg-green-200 rounded-md">
+                                <div class="p-1 text-xs rounded-md">
                                     {{$statistic}}
                                 </div>
                             </div>

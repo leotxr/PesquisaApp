@@ -18,15 +18,14 @@
                     <div class="max-w-xl">
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
-                                <label for="initial_date"
-                                    class="text-sm font-light text-gray-900 label">Data
+                                <label for="initial_date" class="text-sm font-light text-gray-900 label">Data
                                     inicial</label>
                                 <input type="date" wire:model='initial_date' id="initial_date"
                                     class="border-gray-300 input">
                             </div>
                             <div>
-                                <label for="final_date"
-                                    class="text-sm font-light text-gray-900 label">Data Final</label>
+                                <label for="final_date" class="text-sm font-light text-gray-900 label">Data
+                                    Final</label>
                                 <input type="date" wire:model='final_date' id="final_date"
                                     class="border-gray-300 input">
                             </div>
@@ -41,13 +40,25 @@
             <x-single-stat>
                 <x-slot name="title">Pesquisas Realizadas Hoje</x-slot>
                 <x-slot name="value">{{$today}}</x-slot>
-                <x-slot name="statistic"></x-slot>
+                <x-slot name="statistic">
+                    <span class="relative flex w-3 h-3">
+                        <span
+                            class="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                        <span class="relative inline-flex w-3 h-3 rounded-full bg-sky-500"></span>
+                    </span>
+                </x-slot>
                 <x-slot name="description">{{today()->format('d/m/Y')}}</x-slot>
             </x-single-stat>
             <x-single-stat>
                 <x-slot name="title">Pesquisas Este mês</x-slot>
                 <x-slot name="value">{{$month}}</x-slot>
-                <x-slot name="statistic"></x-slot>
+                <x-slot name="statistic">
+                    <span class="relative flex w-3 h-3">
+                        <span
+                            class="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                        <span class="relative inline-flex w-3 h-3 rounded-full bg-sky-500"></span>
+                    </span>
+                </x-slot>
                 <x-slot name="description">{{today()->format('m/Y')}}</x-slot>
             </x-single-stat>
 
