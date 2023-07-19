@@ -1,4 +1,10 @@
 <div>
+    <div class="h-1">
+        <div wire:loading>
+                <span class="absolute inline-flex w-24 h-1 animate-bar bg-sky-500"></span>
+        </div>
+    </div>
+    
     <form wire:submit.prevent='render'>
         <div class="grid content-center gap-8 p-4 text-center bg-white sm:grid-cols-4">
 
@@ -53,10 +59,6 @@
 
         </div>
     </form>
-
-    <div wire:loading wire:target='render'>
-        Aguarde. Carregando Comentários...
-    </div>
 
 
     <div>
