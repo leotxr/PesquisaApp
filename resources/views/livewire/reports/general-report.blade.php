@@ -305,7 +305,7 @@
         <x-stat>
             <x-slot name="title">
                 <x-stat.title>
-                    Resultado Clínica
+                    Resultado Técnicos
                 </x-stat.title>
             </x-slot>
             <x-slot name="content">
