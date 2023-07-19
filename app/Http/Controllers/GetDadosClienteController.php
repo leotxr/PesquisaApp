@@ -72,7 +72,7 @@ class GetDadosClienteController extends Controller
         ->get()->toArray();
 
         #CARREGA AS RECEPCIONISTAS DO USG
-        $sqlsrv2 = "Select DISTINCT O.DATA AS DATA, F.REQUISICAOID, SE.DESCRICAO, USU.NOME_SOCIAL AS USUARIO ";
+        $sqlsrv2 = "Select O.DATA AS DATA, F.REQUISICAOID, SE.DESCRICAO, USU.NOME_SOCIAL AS USUARIO ";
         $sqlsrv2 = $sqlsrv2 . "FROM RASOCORRENCIAS O ";
         $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN FATURA F ON O.PACIENTEID=F.PACIENTEID AND O.UNIDADEID=F.UNIDADEID AND O.FATURAID=F.FATURAID ";
         $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN USUARIOS USU ON (O.USERID = USU.USERID) ";
@@ -80,7 +80,8 @@ class GetDadosClienteController extends Controller
         $sqlsrv2 = $sqlsrv2 . "WHERE O.RASEVENTOID IN (38) AND SE.DESCRICAO IN ('ULTRA-SON', 'CARDIOLOGIA') AND F.REQUISICAOID = '$rating->requisicao_id' ";
         $usg = DB::connection('sqlsrv')->select($sqlsrv2);
 
-
+        $i = 0;
+        
         #PERCORRE O VETOR DE REQUISICOES PARA SALVAR CADA EXAME SEPARADAMENTE
         foreach ($requisicoes as $requisicao) {
             if($requisicao->SETOR == "RESSONANCIA" || $requisicao->SETOR == "TOMOGRAFIA")
@@ -101,9 +102,10 @@ class GetDadosClienteController extends Controller
                     'fatura_data' => $rating->data_req ?? NULL,
                     'livro_name' => $requisicao->MEDICO ?? NULL,
                     'tec_name' => $requisicao->TECNICO ?? NULL,
-                    'us_name' => $usg[0]->USUARIO ?? NULL,
+                    'us_name' => $usg[$i]->USUARIO ?? NULL,
                     'setor' => $requisicao->SETOR ?? NULL
                 ]);
+                $i++;
             }else
             {
                 Fatura::updateOrCreate([
