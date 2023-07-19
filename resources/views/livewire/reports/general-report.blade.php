@@ -49,302 +49,368 @@
         </div>
     </form>
 
+    <div class="h-1">
+        <div wire:loading>
+                <span class="absolute inline-flex w-24 h-1 animate-bar bg-sky-500"></span>
+        </div>
+    </div>
 
-    {{-- GERAL --}}
-    <x-stat>
-        <x-slot name="title">
-            <x-stat.title>
-                Total de Pesquisas Realizadas
-            </x-stat.title>
-        </x-slot>
-        <x-slot name="content">
-            <x-stat.content class="text-blue-600">
-                <x-slot name="icon" class="text-secondary">
-                    <x-icon name="heart" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Pesquisas realizadas
-                </x-slot>
-                {{$total->count()}}
-            </x-stat.content>
-        </x-slot>
-    </x-stat>
 
-    {{-- CLINICA --}}
-    <x-stat>
-        <x-slot name="title">
-            <x-stat.title>
-                Resultado Clínica
-            </x-stat.title>
-        </x-slot>
-        <x-slot name="content">
-            <x-stat.content class="text-pink-600">
-                <x-slot name="icon" class="text-secondary">
-                    <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Avaliações respondidas
-                </x-slot>
-                {{$total->whereNotNull('nota_clinica')->count()}}
-            </x-stat.content>
-            <x-stat.content class="text-blue-600">
-                <x-slot name="icon">
-                    <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Notas Positivas
-                </x-slot>
-                {{$total->where('nota_clinica', '>', 3)->count()}}
-            </x-stat.content>
-            <x-stat.content class="text-red-600">
-                <x-slot name="icon">
-                    <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Notas Negativas
-                </x-slot>
-                @if($total->count() > 0)
-                {{$total->where('nota_clinica', '<', 4)->count()}}
-                    <p class="text-xs">{{number_format($total->where('nota_clinica', '<', 4)->count() /
-                            $total->whereNotNull('nota_clinica')->count() *
-                            100, 2, '.', '')}}%</p>
-                    @endif
-            </x-stat.content>
-            <x-stat.content class="text-green-600">
-                <x-slot name="icon">
-                    <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Satisfação
-                </x-slot>
-                @if($total->count() > 0)
-                {{number_format($total->where('nota_clinica', '>', 3)->count() /
-                $total->whereNotNull('nota_clinica')->count() *
-                100, 2, '.', '')}}%
-                @endif
-            </x-stat.content>
-        </x-slot>
-    </x-stat>
-    {{-- USG --}}
-    <x-stat>
-        <x-slot name="title">
-            <x-stat.title>
-                Resultado Recepção USG
-            </x-stat.title>
-        </x-slot>
-        <x-slot name="content">
-            <x-stat.content class="text-pink-600">
-                <x-slot name="icon" class="text-secondary">
-                    <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Avaliações respondidas
-                </x-slot>
-                {{$usg->whereNotNull('us_rate')->count()}}
-            </x-stat.content>
-            <x-stat.content class="text-blue-600">
-                <x-slot name="icon">
-                    <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Notas Positivas
-                </x-slot>
-                {{$usg->where('us_rate', '>', 3)->count()}}
-            </x-stat.content>
-            <x-stat.content class="text-red-600">
-                <x-slot name="icon">
-                    <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Notas Negativas
-                </x-slot>
-                @if($usg->count() > 0)
-                {{$usg->where('us_rate', '<', 4)->count()}}
-                    <p class="text-xs">
-                        {{number_format($usg->where('us_rate', '<', 4)->count() / $usg->count() *
-                            100, 2, '.', '')}}%
-                    </p>
-                    @endif
-            </x-stat.content>
-            <x-stat.content class="text-green-600">
-                <x-slot name="icon">
-                    <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Satisfação
-                </x-slot>
-                @if($usg->count() > 0)
-                {{$usg->where('us_rate', '>', 3)->count() / $usg->whereNotNull('us_rate')->count() * 100}}%
-                @endif
-            </x-stat.content>
-        </x-slot>
-    </x-stat>
+    <div>
+        {{-- GERAL --}}
+        <x-stat>
+            <x-slot name="title">
+                <x-stat.title>
+                    Total de Pesquisas Realizadas
+                </x-stat.title>
+            </x-slot>
+            <x-slot name="content">
+                <x-stat.content class="text-blue-600">
+                    <x-slot name="icon" class="text-secondary">
+                        <x-icon name="heart" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Pesquisas realizadas
+                    </x-slot>
+                    {{$total->count()}}
+                </x-stat.content>
+            </x-slot>
+        </x-stat>
 
-    {{-- ENFERMAGEM --}}
-    <x-stat>
-        <x-slot name="title">
-            <x-stat.title>
-                Resultado Enfermagem
-            </x-stat.title>
-        </x-slot>
-        <x-slot name="content">
-            <x-stat.content class="text-pink-600">
-                <x-slot name="icon" class="text-secondary">
-                    <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Avaliações respondidas
-                </x-slot>
-                {{$enf->whereNotNull('enf_rate')->count()}}
-            </x-stat.content>
-            <x-stat.content class="text-blue-600">
-                <x-slot name="icon">
-                    <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Notas Positivas
-                </x-slot>
-                {{$enf->where('enf_rate', '>', 3)->count()}}
-            </x-stat.content>
-            <x-stat.content class="text-red-600">
-                <x-slot name="icon">
-                    <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Notas Negativas
-                </x-slot>
-                @if($enf->count() > 0)
-                {{$enf->where('enf_rate', '<', 4)->count()}}
-                    <p class="text-xs">
-                        {{number_format($enf->where('enf_rate', '<', 4)->count() / $enf->count() *
-                            100, 2, '.', '')}}%
-                    </p>
+        {{-- CLINICA --}}
+        <x-stat>
+            <x-slot name="title">
+                <x-stat.title>
+                    Resultado Clínica
+                </x-stat.title>
+            </x-slot>
+            <x-slot name="content">
+                <x-stat.content class="text-pink-600">
+                    <x-slot name="icon" class="text-secondary">
+                        <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Avaliações respondidas
+                    </x-slot>
+                    {{$total->whereNotNull('nota_clinica')->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-blue-600">
+                    <x-slot name="icon">
+                        <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Positivas
+                    </x-slot>
+                    {{$total->where('nota_clinica', '>', 3)->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-red-600">
+                    <x-slot name="icon">
+                        <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Negativas
+                    </x-slot>
+                    @if($total->count() > 0)
+                    {{$total->where('nota_clinica', '<', 4)->count()}}
+                        <p class="text-xs">{{number_format($total->where('nota_clinica', '<', 4)->count() /
+                                $total->whereNotNull('nota_clinica')->count() *
+                                100, 2, '.', '')}}%</p>
+                        @endif
+                </x-stat.content>
+                <x-stat.content class="text-green-600">
+                    <x-slot name="icon">
+                        <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Satisfação
+                    </x-slot>
+                    @if($total->count() > 0)
+                    {{number_format($total->where('nota_clinica', '>', 3)->count() /
+                    $total->whereNotNull('nota_clinica')->count() *
+                    100, 2, '.', '')}}%
                     @endif
-            </x-stat.content>
-            <x-stat.content class="text-green-600">
-                <x-slot name="icon">
-                    <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Satisfação
-                </x-slot>
-                @if($enf->count() > 0)
-                {{number_format($enf->where('enf_rate', '>', 3)->count() / $enf->whereNotNull('enf_rate')->count() *
-                100, 2, '.', '')}}%
-                @endif
-            </x-stat.content>
-        </x-slot>
-    </x-stat>
+                </x-stat.content>
+            </x-slot>
+        </x-stat>
 
-    {{-- TECNICOS --}}
-    <x-stat>
-        <x-slot name="title">
-            <x-stat.title>
-                Resultado Clínica
-            </x-stat.title>
-        </x-slot>
-        <x-slot name="content">
-            <x-stat.content class="text-pink-600">
-                <x-slot name="icon" class="text-secondary">
-                    <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Avaliações respondidas
-                </x-slot>
-                {{$tec->whereNotNull('livro_rate')->count()}}
-            </x-stat.content>
-            <x-stat.content class="text-blue-600">
-                <x-slot name="icon">
-                    <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Notas Positivas
-                </x-slot>
-                {{$tec->where('livro_rate', '>', 3)->count()}}
-            </x-stat.content>
-            <x-stat.content class="text-red-600">
-                <x-slot name="icon">
-                    <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Notas Negativas
-                </x-slot>
-                @if($tec->count() > 0)
-                {{$tec->where('livro_rate', '<', 4)->count()}}
-                    <p class="text-xs">
-                        {{number_format($tec->where('livro_rate', '<', 4)->count() / $tec->count() *
-                            100, 2, '.', '')}}%
-                    </p>
+        {{-- RECEPCAO --}}
+        <x-stat>
+            <x-slot name="title">
+                <x-stat.title>
+                    Resultado Recepção
+                </x-stat.title>
+            </x-slot>
+            <x-slot name="content">
+                <x-stat.content class="text-pink-600">
+                    <x-slot name="icon" class="text-secondary">
+                        <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Avaliações respondidas
+                    </x-slot>
+                    {{$recep->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-blue-600">
+                    <x-slot name="icon">
+                        <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Positivas
+                    </x-slot>
+                    {{$recep->where('recep_rate', '>', 3)->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-red-600">
+                    <x-slot name="icon">
+                        <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Negativas
+                    </x-slot>
+                    @if($recep->count() > 0)
+                    {{$recep->where('recep_rate', '<', 4)->count()}}
+                        <p class="text-xs">
+                            {{number_format($recep->where('recep_rate', '<', 4)->count() / $recep->count() *
+                                100, 2, '.', '')}}%
+                        </p>
+                        @endif
+                </x-stat.content>
+                <x-stat.content class="text-green-600">
+                    <x-slot name="icon">
+                        <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Satisfação
+                    </x-slot>
+                    @if($recep->count() > 0)
+                    {{number_format($recep->where('recep_rate', '>', 3)->count() / $recep->count() *
+                    100, 2, '.', '')}}%
                     @endif
-            </x-stat.content>
-            <x-stat.content class="text-green-600">
-                <x-slot name="icon">
-                    <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Satisfação
-                </x-slot>
-                @if($tec->count() > 0)
-                {{number_format($tec->where('livro_rate', '>', 3)->count() / $tec->count() *
-                100, 2, '.', '')}}%
-                @endif
-            </x-stat.content>
-        </x-slot>
-    </x-stat>
+                </x-stat.content>
+            </x-slot>
+        </x-stat>
 
-    {{-- MEDICOS --}}
-    <x-stat>
-        <x-slot name="title">
-            <x-stat.title>
-                Resultado Médicos
-            </x-stat.title>
-        </x-slot>
-        <x-slot name="content">
-            <x-stat.content class="text-pink-600">
-                <x-slot name="icon" class="text-secondary">
-                    <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Avaliações respondidas
-                </x-slot>
-                {{$med->whereNotNull('livro_rate')->count()}}
-            </x-stat.content>
-            <x-stat.content class="text-blue-600">
-                <x-slot name="icon">
-                    <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Notas Positivas
-                </x-slot>
-                {{$med->where('livro_rate', '>', 3)->count()}}
-            </x-stat.content>
-            <x-stat.content class="text-red-600">
-                <x-slot name="icon">
-                    <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Notas Negativas
-                </x-slot>
-                @if($med->count() > 0)
-                {{$med->where('livro_rate', '<', 4)->count()}}
-                    <p class="text-xs">
-                        {{number_format($med->where('livro_rate', '<', 4)->count() / $med->count() *
-                            100, 2, '.', '')}}%
-                    </p>
+        {{-- USG --}}
+        <x-stat>
+            <x-slot name="title">
+                <x-stat.title>
+                    Resultado Recepção USG
+                </x-stat.title>
+            </x-slot>
+            <x-slot name="content">
+                <x-stat.content class="text-pink-600">
+                    <x-slot name="icon" class="text-secondary">
+                        <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Avaliações respondidas
+                    </x-slot>
+                    {{$usg->whereNotNull('us_rate')->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-blue-600">
+                    <x-slot name="icon">
+                        <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Positivas
+                    </x-slot>
+                    {{$usg->where('us_rate', '>', 3)->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-red-600">
+                    <x-slot name="icon">
+                        <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Negativas
+                    </x-slot>
+                    @if($usg->count() > 0)
+                    {{$usg->where('us_rate', '<', 4)->count()}}
+                        <p class="text-xs">
+                            {{number_format($usg->where('us_rate', '<', 4)->count() / $usg->count() *
+                                100, 2, '.', '')}}%
+                        </p>
+                        @endif
+                </x-stat.content>
+                <x-stat.content class="text-green-600">
+                    <x-slot name="icon">
+                        <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Satisfação
+                    </x-slot>
+                    @if($usg->count() > 0)
+                    {{number_format($usg->where('us_rate', '>', 3)->count() / $usg->count() *
+                    100, 2, '.', '')}}%
                     @endif
-            </x-stat.content>
-            <x-stat.content class="text-green-600">
-                <x-slot name="icon">
-                    <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
-                </x-slot>
-                <x-slot name="description">
-                    Satisfação
-                </x-slot>
-                @if($med->count() > 0)
-                {{number_format($med->where('livro_rate', '>', 3)->count() / $med->count() *
-                100, 2, '.', '')}}%
-                @endif
-            </x-stat.content>
-        </x-slot>
-    </x-stat>
+                </x-stat.content>
+            </x-slot>
+        </x-stat>
+
+        {{-- ENFERMAGEM --}}
+        <x-stat>
+            <x-slot name="title">
+                <x-stat.title>
+                    Resultado Enfermagem
+                </x-stat.title>
+            </x-slot>
+            <x-slot name="content">
+                <x-stat.content class="text-pink-600">
+                    <x-slot name="icon" class="text-secondary">
+                        <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Avaliações respondidas
+                    </x-slot>
+                    {{$enf->whereNotNull('enf_rate')->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-blue-600">
+                    <x-slot name="icon">
+                        <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Positivas
+                    </x-slot>
+                    {{$enf->where('enf_rate', '>', 3)->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-red-600">
+                    <x-slot name="icon">
+                        <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Negativas
+                    </x-slot>
+                    @if($enf->count() > 0)
+                    {{$enf->where('enf_rate', '<', 4)->count()}}
+                        <p class="text-xs">
+                            {{number_format($enf->where('enf_rate', '<', 4)->count() / $enf->count() *
+                                100, 2, '.', '')}}%
+                        </p>
+                        @endif
+                </x-stat.content>
+                <x-stat.content class="text-green-600">
+                    <x-slot name="icon">
+                        <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Satisfação
+                    </x-slot>
+                    @if($enf->count() > 0)
+                    {{number_format($enf->where('enf_rate', '>', 3)->count() / $enf->whereNotNull('enf_rate')->count() *
+                    100, 2, '.', '')}}%
+                    @endif
+                </x-stat.content>
+            </x-slot>
+        </x-stat>
+
+        {{-- TECNICOS --}}
+        <x-stat>
+            <x-slot name="title">
+                <x-stat.title>
+                    Resultado Clínica
+                </x-stat.title>
+            </x-slot>
+            <x-slot name="content">
+                <x-stat.content class="text-pink-600">
+                    <x-slot name="icon" class="text-secondary">
+                        <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Avaliações respondidas
+                    </x-slot>
+                    {{$tec->whereNotNull('livro_rate')->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-blue-600">
+                    <x-slot name="icon">
+                        <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Positivas
+                    </x-slot>
+                    {{$tec->where('livro_rate', '>', 3)->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-red-600">
+                    <x-slot name="icon">
+                        <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Negativas
+                    </x-slot>
+                    @if($tec->count() > 0)
+                    {{$tec->where('livro_rate', '<', 4)->count()}}
+                        <p class="text-xs">
+                            {{number_format($tec->where('livro_rate', '<', 4)->count() / $tec->count() *
+                                100, 2, '.', '')}}%
+                        </p>
+                        @endif
+                </x-stat.content>
+                <x-stat.content class="text-green-600">
+                    <x-slot name="icon">
+                        <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Satisfação
+                    </x-slot>
+                    @if($tec->count() > 0)
+                    {{number_format($tec->where('livro_rate', '>', 3)->count() / $tec->count() *
+                    100, 2, '.', '')}}%
+                    @endif
+                </x-stat.content>
+            </x-slot>
+        </x-stat>
+
+        {{-- MEDICOS --}}
+        <x-stat>
+            <x-slot name="title">
+                <x-stat.title>
+                    Resultado Médicos
+                </x-stat.title>
+            </x-slot>
+            <x-slot name="content">
+                <x-stat.content class="text-pink-600">
+                    <x-slot name="icon" class="text-secondary">
+                        <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Avaliações respondidas
+                    </x-slot>
+                    {{$med->whereNotNull('livro_rate')->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-blue-600">
+                    <x-slot name="icon">
+                        <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Positivas
+                    </x-slot>
+                    {{$med->where('livro_rate', '>', 3)->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-red-600">
+                    <x-slot name="icon">
+                        <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Negativas
+                    </x-slot>
+                    @if($med->count() > 0)
+                    {{$med->where('livro_rate', '<', 4)->count()}}
+                        <p class="text-xs">
+                            {{number_format($med->where('livro_rate', '<', 4)->count() / $med->count() *
+                                100, 2, '.', '')}}%
+                        </p>
+                        @endif
+                </x-stat.content>
+                <x-stat.content class="text-green-600">
+                    <x-slot name="icon">
+                        <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Satisfação
+                    </x-slot>
+                    @if($med->count() > 0)
+                    {{number_format($med->where('livro_rate', '>', 3)->count() / $med->count() *
+                    100, 2, '.', '')}}%
+                    @endif
+                </x-stat.content>
+            </x-slot>
+        </x-stat>
+    </div>
 </div>

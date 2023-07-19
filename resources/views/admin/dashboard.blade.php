@@ -13,7 +13,7 @@
 
                         @livewire('dashboard.dashboard-stats')
                         @livewire('dashboard.charts.dashboard-chart')
-                       
+                        @livewire('dashboard.charts.sectors-chart')
 
                         
 
