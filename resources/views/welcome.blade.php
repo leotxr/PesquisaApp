@@ -1,5 +1,5 @@
 <x-rating-layout>
-    <div class="h-screen hero bg-base-200">
+    <div class="h-screen hero">
         <div class="text-center hero-content">
             <div class="max-w-full max-h-full">
                 <form method="POST" action="{{route('GetDadosCliente')}}">
@@ -14,15 +14,15 @@
                         <input autofocus minlength="6" maxlength="6" type="number"
                             placeholder="Insira o código de pesquisa" id="pacienteid" name="pacienteid"
                             class="w-full max-w-sm text-lg input input-bordered input-primary" />
-                        <button type="submit" class="mt-10 text-white bg-blue-800 border-none hover:bg-blue-900 btn btn-wide">Buscar</button>
+                        <button type="submit"
+                            class="mt-10 text-white border-none bg-primary hover:bg-blue-900 btn btn-wide">Buscar</button>
                     </div>
-
+                </form>
             </div>
         </div>
     </div>
 </x-rating-layout>
 <script>
-    
     /*
     $(document).ready(function() {
         setTimeout(function() {

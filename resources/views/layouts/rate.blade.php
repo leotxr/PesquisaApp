@@ -20,7 +20,7 @@
 
 <body class="sm:overflow-hidden">
 
-    <div class="font-sans antialiased text-gray-900 bg-base-200">
+    <div class="font-sans antialiased text-gray-900 bg-base-100">
 
         @if($errors->any())
         @foreach($errors->all() as $error)
@@ -55,16 +55,16 @@
         @endif
 
         <div>
-            <livewire:templates.top>
-                {{ $slot }}
-                <div class="absolute top-0 grid w-full h-full loader-wrapper bg-base-200 place-items-center opacity-95"
-                    style="display:none">
-                    <div class="flex items-center ">
-                        <span class="loader"></span>
+            <livewire:templates.top />
+            {{ $slot }}
+            <div class="absolute top-0 grid w-full h-full loader-wrapper bg-base-200 place-items-center opacity-95 "
+                style="display:none">
+                <div class="flex items-center ">
+                    <span class="loader"></span>
 
-                        <h1 class="p-2 text-xl font-bold">Aguarde, estamos carregando suas informações...</h1>
-                    </div>
+                    <h1 class="p-2 text-xl font-bold">Aguarde, estamos carregando suas informações...</h1>
                 </div>
+            </div>
 
         </div>
 

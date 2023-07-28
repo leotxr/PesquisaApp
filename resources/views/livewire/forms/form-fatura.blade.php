@@ -1,5 +1,5 @@
 @if($hideFatura != true )
-<div class="h-screen hero bg-base-200" id="div-3">
+<div class="h-screen hero" id="div-3">
     <div class="text-center hero-content">
         <div class="max-w-full">
             <div id="FATURA">

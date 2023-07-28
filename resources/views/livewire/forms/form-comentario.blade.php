@@ -1,5 +1,5 @@
 <div>
-    <div class="h-screen hero bg-base-200">
+    <div class="h-screen hero">
         <div class="justify-center text-center hero-content">
             <form wire:submit.prevent="enviaComentario"name="formUltri" id="formUltri" method="POST">
                 @csrf

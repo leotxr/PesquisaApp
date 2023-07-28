@@ -1,5 +1,5 @@
 @if ($hideForm != true)
-    <div wire:loading.remove class="h-screen hero bg-base-200" id="div-3">
+    <div wire:loading.remove class="h-screen hero" id="div-3">
         <div class="text-center hero-content">
             <div class="max-w-lg md:max-w-lg">
                 <div id="RATING">

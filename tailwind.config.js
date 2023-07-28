@@ -23,7 +23,29 @@ module.exports = {
 
     daisyui: {
         styled: true,
-        themes: ["light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"],
+        themes: [
+            {
+                ultrimagem: {
+        
+                  "primary": "#0a33a3",
+        
+                  "secondary": "#cdccff",
+        
+                  "accent": "#2849a3",
+        
+                  "neutral": "#252432",
+        
+                  "base-100": "#f2f2f2",
+        
+                  "info": "#1e4cd2",
+        
+                  "success": "#81dcb8",
+        
+                  "warning": "#f9b85d",
+        
+                  "error": "#c10015",
+                },
+              }],
         base: true,
         utils: true,
         logs: true,

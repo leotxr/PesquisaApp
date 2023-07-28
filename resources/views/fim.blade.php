@@ -1,5 +1,5 @@
 <x-rating-layout>
-    <div class="min-h-screen hero bg-base-200">
+    <div class="min-h-screen hero">
         <div class="text-center hero-content">
             <div class="grid max-w-full justify-items-center">
                 <img src="{{URL::asset('image/LOGO_ULTRIMAGEM.png')}}" class="py-8" width="350px" height="350px"></img>
