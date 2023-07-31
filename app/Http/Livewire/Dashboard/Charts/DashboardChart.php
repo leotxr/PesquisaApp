@@ -16,7 +16,7 @@ class DashboardChart extends Component
     public function render()
     {
         $dias_atras = [today()->subDays(4), today()->subDays(3), today()->subDays(2), today()->subDays(1), today()->subDays(0)];
-        $meses_atras = [today()->subMonths(4), today()->subMonths(3), today()->subMonths(2), today()->subMonths(1), today()->subMonths(0)];
+        $meses_atras = [today()->subMonthNoOverflow(4), today()->subMonthNoOverflow(3), today()->subMonthNoOverflow(2), today()->subMonthNoOverflow(1), today()->subMonthNoOverflow(0)];
         $colors = ['#f6ad55', '#fc8181', '#90cdf4', '#f6ad55', '#fc8181' ];
         //$valores = Term::whereIn('created_at', $dias_atras)->where('sector_id', 1)->get();
 
