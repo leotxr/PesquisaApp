@@ -12,16 +12,10 @@
                 <th scope="col" class="px-6 py-3">
                     Enfermeira/USG
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Status
-                </th>
             </tr>
         </thead>
         <tbody>
             @foreach($ratings as $rating)
-            @php
-            $status = $rating->find($rating->id)->relStatus;
-            @endphp
             <tr class="bg-white border-b">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900">
                     {{$rating->comentario}}
@@ -34,9 +28,6 @@
                 <td class="px-6 py-4">
                     @if($rating->setor == 'ULTRA-SON' || $rating->setor == 'CARDIOLOGIA' ) <b>
                         {{$rating->us_name}}</b> @else <b>{{$rating->enf_name}}</b> @endif
-                </td>
-                <td class="px-6 py-4">
-                    {{$status->name}}
                 </td>
             </tr>
             @endforeach

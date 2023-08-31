@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Status;
 
 class Rating extends Model
 {
@@ -36,7 +37,7 @@ class Rating extends Model
 
     public function relStatus()
     {
-        return $this->hasOne('App\Models\Status', 'status_comentario_id', 'id');
+        return $this->BelongsTo(Status::class, 'status_comentario_id', 'id');
     }
 
 
