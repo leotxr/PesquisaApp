@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Rating;
 use App\Models\Fatura;
 use App\Http\Controllers\RatingController;
+use Illuminate\Support\Arr;
 
 class GetDadosClienteController extends Controller
 {
@@ -44,12 +45,17 @@ class GetDadosClienteController extends Controller
             ->leftJoin('USUARIOS', 'USUARIOS.USERID', '=', 'FATURA.USUARIO')
             ->where('WORK_LIST.PACIENTEID', '=', $paciente_id)
             ->whereDate('FATURA.DATA', '=',  date('Y/m/d'))
-            ->select(DB::raw("DISTINCT FORMAT(FATURA.DATA, 'yyyy/MM/dd') AS DATA, WORK_LIST.REQUISICAOID AS REQUISICAO, FATURA.PACIENTEID AS PACIENTEID, PACIENTE.NOME AS PACIENTE, PROCEDIMENTOS.DESCRICAO AS PROCEDIMENTO, SETORES.DESCRICAO AS SETOR, MEDICOS.NOME_SOCIAL AS TECNICO, WORK_FILAS.FILANOME AS MEDICO, USUARIOS.NOME_SOCIAL AS RECEPCIONISTA, FATURA.REQUISICAOID"))
+            ->select(DB::raw("DISTINCT FORMAT(FATURA.DATA, 'yyyy/MM/dd') AS DATA, WORK_LIST.REQUISICAOID AS REQUISICAO, WORK_LIST.STATUSID, FATURA.PACIENTEID AS PACIENTEID, PACIENTE.NOME AS PACIENTE, PROCEDIMENTOS.DESCRICAO AS PROCEDIMENTO, SETORES.DESCRICAO AS SETOR, MEDICOS.NOME_SOCIAL AS TECNICO, WORK_FILAS.FILANOME AS MEDICO, USUARIOS.NOME_SOCIAL AS RECEPCIONISTA, FATURA.REQUISICAOID"))
             ->get()->toArray();
 
+        $statuses = Arr::pluck($requisicoes, 'STATUSID');
 
 
-            #ARMAZENA A PRIMEIRA REQUISICAO DA LISTA, POIS UMA REQUISICAO TEM VARIOS EXAMES
+        if (in_array("0", $statuses)) return redirect()->back()->withErrors('Realize todos os exames antes de avaliar o atendimento.');
+
+
+
+        #ARMAZENA A PRIMEIRA REQUISICAO DA LISTA, POIS UMA REQUISICAO TEM VARIOS EXAMES
         $rating = Rating::updateOrCreate([
             'pac_name' => $requisicoes[0]->PACIENTE ?? NULL,
             'pac_id' => $requisicoes[0]->PACIENTEID ?? NULL,
@@ -61,15 +67,15 @@ class GetDadosClienteController extends Controller
 
         #CARREGA AS ENFERMEIRAS NA REQUISICAO
         $rasocorrencias = DB::connection('sqlsrv')->table('RASOCORRENCIAS')
-        ->join('WORK_LIST', function ($join_paciente) {
-            $join_paciente->on('WORK_LIST.PACIENTEID', '=', 'RASOCORRENCIAS.PACIENTEID')
-                ->on('WORK_LIST.DATA', '=', 'RASOCORRENCIAS.DATA');
-        })
-        ->join('USUARIOS', 'USUARIOS.USERID', '=', 'RASOCORRENCIAS.USERID')
-        ->where('RASOCORRENCIAS.OBSERVACAO', '=', 'OBSERVAÇÃO')
-        ->where('WORK_LIST.REQUISICAOID', '=', $rating->requisicao_id)
-        ->select(DB::raw("TOP 1 USUARIOS.NOME_SOCIAL AS ENFERMEIRA"))
-        ->get()->toArray();
+            ->join('WORK_LIST', function ($join_paciente) {
+                $join_paciente->on('WORK_LIST.PACIENTEID', '=', 'RASOCORRENCIAS.PACIENTEID')
+                    ->on('WORK_LIST.DATA', '=', 'RASOCORRENCIAS.DATA');
+            })
+            ->join('USUARIOS', 'USUARIOS.USERID', '=', 'RASOCORRENCIAS.USERID')
+            ->where('RASOCORRENCIAS.OBSERVACAO', '=', 'OBSERVAÇÃO')
+            ->where('WORK_LIST.REQUISICAOID', '=', $rating->requisicao_id)
+            ->select(DB::raw("TOP 1 USUARIOS.NOME_SOCIAL AS ENFERMEIRA"))
+            ->get()->toArray();
 
         #CARREGA AS RECEPCIONISTAS DO USG
         $sqlsrv2 = "Select O.DATA AS DATA, F.REQUISICAOID, SE.DESCRICAO, USU.NOME_SOCIAL AS USUARIO ";
@@ -81,21 +87,20 @@ class GetDadosClienteController extends Controller
         $usg = DB::connection('sqlsrv')->select($sqlsrv2);
 
         $i = 0;
-        
+
         #PERCORRE O VETOR DE REQUISICOES PARA SALVAR CADA EXAME SEPARADAMENTE
         foreach ($requisicoes as $requisicao) {
-            if($requisicao->SETOR == "RESSONANCIA" || $requisicao->SETOR == "TOMOGRAFIA")
-            {
-            Fatura::updateOrCreate([
-                'rating_id' => $rating->id,
-                'requisicao_id' => $rating->requisicao_id ?? NULL,
-                'fatura_data' => $rating->data_req ?? NULL,
-                'livro_name' => $requisicao->MEDICO ?? NULL,
-                'tec_name' => $requisicao->TECNICO ?? NULL,
-                'enf_name' => $rasocorrencias[0]->ENFERMEIRA ?? NULL,
-                'setor' => $requisicao->SETOR ?? NULL
-            ]);
-            }elseif($requisicao->SETOR == "ULTRA-SON" || $requisicao->SETOR == "CARDIOLOGIA"){
+            if ($requisicao->SETOR == "RESSONANCIA" || $requisicao->SETOR == "TOMOGRAFIA") {
+                Fatura::updateOrCreate([
+                    'rating_id' => $rating->id,
+                    'requisicao_id' => $rating->requisicao_id ?? NULL,
+                    'fatura_data' => $rating->data_req ?? NULL,
+                    'livro_name' => $requisicao->MEDICO ?? NULL,
+                    'tec_name' => $requisicao->TECNICO ?? NULL,
+                    'enf_name' => $rasocorrencias[0]->ENFERMEIRA ?? NULL,
+                    'setor' => $requisicao->SETOR ?? NULL
+                ]);
+            } elseif ($requisicao->SETOR == "ULTRA-SON" || $requisicao->SETOR == "CARDIOLOGIA") {
                 Fatura::updateOrCreate([
                     'rating_id' => $rating->id,
                     'requisicao_id' => $rating->requisicao_id ?? NULL,
@@ -106,8 +111,7 @@ class GetDadosClienteController extends Controller
                     'setor' => $requisicao->SETOR ?? NULL
                 ]);
                 $i++;
-            }else
-            {
+            } else {
                 Fatura::updateOrCreate([
                     'rating_id' => $rating->id,
                     'requisicao_id' => $rating->requisicao_id ?? NULL,
