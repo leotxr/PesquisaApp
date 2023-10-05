@@ -23,16 +23,20 @@ module.exports = {
 
     daisyui: {
         styled: true,
-        themes: [
+        themes: [ 
             {
                 ultrimagem: {
         
-                  "primary": "#0a33a3",
+                  //"primary": "#0a33a3",
+
+                  "primary": "#ff8597",
         
                   "secondary": "#cdccff",
         
-                  "accent": "#2849a3",
-        
+                  //"accent": "#2849a3",
+                    
+                  "accent": "#f757d6",
+
                   "neutral": "#252432",
         
                   "base-100": "#f2f2f2",

@@ -20,7 +20,7 @@
 
 <body class="sm:overflow-hidden">
 
-    <div class="font-sans antialiased text-gray-900 bg-base-100">
+    <div class="font-sans antialiased text-gray-900 bg-pink-100">
 
         @if($errors->any())
         @foreach($errors->all() as $error)
