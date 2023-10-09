@@ -23,33 +23,57 @@ module.exports = {
 
     daisyui: {
         styled: true,
-        themes: [ 
+        themes: [
             {
                 ultrimagem: {
-        
-                  //"primary": "#0a33a3",
 
-                  "primary": "#ff8597",
-        
-                  "secondary": "#cdccff",
-        
-                  //"accent": "#2849a3",
-                    
-                  "accent": "#f757d6",
+                    "primary": "#0a33a3",
 
-                  "neutral": "#252432",
-        
-                  "base-100": "#f2f2f2",
-        
-                  "info": "#1e4cd2",
-        
-                  "success": "#81dcb8",
-        
-                  "warning": "#f9b85d",
-        
-                  "error": "#c10015",
+                    //"primary": "#ff8597",
+
+                    "secondary": "#cdccff",
+
+                    "accent": "#2849a3",
+
+                    //"accent": "#f757d6",
+
+                    "neutral": "#252432",
+
+                    "base-100": "#f2f2f2",
+
+                    "info": "#1e4cd2",
+
+                    "success": "#81dcb8",
+
+                    "warning": "#f9b85d",
+
+                    "error": "#c10015",
                 },
-              }],
+                outubro_rosa: {
+
+                    //"primary": "#0a33a3",
+
+                    "primary": "#ff8597",
+
+                    "secondary": "#cdccff",
+
+                    //"accent": "#2849a3",
+
+                    "accent": "#f757d6",
+
+                    "neutral": "#252432",
+
+                    "base-100": "#fdf2f8",
+
+                    "info": "#1e4cd2",
+
+                    "success": "#81dcb8",
+
+                    "warning": "#f9b85d",
+
+                    "error": "#c10015",
+                },
+            }],
         base: true,
         utils: true,
         logs: true,

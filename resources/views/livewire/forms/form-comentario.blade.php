@@ -11,7 +11,7 @@
                         placeholder="Comentários / Sugestões - (Opcional)"
                         class="justify-center w-full mb-10 text-xl textarea textarea-primary" autofocus></textarea>
                     <button type="submit" id="btn-end" href=""
-                        class="my-10 text-white bg-blue-800 border-none hover:bg-blue-900 btn btn-wide">Finalizar</button>
+                        class="my-10 text-white border-none bg-primary hover:bg-accent btn btn-wide">Finalizar</button>
                 </div>
             </form>
         </div>

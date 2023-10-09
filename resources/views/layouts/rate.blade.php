@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="outubro_rosa">
 
 <head>
     <meta charset="utf-8">
@@ -20,7 +20,7 @@
 
 <body class="sm:overflow-hidden">
 
-    <div class="font-sans antialiased text-gray-900 bg-pink-100">
+    <div class="font-sans antialiased text-gray-900 bg-base-100">
 
         @if($errors->any())
         @foreach($errors->all() as $error)
