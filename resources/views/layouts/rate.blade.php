@@ -74,12 +74,12 @@
 
 </html>
 <script>
-    /*
+    
     window.addEventListener("contextmenu", ev => {
         ev.preventDefault();
         return false;
     });
-*/
+
     $("form").submit(function(){
         $(".loader-wrapper").show();
     });
