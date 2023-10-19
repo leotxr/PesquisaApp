@@ -16,7 +16,7 @@
                     <div class="grid justify-center grid-cols-5 gap-5 py-2 text-xl font-bold rating" id="rating" required>
                         <div class="w-24 h-24 p-2 form-check form-check-inline">
                             <label class="radio-inline">
-                                <input type="radio" wire:click="{{ $wire_function }}_1" wire:model="rate" name="nota"
+                                <input type="radio" wire:click="{{ $wire_function }}" wire:model="rate" name="nota"
                                     value="1" class="radio" style="opacity: 0; position: absolute;" />
                                 <img src="{{ URL::asset('image/SMILE-01.png') }}" class="active:scale-125"></img>
                                 Péssimo
