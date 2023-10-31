@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="outubro_rosa">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="ultrimagem">
 
 <head>
     <meta charset="utf-8">
@@ -74,7 +74,7 @@
 
 </html>
 <script>
-    
+
     window.addEventListener("contextmenu", ev => {
         ev.preventDefault();
         return false;
@@ -87,5 +87,5 @@
     setTimeout(function() {
         $('.alert').fadeOut('slow');
     }, 5000);
-    
+
 </script>
