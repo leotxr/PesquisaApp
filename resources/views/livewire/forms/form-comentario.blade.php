@@ -1,6 +1,6 @@
 <div>
     <div class="h-screen hero" x-data="{}">
-        <div class="justify-center text-center hero-content" x-init="setTimeout(() => { $wire.enviaComentario() }, 90000)">
+        <div class="justify-center text-center hero-content" x-init="setTimeout(() => { $wire.enviaComentario() }, 300000)">
             <form wire:submit.prevent="enviaComentario"name="formUltri" id="formUltri" method="POST">
                 @csrf
                 <div class="max-w-full">
