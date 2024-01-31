@@ -29,4 +29,9 @@ class Fatura extends Model
     {
         return $this->belongsTo(Rating::class);
     }
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class)->withPivot('role', 'rate');
+    }
 }

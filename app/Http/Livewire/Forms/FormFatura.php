@@ -24,11 +24,20 @@ class FormFatura extends Component
         $this->fatura = $fatura;
     }
 
-    
+
     public function avaliaRadiologia()
     {
         Fatura::where('id', $this->fatura->id)
         ->update(['livro_rate' => $this->rate]);
+
+        if($this->fatura->tec_name != NULL)
+        {
+            $tec = $this->fatura->employees()->where('role', 'tec')->first();
+
+            $tec->pivot->rate = $this->rate;
+            $tec->pivot->save();
+        }
+
 
         $this->hideFatura = true;
     }

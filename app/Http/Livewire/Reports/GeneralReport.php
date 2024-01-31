@@ -10,7 +10,13 @@ class GeneralReport extends Component
 {
     public $initial_date;
     public $final_date;
+    public $query_total;
 
+
+    public function getReport()
+    {
+
+    }
     public function render()
     {
         return view('livewire.reports.general-report', [

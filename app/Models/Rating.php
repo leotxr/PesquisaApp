@@ -40,5 +40,10 @@ class Rating extends Model
         return $this->BelongsTo(Status::class, 'status_comentario_id', 'id');
     }
 
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class)->withPivot('role', 'rate');
+    }
+
 
 }

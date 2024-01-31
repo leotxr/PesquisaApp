@@ -2,7 +2,7 @@
 
     <div>
         <div class="mt-4">
-            <x-text-input type="text" wire:model='search' placeholder="Buscar avaliações...">
+            <x-text-input type="text" wire:model.live='search' placeholder="Buscar avaliações...">
             </x-text-input>
         </div>
     </div>

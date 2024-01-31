@@ -1,5 +1,5 @@
 <div class="text-center bg-white dark:bg-gray-900">
-    <form wire:submit.prevent='render'>
+    <form wire:submit='getReport'>
         @csrf
         <div class="p-2 my-2 bg-white shadow sm:p-4 sm:rounded-lg">
             <x-accordion>
@@ -10,7 +10,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
                         </svg>
-                        <h1>Filtros<h1>
+                        <h1>Filtros</h1>
                     </div>
                 </x-slot>
                 <x-slot name="content">
@@ -19,13 +19,13 @@
                             <div>
                                 <label for="initial_date" class="text-sm font-light text-gray-900 label">Data
                                     inicial</label>
-                                <input type="date" wire:model.defer='initial_date' id="initial_date"
+                                <input type="date" wire:model='initial_date' id="initial_date"
                                     class="border-gray-300 input">
                             </div>
                             <div>
                                 <label for="final_date" class="text-sm font-light text-gray-900 label">Data
                                     Final</label>
-                                <input type="date" wire:model.defer='final_date' id="final_date"
+                                <input type="date" wire:model='final_date' id="final_date"
                                     class="border-gray-300 input">
                             </div>
                             <div>
@@ -37,7 +37,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                                     </svg>
-                                    <span>Buscar<span>
+                                    <span>Buscar</span>
                                 </x-primary-button>
                             </div>
 
@@ -77,6 +77,9 @@
             </x-slot>
         </x-stat>
 
+        @php
+            $sectors = ['Cínica', 'Recepção', 'Recepção USG', 'Enfermagem', 'Técnicos', 'Médicos'];
+        @endphp
         {{-- CLINICA --}}
         <x-stat>
             <x-slot name="title">
@@ -96,23 +99,32 @@
                 </x-stat.content>
                 <x-stat.content class="text-blue-600">
                     <x-slot name="icon">
-                        <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                        <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
                     </x-slot>
                     <x-slot name="description">
                         Notas Positivas
                     </x-slot>
                     {{$total->where('nota_clinica', '>', 3)->count()}}
                 </x-stat.content>
+                <x-stat.content class="text-yellow-600">
+                    <x-slot name="icon">
+                        <x-icon name="emoji-neutral" class="inline-block w-7 h-7 text-yellow-600"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Regulares
+                    </x-slot>
+                    {{$total->where('nota_clinica', '=', 3)->count()}}
+                </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
-                        <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                        <x-icon name="emoji-sad" class="inline-block w-8 h-8 stroke-current"></x-icon>
                     </x-slot>
                     <x-slot name="description">
                         Notas Negativas
                     </x-slot>
                     @if($total->count() > 0)
-                    {{$total->where('nota_clinica', '<', 4)->count()}}
-                        <p class="text-xs">{{number_format($total->where('nota_clinica', '<', 4)->count() /
+                    {{$total->where('nota_clinica', '<', 3)->count()}}
+                        <p class="text-xs">{{number_format($total->where('nota_clinica', '<', 3)->count() /
                                 $total->whereNotNull('nota_clinica')->count() *
                                 100, 2, '.', '')}}%</p>
                         @endif

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GetDadosCliente;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GetDadosClienteController;
 use App\Http\Controllers\RatingController;
@@ -31,6 +32,37 @@ Route::get('teste', function () {
     return view('teste');
 });
 
+Route::get('sync', function () {
+
+
+
+    /*
+    $employees = \App\Models\Employee::all();
+    $count = collect();
+
+    foreach($employees as $employee)
+    {
+        if($employee->faturas->count() > 0)
+        $count[] = collect(['nome' => $employee->name, 'quant' => $employee->faturas->count(), 'setor' => $employee->faturas()->get()]);
+    }
+
+    //$pesquisas = \App\Models\Fatura::with('employees')->whereBetween('created_at', ['2024-01-18', '2024-01-19'])->wherePivot('employee_id', 23)->get();
+
+    dd($count);
+
+
+    foreach ($xclinic_users as $user) {
+
+        \App\Models\Employee::create(
+            ['name' => $user->NOME,
+                'description_name' => $user->NOME_SOCIAL ?? NULL,
+                'x_clinic_id' => $user->USERID],
+
+        );
+    }
+*/
+});
+
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -39,6 +71,25 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/configuracoes/funcionarios', function(){
+        return view('settings.employees.index');
+    })->name('settings.employees');
+
+    Route::prefix('/relatorios')->group(function(){
+        Route::get('/', function (){
+            return view('reports.index');
+        })->name('reports.index');
+
+        Route::get('/atendimento-usuario', function (){
+            return view('reports.report-by-employee');
+        })->name('reports.report-by-employee');
+
+        Route::get('/atendimento-setores', function (){
+            return view('reports.report-by-sector');
+        })->name('reports.report-by-sector');
+    });
+
 });
 
 

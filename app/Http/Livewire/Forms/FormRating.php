@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Forms;
 
+use App\Models\EmployeeFatura;
 use Livewire\Component;
 use Illuminate\Http\Request;
 use App\Models\Rating;
@@ -20,9 +21,10 @@ class FormRating extends Component
     public $fatura;
     public $showTextArea = false;
     public $comment;
+    public $photo;
 
 
-    public function mount($text, $label, $wire_function)
+    public function mount($text, $label, $wire_function, $photo)
     {
         /*
         $this->text = "Como você avalia o atendimento realizado pela recepcionista";
@@ -33,6 +35,7 @@ class FormRating extends Component
         $this->text = $text;
         $this->label = $label;
         $this->wire_function = $wire_function;
+        $this->photo = $photo;
     }
 
 
@@ -41,29 +44,46 @@ class FormRating extends Component
         Rating::where('id', $this->rating->id)
             ->update(['recep_rate' => $this->rate]);
 
+        $rec = $this->rating->employees()->where('role', 'rec')->first();
+
+        $rec->pivot->rate = $this->rate;
+        $rec->pivot->save();
 
         $this->hideForm = true;
 
         /*
             $this->text = "Como você avalia o técnico";
             $this->label = $this->faturas;
-            
+
             */
     }
 
 
     public function avaliaEnfermeira()
     {
-        Fatura::where('id', $this->fatura->id)
-            ->update(['enf_rate' => $this->rate]);
+        $this->fatura->enf_rate = $this->rate;
+        $this->fatura->save();
+        /*
+                Fatura::where('id', $this->fatura->id)
+                    ->update(['enf_rate' => $this->rate]);
+        */
+        $enf = $this->fatura->employees()->where('role', 'enf')->first();
+
+        $enf->pivot->rate = $this->rate;
+        $enf->pivot->save();
 
         $this->hideForm = true;
     }
 
     public function avaliaUSG()
     {
-        Fatura::where('id', $this->fatura->id)
-            ->update(['us_rate' => $this->rate]);
+        $this->fatura->us_rate = $this->rate;
+        $this->fatura->save();
+
+        $enf = $this->fatura->employees()->where('role', 'usg')->first();
+
+        $enf->pivot->rate = $this->rate;
+        $enf->pivot->save();
 
         $this->hideForm = true;
     }
@@ -80,7 +100,6 @@ class FormRating extends Component
         $this->hideForm = true;
         $this->showTextArea = true;
     }
-
 
 
     public function render()

@@ -2,58 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\Rating;
+use App\Models\Employee;
 use App\Models\Fatura;
-use App\Http\Controllers\RatingController;
+use App\Models\Rating;
+use App\Traits\XClinicTraits;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class GetDadosClienteController extends Controller
 {
+    use XClinicTraits;
+
+    public $paciente_id;
+
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function __invoke(Request $request)
     {
-        $data = date('Y/m/d');
-        #$datainicio = date('Y/m/d', strtotime('-7 days'));
-        $paciente_id = $request->pacienteid;
+        $this->paciente_id = $request->pacienteid;
 
         $request->validate([
-            'pacienteid' => 'required',
+            'pacienteid' => 'required|max:8',
         ]);
 
         #RETORNA UM ARRAY COM TODAS AS FATURAS(EXAMES) JUNTO AS REQUISICOES
-        $requisicoes = DB::connection('sqlsrv')->table('WORK_LIST')
-            ->leftJoin('FATURA', function ($join_fatura) {
-                $join_fatura->on('FATURA.FATURAID', '=', 'WORK_LIST.FATURAID')
-                    ->on('FATURA.UNIDADEID', '=', 'WORK_LIST.UNIDADEID')
-                    ->on('FATURA.PACIENTEID', '=', 'WORK_LIST.PACIENTEID');
-            })
-            ->leftJoin('PACIENTE', function ($join_paciente) {
-                $join_paciente->on('PACIENTE.PACIENTEID', '=', 'WORK_LIST.PACIENTEID')
-                    ->on('PACIENTE.UNIDADEID', '=', 'FATURA.UNIDADEPACIENTEID');
-            })
-            ->leftJoin('PROCEDIMENTOS', 'PROCEDIMENTOS.PROCID', '=', 'FATURA.PROCID')
-            ->leftJoin('SETORES', 'SETORES.SETORID', '=', 'FATURA.SETORID')
-            ->leftJoin('MEDICOS', 'MEDICOS.MEDICOID', '=', 'FATURA.TECNICOID')
-            ->leftJoin('WORK_FILAS', 'WORK_FILAS.FILAID', '=', 'WORK_LIST.FILAID')
-            ->leftJoin('USUARIOS', 'USUARIOS.USERID', '=', 'FATURA.USUARIO')
-            ->where('WORK_LIST.PACIENTEID', '=', $paciente_id)
-            ->whereDate('FATURA.DATA', '=',  date('Y/m/d'))
-            ->select(DB::raw("DISTINCT FORMAT(FATURA.DATA, 'yyyy/MM/dd') AS DATA, WORK_LIST.REQUISICAOID AS REQUISICAO, WORK_LIST.STATUSID, FATURA.PACIENTEID AS PACIENTEID, PACIENTE.NOME AS PACIENTE, PROCEDIMENTOS.DESCRICAO AS PROCEDIMENTO, SETORES.DESCRICAO AS SETOR, MEDICOS.NOME_SOCIAL AS TECNICO, WORK_FILAS.FILANOME AS MEDICO, USUARIOS.NOME_SOCIAL AS RECEPCIONISTA, FATURA.REQUISICAOID"))
-            ->get()->toArray();
+        $requisicoes = $this->getRequests($this->paciente_id);
+
+        if (!$requisicoes) {
+            $notification = array(
+                'message' => 'Código não encontrado! Verifique seu protocolo e tente novamente.',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
+
 
         $statuses = Arr::pluck($requisicoes, 'STATUSID');
 
-
-        if (in_array("0", $statuses)) return redirect()->back()->withErrors('Realize todos os exames antes de avaliar o atendimento.');
-
-
+        if (in_array("0", $statuses)) {
+            $notification = array(
+                'message' => 'Realize todos os exames antes de avaliar os atendimentos!',
+                'alert-type' => 'warning'
+            );
+            return redirect()->back()->with($notification);
+        }
 
         #ARMAZENA A PRIMEIRA REQUISICAO DA LISTA, POIS UMA REQUISICAO TEM VARIOS EXAMES
         $rating = Rating::updateOrCreate([
@@ -64,34 +61,24 @@ class GetDadosClienteController extends Controller
             'requisicao_id' => $requisicoes[0]->REQUISICAO ?? NULL
         ]);
 
+        if ($rating) {
+            $rec = Employee::where('x_clinic_id', $requisicoes[0]->RECEP_ID)->first();
+            $rating->employees()->sync([$rec->id => ['role' => 'rec']]);
+        }
+
 
         #CARREGA AS ENFERMEIRAS NA REQUISICAO
-        $rasocorrencias = DB::connection('sqlsrv')->table('RASOCORRENCIAS')
-            ->join('WORK_LIST', function ($join_paciente) {
-                $join_paciente->on('WORK_LIST.PACIENTEID', '=', 'RASOCORRENCIAS.PACIENTEID')
-                    ->on('WORK_LIST.DATA', '=', 'RASOCORRENCIAS.DATA');
-            })
-            ->join('USUARIOS', 'USUARIOS.USERID', '=', 'RASOCORRENCIAS.USERID')
-            ->where('RASOCORRENCIAS.OBSERVACAO', '=', 'OBSERVAÇÃO')
-            ->where('WORK_LIST.REQUISICAOID', '=', $rating->requisicao_id)
-            ->select(DB::raw("TOP 1 USUARIOS.NOME_SOCIAL AS ENFERMEIRA"))
-            ->get()->toArray();
+        $rasocorrencias = $this->getNurses($rating->requisicao_id);
 
         #CARREGA AS RECEPCIONISTAS DO USG
-        $sqlsrv2 = "Select O.DATA AS DATA, F.REQUISICAOID, SE.DESCRICAO, USU.NOME_SOCIAL AS USUARIO ";
-        $sqlsrv2 = $sqlsrv2 . "FROM RASOCORRENCIAS O ";
-        $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN FATURA F ON O.PACIENTEID=F.PACIENTEID AND O.UNIDADEID=F.UNIDADEID AND O.FATURAID=F.FATURAID ";
-        $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN USUARIOS USU ON (O.USERID = USU.USERID) ";
-        $sqlsrv2 = $sqlsrv2 . "LEFT OUTER JOIN SETORES SE ON (SE.SETORID = F.SETORID) ";
-        $sqlsrv2 = $sqlsrv2 . "WHERE O.RASEVENTOID IN (38) AND SE.DESCRICAO IN ('ULTRA-SON', 'CARDIOLOGIA') AND F.REQUISICAOID = '$rating->requisicao_id' ";
-        $usg = DB::connection('sqlsrv')->select($sqlsrv2);
+        //$usg = $this->getUSG($rating->requisicao_id);
 
         $i = 0;
 
         #PERCORRE O VETOR DE REQUISICOES PARA SALVAR CADA EXAME SEPARADAMENTE
-        foreach ($requisicoes as $requisicao) {
+        foreach ($requisicoes as $index => $requisicao ) {
             if ($requisicao->SETOR == "RESSONANCIA" || $requisicao->SETOR == "TOMOGRAFIA") {
-                Fatura::updateOrCreate([
+                $fat = Fatura::updateOrCreate([
                     'rating_id' => $rating->id,
                     'requisicao_id' => $rating->requisicao_id ?? NULL,
                     'fatura_data' => $rating->data_req ?? NULL,
@@ -100,19 +87,36 @@ class GetDadosClienteController extends Controller
                     'enf_name' => $rasocorrencias[0]->ENFERMEIRA ?? NULL,
                     'setor' => $requisicao->SETOR ?? NULL
                 ]);
+
+
+                $enf = Employee::where('x_clinic_id', $rasocorrencias[0]->ENF_ID)->first();
+                $tec = Employee::where('x_clinic_id', $requisicao->MED_ID)->first();
+
+                if ($enf && $tec)
+                    $fat->employees()->sync([$enf->id => ['role' => 'enf'], $tec->id => ['role' => 'tec']]);
+
+
             } elseif ($requisicao->SETOR == "ULTRA-SON" || $requisicao->SETOR == "CARDIOLOGIA") {
-                Fatura::updateOrCreate([
+                $usg = $this->getUSG($rating->requisicao_id, $requisicao->FATURA);
+                //dd($usg->USG_ID);
+                $fat = Fatura::updateOrCreate([
                     'rating_id' => $rating->id,
                     'requisicao_id' => $rating->requisicao_id ?? NULL,
                     'fatura_data' => $rating->data_req ?? NULL,
                     'livro_name' => $requisicao->MEDICO ?? NULL,
                     'tec_name' => $requisicao->TECNICO ?? NULL,
-                    'us_name' => $usg[$i]->USUARIO ?? NULL,
+                    'us_name' => $usg->USUARIO ?? NULL,
                     'setor' => $requisicao->SETOR ?? NULL
                 ]);
+                //dd($requisicoes);
+                $recep_usg = Employee::where('x_clinic_id', $usg->USG_ID)->first();
+
+                if ($recep_usg)
+                    $fat->employees()->sync([$recep_usg->id => ['role' => 'usg']]);
+
                 $i++;
             } else {
-                Fatura::updateOrCreate([
+                $fat = Fatura::updateOrCreate([
                     'rating_id' => $rating->id,
                     'requisicao_id' => $rating->requisicao_id ?? NULL,
                     'fatura_data' => $rating->data_req ?? NULL,
@@ -120,6 +124,10 @@ class GetDadosClienteController extends Controller
                     'tec_name' => $requisicao->TECNICO ?? NULL,
                     'setor' => $requisicao->SETOR ?? NULL
                 ]);
+                $tec = Employee::where('x_clinic_id', $requisicao->MED_ID)->first();
+
+                if ($tec)
+                    $fat->employees()->sync([$tec->id => ['role' => 'tec']]);
             }
         }
 
@@ -127,10 +135,15 @@ class GetDadosClienteController extends Controller
         $fatura = Fatura::where('rating_id', $rating->id)->get();
 
 
-
         if ($requisicoes)
             return view('rating', compact('rating', 'fatura'));
-        else
-            return redirect()->back()->withErrors('Código não encontrado! Verifique seu protocolo e tente novamente.');
+        else {
+            $notification = array(
+                'message' => 'Código não encontrado! Verifique seu protocolo e tente novamente.',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+
+        }
     }
 }

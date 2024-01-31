@@ -20,13 +20,13 @@
                             <div>
                                 <label for="initial_date" class="text-sm font-light text-gray-900 label">Data
                                     inicial</label>
-                                <input type="date" wire:model='initial_date' id="initial_date"
+                                <input type="date" wire:model.live='initial_date' id="initial_date"
                                     class="border-gray-300 input">
                             </div>
                             <div>
                                 <label for="final_date" class="text-sm font-light text-gray-900 label">Data
                                     Final</label>
-                                <input type="date" wire:model='final_date' id="final_date"
+                                <input type="date" wire:model.live='final_date' id="final_date"
                                     class="border-gray-300 input">
                             </div>
                         </div>

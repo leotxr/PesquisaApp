@@ -5,8 +5,7 @@
                 <form method="POST" action="{{route('GetDadosCliente')}}">
                     @csrf
                     <div class="grid max-w-full justify-items-center">
-                        <img src="{{URL::asset('image/LOGO_ULTRIMAGEM.png')}}" class="py-5" width="200px"
-                            height="200px"></img>
+                        <x-icon name="horizontal-logo" class="w-64 h-24 text-primary" fill="#0a33a3"></x-icon>
                         <h1 class="text-5xl font-bold">Seja bem-vindo!</h1>
                         <p class="py-6 text-xl">Para iniciar insira abaixo o <b>código de pesquisa de satisfação</b>
                             presente em

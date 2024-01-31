@@ -5,21 +5,21 @@
         </div>
     </div>
     
-    <form wire:submit.prevent='render'>
+    <form wire:submit='render'>
         <div class="grid content-center gap-8 p-4 text-center bg-white sm:grid-cols-4">
 
             <div>
                 <x-input-label for="date_1" class="label">
                     Data Inicial
                 </x-input-label>
-                <input wire:model.defer='initial_date' id="date_1" name="initial_date" type="date"
+                <input wire:model='initial_date' id="date_1" name="initial_date" type="date"
                     class="input input-bordered">
             </div>
             <div>
                 <x-input-label for="date_2" class="label">
                     Data Final
                 </x-input-label>
-                <input wire:model.defer='final_date' id="date_2" name="final_date" type="date"
+                <input wire:model='final_date' id="date_2" name="final_date" type="date"
                     class="input input-bordered">
             </div>
 
@@ -27,7 +27,7 @@
                 <x-input-label for="search_status" class="label">
                     Classificação
                 </x-input-label>
-                <select wire:model.defer='search_status' name="search_status" multiple size="3"
+                <select wire:model='search_status' name="search_status" multiple size="3"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     @foreach ($statuses as $status)
                     <option selected value="{{ $status->id }}">{{ $status->name }}</option>
@@ -142,7 +142,7 @@
 
     <div>
         @isset($rating)
-        <x-modal.dialog wire:model.defer="modalComment">
+        <x-modal.dialog wire:model="modalComment">
 
             <x-slot name="title">
                 Informações da avaliação #{{$rating->id}}
