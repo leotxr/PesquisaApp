@@ -67,8 +67,12 @@
                         <x-table.cell>{{$nurse->name}}</x-table.cell>
                         <x-table.cell>{{$nurse->count}}</x-table.cell>
                         <x-table.cell>{{$nurse->x_clinic_count}}</x-table.cell>
-                        <x-table.cell>{{number_format($nurse->count / $nurse->x_clinic_count *
-                                100, 2, '.', '')}}%</x-table.cell>
+                        <x-table.cell>@if($nurse->count > 0 && $nurse->x_clinic_count > 0)
+                                {{number_format($nurse->count / $nurse->x_clinic_count *
+                                                                100, 2, '.', '')}}%
+                            @else
+                                {{0}}%
+                            @endif</x-table.cell>
                     </x-table.row>
                 @endforeach
             </x-slot:body>
@@ -92,8 +96,12 @@
                         <x-table.cell>{{$tech->name}}</x-table.cell>
                         <x-table.cell>{{$tech->count}}</x-table.cell>
                         <x-table.cell>{{$tech->x_clinic_count}}</x-table.cell>
-                        <x-table.cell>{{number_format($tech->count / $tech->x_clinic_count *
-                                100, 2, '.', '')}}%</x-table.cell>
+                        <x-table.cell>@if($tech->count > 0 && $tech->x_clinic_count > 0)
+                                {{number_format($tech->count / $tech->x_clinic_count *
+                                                                100, 2, '.', '')}}%
+                            @else
+                                {{0}}%
+                            @endif</x-table.cell>
                     </x-table.row>
                 @endforeach
             </x-slot:body>
@@ -117,8 +125,12 @@
                         <x-table.cell>{{$rec->name}}</x-table.cell>
                         <x-table.cell>{{$rec->count}}</x-table.cell>
                         <x-table.cell>{{$rec->x_clinic_count}}</x-table.cell>
-                        <x-table.cell>{{number_format($rec->count / $rec->x_clinic_count *
-                                100, 2, '.', '')}}%</x-table.cell>
+                        <x-table.cell>@if($rec->count > 0 && $rec->x_clinic_count > 0)
+                                {{number_format($rec->count / $rec->x_clinic_count *
+                                                                100, 2, '.', '')}}%
+                            @else
+                                {{0}}%
+                            @endif</x-table.cell>
                     </x-table.row>
                 @endforeach
             </x-slot:body>
@@ -142,8 +154,12 @@
                         <x-table.cell>{{$rec->name}}</x-table.cell>
                         <x-table.cell>{{$rec->count}}</x-table.cell>
                         <x-table.cell>{{$rec->x_clinic_count}}</x-table.cell>
-                        <x-table.cell>{{number_format($rec->count / $rec->x_clinic_count *
-                                100, 2, '.', '')}}%</x-table.cell>
+                        <x-table.cell>@if($rec->count > 0 && $rec->x_clinic_count > 0)
+                                {{number_format($rec->count / $rec->x_clinic_count *
+                                                                100, 2, '.', '')}}%
+                            @else
+                                {{0}}%
+                            @endif</x-table.cell>
                     </x-table.row>
                 @endforeach
             </x-slot:body>

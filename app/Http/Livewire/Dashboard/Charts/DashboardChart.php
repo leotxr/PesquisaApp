@@ -17,6 +17,7 @@ class DashboardChart extends Component
     {
         $dias_atras = [today()->subDays(4), today()->subDays(3), today()->subDays(2), today()->subDays(1), today()->subDays(0)];
         $meses_atras = [today()->subMonthNoOverflow(4), today()->subMonthNoOverflow(3), today()->subMonthNoOverflow(2), today()->subMonthNoOverflow(1), today()->subMonthNoOverflow(0)];
+
         $colors = ['#f6ad55', '#fc8181', '#90cdf4', '#f6ad55', '#fc8181' ];
         //$valores = Term::whereIn('created_at', $dias_atras)->where('sector_id', 1)->get();
 
@@ -40,9 +41,9 @@ class DashboardChart extends Component
             }
             foreach($meses_atras as $mes)
             {
-                $columnChartMonths = $chartMonths->addColumn($mes->format('m/Y'), Rating::whereMonth('created_at', $mes)->count(), '#808080');
+                $columnChartMonths = $chartMonths->addColumn($mes->format('m/Y'), Rating::whereMonth('created_at', $mes->format('m'))->whereYear('created_at', $mes->format('Y'))->count(), '#808080');
             }
-            
+
 
             $this->firstRun = false;
 

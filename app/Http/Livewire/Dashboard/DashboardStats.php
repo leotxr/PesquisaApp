@@ -16,6 +16,6 @@ class DashboardStats extends Component
     {
         return view('livewire.dashboard.dashboard-stats', [
             'today' => Rating::where('data_req', date('Y/m/d'))->count(),
-        'month' => Rating::whereMonth('data_req', date('m'))->count()]);
+        'month' => Rating::whereMonth('data_req', date('m'))->whereYear('data_req', date('Y'))->count()]);
     }
 }
