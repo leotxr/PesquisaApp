@@ -23,13 +23,13 @@ class SectorReport extends Component
         //    ->select(DB::raw('COUNT(DISTINCT (FATURA.REQUISICAOID)) AS TOTAL'))->first());
     }
 
-    public function getFaturas($start_date, $end_date)
+    public function getFaturas($start_date, $end_date, $sector)
     {
        return DB::connection('sqlsrv')->table('FATURA')
             ->whereBetween('DATA', [$start_date, $end_date])
             ->join('SETORES', 'SETORES.SETORID', '=', 'FATURA.SETORID')
             ->whereNotIn('SETORES.SETORID', [6, 8, 11, 12, 15, 16, 17, 19])
-            ->where('SETORES.DESCRICAO', '=', 'RAIOSX')
+            ->where('SETORES.DESCRICAO', '=', $sector)
             ->select(DB::raw('COUNT(DISTINCT (FATURA.REQUISICAOID)) AS TOTAL'))->first();
     }
     public function search()
@@ -43,7 +43,7 @@ class SectorReport extends Component
 
         foreach ($arr as $a) {
             $count = Fatura::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->where('setor', $a)->count();
-            $this->faturas[] = (object)['setor' => $a, 'total' => $count, 'x_clinic' => $this->getFaturas($this->start_date, $this->end_date)->TOTAL];
+            $this->faturas[] = (object)['setor' => $a, 'total' => $count, 'x_clinic' => $this->getFaturas($this->start_date, $this->end_date, $a)->TOTAL];
         }
 
 
