@@ -36,29 +36,16 @@
             </div>
 
             <div class="p-4">
-                <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center"
-                        type="button">Exportar
-                    <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none"
-                         stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <!-- Dropdown menu -->
-                <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                    <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
-                        <li>
-                            <button wire:click='export' class="block w-full px-4 py-2 hover:bg-gray-100">Excel</button>
-                        </li>
-                        <li>
-                            <button wire:click='export' class="block w-full px-4 py-2 hover:bg-gray-100">PDF</button>
-                        </li>
-                    </ul>
-                </div>
-                <button type="submit"
-                        class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
-                    Buscar
-                </button>
+
+                <x-secondary-button type="button" wire:click="export">
+                    <x-icon name="table" class="w-5 h-5"></x-icon>
+                    <span>Exportar</span>
+                </x-secondary-button>
+
+                <x-primary-button type="submit">
+                    <x-icon name="refresh" class="w-5 h-5"></x-icon>
+                    <span>Buscar</span>
+                </x-primary-button>
             </div>
 
         </div>
