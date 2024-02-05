@@ -10,7 +10,7 @@ use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CommentsExport;
 
-class SearchComments extends Component 
+class SearchComments extends Component
 {
     use WithPagination;
 
@@ -18,12 +18,13 @@ class SearchComments extends Component
     public $final_date;
     public $statuses;
     public $comment;
+    //public $comments = [];
     public $search_status = [1, 2, 3];
     public $fill_color;
     public Rating $rating;
     public Status $status;
     public $modalComment = false;
-    
+
     public function mount()
     {
         $this->statuses = Status::all();
@@ -38,7 +39,9 @@ class SearchComments extends Component
         $this->rating->status_comentario_id = $this->status->id;
         $this->rating->save();
 
-       
+        $this->dispatch('comment-updated');
+
+
     }
 
     public function showDetails(Rating $rating)
@@ -47,7 +50,12 @@ class SearchComments extends Component
         $this->rating = $rating;
     }
 
-    public function export() 
+    public function search()
+    {
+        $this->render();
+    }
+
+    public function export()
     {
         $range = ['initial_date'=>$this->initial_date, 'final_date'=>$this->final_date, 'search_status'=>$this->search_status];
         return Excel::download(new CommentsExport($range), 'comentarios.xlsx');
@@ -57,9 +65,9 @@ class SearchComments extends Component
     public function render()
     {
         return view('livewire.dashboard.search-comments', ['comments' => Rating::with('relFaturas')
-        ->join('faturas', 'faturas.rating_id', '=', 'ratings.id')
-        ->whereBetween('ratings.data_req', [$this->initial_date, $this->final_date])
-        ->whereNotNull('ratings.comentario') 
-        ->whereIn('ratings.status_comentario_id', $this->search_status)->get()]);
+            ->join('faturas', 'faturas.rating_id', '=', 'ratings.id')
+            ->whereBetween('ratings.data_req', [$this->initial_date, $this->final_date])
+            ->whereNotNull('ratings.comentario')
+            ->whereIn('ratings.status_comentario_id', $this->search_status)->get()]);
     }
 }

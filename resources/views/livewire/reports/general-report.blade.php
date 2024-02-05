@@ -188,9 +188,9 @@
                         Notas Negativas
                     </x-slot>
                     @if($recep->count() > 0)
-                    {{$recep->where('recep_rate', '<', 4)->count()}}
+                    {{$recep->where('recep_rate', '<', 3)->count()}}
                         <p class="text-xs">
-                            {{number_format($recep->where('recep_rate', '<', 4)->count() / $recep->count() *
+                            {{number_format($recep->where('recep_rate', '<', 3)->count() / $recep->count() *
                                 100, 2, '.', '')}}%
                         </p>
                         @endif
@@ -253,9 +253,9 @@
                         Notas Negativas
                     </x-slot>
                     @if($usg->count() > 0)
-                    {{$usg->where('us_rate', '<', 4)->count()}}
+                    {{$usg->where('us_rate', '<', 3)->count()}}
                         <p class="text-xs">
-                            {{number_format($usg->where('us_rate', '<', 4)->count() / $usg->count() *
+                            {{number_format($usg->where('us_rate', '<', 3)->count() / $usg->count() *
                                 100, 2, '.', '')}}%
                         </p>
                         @endif
@@ -318,9 +318,9 @@
                         Notas Negativas
                     </x-slot>
                     @if($enf->count() > 0)
-                    {{$enf->where('enf_rate', '<', 4)->count()}}
+                    {{$enf->where('enf_rate', '<', 3)->count()}}
                         <p class="text-xs">
-                            {{number_format($enf->where('enf_rate', '<', 4)->count() / $enf->count() *
+                            {{number_format($enf->where('enf_rate', '<', 3)->count() / $enf->count() *
                                 100, 2, '.', '')}}%
                         </p>
                         @endif
@@ -383,9 +383,9 @@
                         Notas Negativas
                     </x-slot>
                     @if($tec->count() > 0)
-                    {{$tec->where('livro_rate', '<', 4)->count()}}
+                    {{$tec->where('livro_rate', '<', 3)->count()}}
                         <p class="text-xs">
-                            {{number_format($tec->where('livro_rate', '<', 4)->count() / $tec->count() *
+                            {{number_format($tec->where('livro_rate', '<', 3)->count() / $tec->count() *
                                 100, 2, '.', '')}}%
                         </p>
                         @endif
@@ -448,9 +448,9 @@
                         Notas Negativas
                     </x-slot>
                     @if($med->count() > 0)
-                    {{$med->where('livro_rate', '<', 4)->count()}}
+                    {{$med->where('livro_rate', '<', 3)->count()}}
                         <p class="text-xs">
-                            {{number_format($med->where('livro_rate', '<', 4)->count() / $med->count() *
+                            {{number_format($med->where('livro_rate', '<', 3)->count() / $med->count() *
                                 100, 2, '.', '')}}%
                         </p>
                         @endif
