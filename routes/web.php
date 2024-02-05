@@ -88,6 +88,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/atendimento-setores', function (){
             return view('reports.report-by-sector');
         })->name('reports.report-by-sector');
+
+        Route::get('/avaliacao-por-setores', function (){
+            return view('reports.ratings-by-sector');
+        })->name('reports.ratings-by-sector');
     });
 
 });

@@ -28,7 +28,7 @@ trait XClinicTraits
             ->get()->toArray();
     }
 
-    public function getNurses($requisicao_id)
+    public function getNurses($requisicao_id, $fatura_id)
     {
         return DB::connection('sqlsrv')->table('RASOCORRENCIAS')
             ->join('WORK_LIST', function ($join_paciente) {
@@ -38,6 +38,7 @@ trait XClinicTraits
             ->join('USUARIOS', 'USUARIOS.USERID', '=', 'RASOCORRENCIAS.USERID')
             ->where('RASOCORRENCIAS.RASEVENTOID', '=', 250003)
             ->where('WORK_LIST.REQUISICAOID', '=', $requisicao_id)
+            ->where('WORK_LIST.FATURAID', '=', $fatura_id)
             ->select(DB::raw("TOP 1 USUARIOS.NOME_SOCIAL AS ENFERMEIRA, USUARIOS.USERID AS ENF_ID"))
             ->get()->toArray();
     }

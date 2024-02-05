@@ -13,7 +13,7 @@ class SectorsReport extends Component
     use WithPagination;
 
     public $sortField = 'ratings.data_req';
-    public $sortDirection = 'desc';
+    public $sortDirection = 'DESC';
     public $search = '';
     public $setoresUSG = [];
     public $setoresRadiologia = [];
@@ -26,7 +26,7 @@ class SectorsReport extends Component
 
     public function mount()
     {
-        
+
         $this->setoresRadiologia = ['DENSITOMETRIA', 'MAMOGRAFIA', 'RAIOSX', 'MAPA', 'ELETROCARDIOGRAMA', 'TC-ODONTOLOGICA', 'RX-ODONTOLOGICA'];
         $this->setoresRMTC = ['TOMOGRAFIA', 'RESSONANCIA'];
         $this->setoresUSG = ['ULTRA-SON', 'CARDIOLOGIA'];
@@ -52,10 +52,10 @@ class SectorsReport extends Component
         $this->sortField = $field;
     }
 
-    public function export() 
+    public function export()
     {
-        $range = ['initial_date'=>$this->initial_date, 
-        'final_date'=>$this->final_date, 
+        $range = ['initial_date'=>$this->initial_date,
+        'final_date'=>$this->final_date,
         'selectedSector'=>$this->selectedSector,
         'sortField'=>$this->sortField,
         'sortDirection' => $this->sortDirection];
@@ -64,7 +64,7 @@ class SectorsReport extends Component
 
     public function render()
     {
-        return view('livewire.reports.sectors-report', 
+        return view('livewire.reports.sectors-report',
         ['data' => Rating::join('faturas', 'faturas.rating_id', '=', 'ratings.id')
         ->whereBetween('data_req', [$this->initial_date, $this->final_date])
         ->whereIn('faturas.setor', $this->selectedSector)

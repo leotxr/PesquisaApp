@@ -67,34 +67,33 @@ class GetDadosClienteController extends Controller
         }
 
 
-        #CARREGA AS ENFERMEIRAS NA REQUISICAO
-        $rasocorrencias = $this->getNurses($rating->requisicao_id);
-
         #CARREGA AS RECEPCIONISTAS DO USG
         //$usg = $this->getUSG($rating->requisicao_id);
 
         $i = 0;
 
         #PERCORRE O VETOR DE REQUISICOES PARA SALVAR CADA EXAME SEPARADAMENTE
-        foreach ($requisicoes as $index => $requisicao ) {
+        foreach ($requisicoes as $index => $requisicao) {
             if ($requisicao->SETOR == "RESSONANCIA" || $requisicao->SETOR == "TOMOGRAFIA") {
-                $fat = Fatura::updateOrCreate([
-                    'rating_id' => $rating->id,
-                    'requisicao_id' => $rating->requisicao_id ?? NULL,
-                    'fatura_data' => $rating->data_req ?? NULL,
-                    'livro_name' => $requisicao->MEDICO ?? NULL,
-                    'tec_name' => $requisicao->TECNICO ?? NULL,
-                    'enf_name' => $rasocorrencias[0]->ENFERMEIRA ?? NULL,
-                    'setor' => $requisicao->SETOR ?? NULL
-                ]);
+                #CARREGA AS ENFERMEIRAS NA REQUISICAO
+                $rasocorrencias = $this->getNurses($rating->requisicao_id, $requisicao->FATURA);
 
+                if ($rasocorrencias) {
+                    $fat = Fatura::updateOrCreate([
+                        'rating_id' => $rating->id,
+                        'requisicao_id' => $rating->requisicao_id ?? NULL,
+                        'fatura_data' => $rating->data_req ?? NULL,
+                        'livro_name' => $requisicao->MEDICO ?? NULL,
+                        'tec_name' => $requisicao->TECNICO ?? NULL,
+                        'enf_name' => $rasocorrencias[0]->ENFERMEIRA ?? NULL,
+                        'setor' => $requisicao->SETOR ?? NULL
+                    ]);
 
-                $enf = Employee::where('x_clinic_id', $rasocorrencias[0]->ENF_ID)->first();
-                $tec = Employee::where('x_clinic_id', $requisicao->MED_ID)->first();
+                    $enf = Employee::where('x_clinic_id', $rasocorrencias[0]->ENF_ID)->first();
+                    $tec = Employee::where('x_clinic_id', $requisicao->MED_ID)->first();
 
-                if ($enf && $tec)
                     $fat->employees()->sync([$enf->id => ['role' => 'enf'], $tec->id => ['role' => 'tec']]);
-
+                }
 
             } elseif ($requisicao->SETOR == "ULTRA-SON" || $requisicao->SETOR == "CARDIOLOGIA") {
                 $usg = $this->getUSG($rating->requisicao_id, $requisicao->FATURA);

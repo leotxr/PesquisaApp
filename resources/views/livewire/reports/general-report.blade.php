@@ -99,7 +99,7 @@
                 </x-stat.content>
                 <x-stat.content class="text-blue-600">
                     <x-slot name="icon">
-                        <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                        <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
                     </x-slot>
                     <x-slot name="description">
                         Notas Positivas
@@ -117,7 +117,7 @@
                 </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
-                        <x-icon name="emoji-sad" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                        <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
                     </x-slot>
                     <x-slot name="description">
                         Notas Negativas
@@ -170,6 +170,15 @@
                         Notas Positivas
                     </x-slot>
                     {{$recep->where('recep_rate', '>', 3)->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-yellow-600">
+                    <x-slot name="icon">
+                        <x-icon name="emoji-neutral" class="inline-block w-7 h-7 text-yellow-600"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Regulares
+                    </x-slot>
+                    {{$recep->where('recep_rate', '=', 3)->count()}}
                 </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
@@ -227,6 +236,15 @@
                     </x-slot>
                     {{$usg->where('us_rate', '>', 3)->count()}}
                 </x-stat.content>
+                <x-stat.content class="text-yellow-600">
+                    <x-slot name="icon">
+                        <x-icon name="emoji-neutral" class="inline-block w-7 h-7 text-yellow-600"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Regulares
+                    </x-slot>
+                    {{$usg->where('us_rate', '=', 3)->count()}}
+                </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
                         <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
@@ -283,6 +301,15 @@
                     </x-slot>
                     {{$enf->where('enf_rate', '>', 3)->count()}}
                 </x-stat.content>
+                <x-stat.content class="text-yellow-600">
+                    <x-slot name="icon">
+                        <x-icon name="emoji-neutral" class="inline-block w-7 h-7 text-yellow-600"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Regulares
+                    </x-slot>
+                    {{$enf->where('enf_rate', '=', 3)->count()}}
+                </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
                         <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
@@ -317,7 +344,7 @@
         <x-stat>
             <x-slot name="title">
                 <x-stat.title>
-                    Resultado Técnicos
+                    Resultado Radiologia
                 </x-stat.title>
             </x-slot>
             <x-slot name="content">
@@ -338,6 +365,15 @@
                         Notas Positivas
                     </x-slot>
                     {{$tec->where('livro_rate', '>', 3)->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-yellow-600">
+                    <x-slot name="icon">
+                        <x-icon name="emoji-neutral" class="inline-block w-7 h-7 text-yellow-600"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Regulares
+                    </x-slot>
+                    {{$tec->where('livvro_rate', '=', 3)->count()}}
                 </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
@@ -394,6 +430,15 @@
                         Notas Positivas
                     </x-slot>
                     {{$med->where('livro_rate', '>', 3)->count()}}
+                </x-stat.content>
+                <x-stat.content class="text-yellow-600">
+                    <x-slot name="icon">
+                        <x-icon name="emoji-neutral" class="inline-block w-7 h-7 text-yellow-600"></x-icon>
+                    </x-slot>
+                    <x-slot name="description">
+                        Notas Regulares
+                    </x-slot>
+                    {{$med->where('livro_rate', '=', 3)->count()}}
                 </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">

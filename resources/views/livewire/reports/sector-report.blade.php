@@ -36,14 +36,22 @@
                                        class="text-sm font-light text-gray-900 label">Gerar
                                     relatório</label>
                                 <x-primary-button id="submit" type="submit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-                                    </svg>
+                                    <x-icon name="refresh" class="w-5 h-5"></x-icon>
                                     <span>Buscar</span>
                                 </x-primary-button>
                             </div>
+                            @if($start_date)
+                                <div>
+                                    <label for="export"
+                                           class="text-sm font-light text-gray-900 label">Exportar
+                                    </label>
+                                    <x-primary-button id="export" type="button" class="bg-green-800"
+                                                      wire:click="export">
+                                        <x-icon name="table" class="w-5 h-5"></x-icon>
+                                        <span>Exportar</span>
+                                    </x-primary-button>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </x-slot>
@@ -51,31 +59,7 @@
         </div>
     </form>
     <div>
-        <div class="p-2 bg-white my-2 rounded-lg shadow">
-            <h2 class="text-2xl font-bold">Atendimento por setores</h2>
-        </div>
-        <x-table>
-            <x-slot:head>
-                <x-table.heading>Setor</x-table.heading>
-                <x-table.heading>Avaliações Pesquisa</x-table.heading>
-                <x-table.heading>Atendimentos X-Clinic</x-table.heading>
-                <x-table.heading>Diferença</x-table.heading>
-            </x-slot:head>
-            <x-slot:body>
-                @foreach($faturas as $fatura)
-                    <x-table.row>
-                        <x-table.cell>{{$fatura->setor}}</x-table.cell>
-                        <x-table.cell>{{$fatura->total}}</x-table.cell>
-                        <x-table.cell>{{$fatura->x_clinic}}</x-table.cell>
-                        @if($fatura->total >= 0 || $fatura->x_clinic > 0)
-                            <x-table.cell>{{number_format($fatura->total / $fatura->x_clinic *
-                                100, 2, '.', '')}}%
-                            </x-table.cell>
-                        @endif
-                    </x-table.row>
-                @endforeach
-            </x-slot:body>
-        </x-table>
+        @include('admin.tables.table-setores')
     </div>
 
 </div>

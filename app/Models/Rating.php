@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Status;
 
+/**
+ * @method static updateOrCreate(array $array)
+ */
 class Rating extends Model
 {
     protected $table='ratings';
