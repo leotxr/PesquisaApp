@@ -1,7 +1,7 @@
 <x-app-layout id="dashboard">
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            Satisfação por setores
+            Média de satisfação por setor
         </h2>
     </x-slot>
 
