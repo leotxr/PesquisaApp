@@ -78,6 +78,8 @@ class GetDadosClienteController extends Controller
                 #CARREGA AS ENFERMEIRAS NA REQUISICAO
                 $rasocorrencias = $this->getNurses($rating->requisicao_id, $requisicao->FATURA);
 
+                //dd($rasocorrencias);
+
                 if ($rasocorrencias) {
                     $fat = Fatura::updateOrCreate([
                         'rating_id' => $rating->id,
@@ -92,7 +94,16 @@ class GetDadosClienteController extends Controller
                     $enf = Employee::where('x_clinic_id', $rasocorrencias[0]->ENF_ID)->first();
                     $tec = Employee::where('x_clinic_id', $requisicao->MED_ID)->first();
 
-                    $fat->employees()->sync([$enf->id => ['role' => 'enf'], $tec->id => ['role' => 'tec']]);
+
+                    if ($fat->employees) {
+                        $fat->employees()->detach([$tec->id]);
+                        $fat->employees()->detach([$enf->id]);
+                    }
+                    $fat->employees()->attach([$tec->id => ['role' => 'tec']]);
+                    $fat->employees()->attach([$enf->id => ['role' => 'enf']]);
+
+                    //dd($fat->employees()->get());
+
                 }
 
             } elseif ($requisicao->SETOR == "ULTRA-SON" || $requisicao->SETOR == "CARDIOLOGIA") {
