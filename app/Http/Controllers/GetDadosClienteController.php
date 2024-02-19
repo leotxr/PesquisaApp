@@ -33,6 +33,8 @@ class GetDadosClienteController extends Controller
         #RETORNA UM ARRAY COM TODAS AS FATURAS(EXAMES) JUNTO AS REQUISICOES
         $requisicoes = $this->getRequests($this->paciente_id);
 
+
+
         if (!$requisicoes) {
             $notification = array(
                 'message' => 'Código não encontrado! Verifique seu protocolo e tente novamente.',
@@ -73,17 +75,17 @@ class GetDadosClienteController extends Controller
         $i = 0;
 
         #PERCORRE O VETOR DE REQUISICOES PARA SALVAR CADA EXAME SEPARADAMENTE
-        foreach ($requisicoes as $index => $requisicao) {
+        foreach ($requisicoes as $requisicao) {
             if ($requisicao->SETOR == "RESSONANCIA" || $requisicao->SETOR == "TOMOGRAFIA") {
                 #CARREGA AS ENFERMEIRAS NA REQUISICAO
-                $rasocorrencias = $this->getNurses($rating->requisicao_id, $requisicao->FATURA);
+                $rasocorrencias = $this->getNurses($requisicao->REQUISICAO, $requisicao->FATURA);
 
                 //dd($rasocorrencias);
 
                 if ($rasocorrencias) {
                     $fat = Fatura::updateOrCreate([
                         'rating_id' => $rating->id,
-                        'requisicao_id' => $rating->requisicao_id ?? NULL,
+                        'requisicao_id' => $requisicao->REQUISICAO ?? NULL,
                         'fatura_data' => $rating->data_req ?? NULL,
                         'livro_name' => $requisicao->MEDICO ?? NULL,
                         'tec_name' => $requisicao->TECNICO ?? NULL,
@@ -107,19 +109,21 @@ class GetDadosClienteController extends Controller
                 }
 
             } elseif ($requisicao->SETOR == "ULTRA-SON" || $requisicao->SETOR == "CARDIOLOGIA") {
-                $usg = $this->getUSG($rating->requisicao_id, $requisicao->FATURA);
+                $usg = $this->getUSG($requisicao->REQUISICAO, $requisicao->FATURA);
+
                 //dd($usg->USG_ID);
                 $fat = Fatura::updateOrCreate([
                     'rating_id' => $rating->id,
-                    'requisicao_id' => $rating->requisicao_id ?? NULL,
+                    'requisicao_id' => $requisicao->REQUISICAO ?? NULL,
                     'fatura_data' => $rating->data_req ?? NULL,
                     'livro_name' => $requisicao->MEDICO ?? NULL,
                     'tec_name' => $requisicao->TECNICO ?? NULL,
                     'us_name' => $usg->USUARIO ?? NULL,
                     'setor' => $requisicao->SETOR ?? NULL
                 ]);
-                //dd($requisicoes);
+
                 $recep_usg = Employee::where('x_clinic_id', $usg->USG_ID)->first();
+
 
                 if ($recep_usg)
                     $fat->employees()->sync([$recep_usg->id => ['role' => 'usg']]);
