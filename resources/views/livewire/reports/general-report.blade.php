@@ -6,9 +6,9 @@
                 <x-slot name="title">
                     <div class="flex justify-start mx-2 font-bold text-gray-900">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
+                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
+                                  d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"/>
                         </svg>
                         <h1>Filtros</h1>
                     </div>
@@ -20,22 +20,22 @@
                                 <label for="initial_date" class="text-sm font-light text-gray-900 label">Data
                                     inicial</label>
                                 <input type="date" wire:model='initial_date' id="initial_date"
-                                    class="border-gray-300 input">
+                                       class="border-gray-300 input">
                             </div>
                             <div>
                                 <label for="final_date" class="text-sm font-light text-gray-900 label">Data
                                     Final</label>
                                 <input type="date" wire:model='final_date' id="final_date"
-                                    class="border-gray-300 input">
+                                       class="border-gray-300 input">
                             </div>
                             <div>
                                 <label for="submit" class="text-sm font-light text-gray-900 label">Gerar
                                     relatório</label>
                                 <x-primary-button id="submit" type="submit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                         stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                                              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
                                     </svg>
                                     <span>Buscar</span>
                                 </x-primary-button>
@@ -51,7 +51,7 @@
 
     <div class="h-1">
         <div wire:loading>
-                <span class="absolute inline-flex w-24 h-1 animate-bar bg-sky-500"></span>
+            <span class="absolute inline-flex w-24 h-1 animate-bar bg-sky-500"></span>
         </div>
     </div>
 
@@ -113,7 +113,13 @@
                     <x-slot name="description">
                         Notas Regulares
                     </x-slot>
-                    {{$total->where('nota_clinica', '=', 3)->count()}}
+                    @if($total->count() > 0)
+                        {{$total->where('nota_clinica', '=', 3)->count()}}
+                        <p class="text-xs">
+                            {{number_format($total->where('nota_clinica', '=', 3)->count() / $total->count() *
+                                100, 2, '.', '')}}%
+                        </p>
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
@@ -123,11 +129,11 @@
                         Notas Negativas
                     </x-slot>
                     @if($total->count() > 0)
-                    {{$total->where('nota_clinica', '<', 3)->count()}}
+                        {{$total->where('nota_clinica', '<', 3)->count()}}
                         <p class="text-xs">{{number_format($total->where('nota_clinica', '<', 3)->count() /
                                 $total->whereNotNull('nota_clinica')->count() *
                                 100, 2, '.', '')}}%</p>
-                        @endif
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-green-600">
                     <x-slot name="icon">
@@ -137,9 +143,9 @@
                         Satisfação
                     </x-slot>
                     @if($total->count() > 0)
-                    {{number_format($total->where('nota_clinica', '>', 3)->count() /
-                    $total->whereNotNull('nota_clinica')->count() *
-                    100, 2, '.', '')}}%
+                        {{number_format($total->where('nota_clinica', '>', 3)->count() /
+                        $total->whereNotNull('nota_clinica')->count() *
+                        100, 2, '.', '')}}%
                     @endif
                 </x-stat.content>
             </x-slot>
@@ -178,7 +184,13 @@
                     <x-slot name="description">
                         Notas Regulares
                     </x-slot>
-                    {{$recep->where('recep_rate', '=', 3)->count()}}
+                    @if($recep->count() > 0)
+                        {{$recep->where('recep_rate', '=', 3)->count()}}
+                        <p class="text-xs">
+                            {{number_format($recep->where('recep_rate', '=', 3)->count() / $recep->count() *
+                                100, 2, '.', '')}}%
+                        </p>
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
@@ -188,12 +200,12 @@
                         Notas Negativas
                     </x-slot>
                     @if($recep->count() > 0)
-                    {{$recep->where('recep_rate', '<', 3)->count()}}
+                        {{$recep->where('recep_rate', '<', 3)->count()}}
                         <p class="text-xs">
                             {{number_format($recep->where('recep_rate', '<', 3)->count() / $recep->count() *
                                 100, 2, '.', '')}}%
                         </p>
-                        @endif
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-green-600">
                     <x-slot name="icon">
@@ -203,8 +215,8 @@
                         Satisfação
                     </x-slot>
                     @if($recep->count() > 0)
-                    {{number_format($recep->where('recep_rate', '>', 3)->count() / $recep->count() *
-                    100, 2, '.', '')}}%
+                        {{number_format($recep->where('recep_rate', '>', 3)->count() / $recep->count() *
+                        100, 2, '.', '')}}%
                     @endif
                 </x-stat.content>
             </x-slot>
@@ -243,7 +255,13 @@
                     <x-slot name="description">
                         Notas Regulares
                     </x-slot>
-                    {{$usg->where('us_rate', '=', 3)->count()}}
+                    @if($usg->count() > 0)
+                        {{$usg->where('us_rate', '=', 3)->count()}}
+                        <p class="text-xs">
+                            {{number_format($usg->where('us_rate', '=', 3)->count() / $usg->count() *
+                                100, 2, '.', '')}}%
+                        </p>
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
@@ -253,12 +271,12 @@
                         Notas Negativas
                     </x-slot>
                     @if($usg->count() > 0)
-                    {{$usg->where('us_rate', '<', 3)->count()}}
+                        {{$usg->where('us_rate', '<', 3)->count()}}
                         <p class="text-xs">
                             {{number_format($usg->where('us_rate', '<', 3)->count() / $usg->count() *
                                 100, 2, '.', '')}}%
                         </p>
-                        @endif
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-green-600">
                     <x-slot name="icon">
@@ -268,8 +286,8 @@
                         Satisfação
                     </x-slot>
                     @if($usg->count() > 0)
-                    {{number_format($usg->where('us_rate', '>', 3)->count() / $usg->count() *
-                    100, 2, '.', '')}}%
+                        {{number_format($usg->where('us_rate', '>', 3)->count() / $usg->count() *
+                        100, 2, '.', '')}}%
                     @endif
                 </x-stat.content>
             </x-slot>
@@ -308,7 +326,13 @@
                     <x-slot name="description">
                         Notas Regulares
                     </x-slot>
-                    {{$enf->where('enf_rate', '=', 3)->count()}}
+                    @if($enf->count() > 0)
+                        {{$enf->where('enf_rate', '=', 3)->count()}}
+                        <p class="text-xs">
+                            {{number_format($enf->where('enf_rate', '=', 3)->count() / $enf->count() *
+                                100, 2, '.', '')}}%
+                        </p>
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
@@ -318,12 +342,12 @@
                         Notas Negativas
                     </x-slot>
                     @if($enf->count() > 0)
-                    {{$enf->where('enf_rate', '<', 3)->count()}}
+                        {{$enf->where('enf_rate', '<', 3)->count()}}
                         <p class="text-xs">
                             {{number_format($enf->where('enf_rate', '<', 3)->count() / $enf->count() *
                                 100, 2, '.', '')}}%
                         </p>
-                        @endif
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-green-600">
                     <x-slot name="icon">
@@ -333,8 +357,8 @@
                         Satisfação
                     </x-slot>
                     @if($enf->count() > 0)
-                    {{number_format($enf->where('enf_rate', '>', 3)->count() / $enf->whereNotNull('enf_rate')->count() *
-                    100, 2, '.', '')}}%
+                        {{number_format($enf->where('enf_rate', '>', 3)->count() / $enf->whereNotNull('enf_rate')->count() *
+                        100, 2, '.', '')}}%
                     @endif
                 </x-stat.content>
             </x-slot>
@@ -373,7 +397,13 @@
                     <x-slot name="description">
                         Notas Regulares
                     </x-slot>
-                    {{$tec->where('livvro_rate', '=', 3)->count()}}
+                    @if($tec->count() > 0)
+                        {{$tec->where('livro_rate', '=', 3)->count()}}
+                        <p class="text-xs">
+                            {{number_format($tec->where('livro_rate', '=', 3)->count() / $tec->count() *
+                                100, 2, '.', '')}}%
+                        </p>
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
@@ -383,12 +413,12 @@
                         Notas Negativas
                     </x-slot>
                     @if($tec->count() > 0)
-                    {{$tec->where('livro_rate', '<', 3)->count()}}
+                        {{$tec->where('livro_rate', '<', 3)->count()}}
                         <p class="text-xs">
                             {{number_format($tec->where('livro_rate', '<', 3)->count() / $tec->count() *
                                 100, 2, '.', '')}}%
                         </p>
-                        @endif
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-green-600">
                     <x-slot name="icon">
@@ -398,8 +428,8 @@
                         Satisfação
                     </x-slot>
                     @if($tec->count() > 0)
-                    {{number_format($tec->where('livro_rate', '>', 3)->count() / $tec->count() *
-                    100, 2, '.', '')}}%
+                        {{number_format($tec->where('livro_rate', '>', 3)->count() / $tec->count() *
+                        100, 2, '.', '')}}%
                     @endif
                 </x-stat.content>
             </x-slot>
@@ -438,7 +468,13 @@
                     <x-slot name="description">
                         Notas Regulares
                     </x-slot>
-                    {{$med->where('livro_rate', '=', 3)->count()}}
+                    @if($med->count() > 0)
+                        {{$med->where('livro_rate', '=', 3)->count()}}
+                        <p class="text-xs">
+                            {{number_format($med->where('livro_rate', '=', 3)->count() / $med->count() *
+                                100, 2, '.', '')}}%
+                        </p>
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
@@ -448,12 +484,12 @@
                         Notas Negativas
                     </x-slot>
                     @if($med->count() > 0)
-                    {{$med->where('livro_rate', '<', 3)->count()}}
+                        {{$med->where('livro_rate', '<', 3)->count()}}
                         <p class="text-xs">
                             {{number_format($med->where('livro_rate', '<', 3)->count() / $med->count() *
                                 100, 2, '.', '')}}%
                         </p>
-                        @endif
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-green-600">
                     <x-slot name="icon">
@@ -463,8 +499,8 @@
                         Satisfação
                     </x-slot>
                     @if($med->count() > 0)
-                    {{number_format($med->where('livro_rate', '>', 3)->count() / $med->count() *
-                    100, 2, '.', '')}}%
+                        {{number_format($med->where('livro_rate', '>', 3)->count() / $med->count() *
+                        100, 2, '.', '')}}%
                     @endif
                 </x-stat.content>
             </x-slot>
