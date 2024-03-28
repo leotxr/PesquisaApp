@@ -40,7 +40,7 @@ class GeneralReport extends Component
             ->get(),
             'med' => Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
             ->where('ratings.finalizado', 1)
-            ->whereIn('faturas.setor', ['ULTRA-SON', 'CARDIOLOGIA'])
+            ->whereIn('faturas.setor', ['ULTRA-SON', 'CARDIOLOGIA', 'ANGIOLOGIA'])
             ->whereNotNull('faturas.livro_rate')
             ->whereBetween('ratings.data_req', [$this->initial_date, $this->final_date])
             ->get(),
