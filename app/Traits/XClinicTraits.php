@@ -54,7 +54,7 @@ trait XClinicTraits
             ->join('USUARIOS', 'RASOCORRENCIAS.USERID', '=', 'USUARIOS.USERID')
             ->join('SETORES', 'SETORES.SETORID', '=', 'FATURA.SETORID')
             ->whereIn('RASOCORRENCIAS.RASEVENTOID', [38])
-            ->whereIn('SETORES.DESCRICAO', ['ULTRA-SON', 'CARDIOLOGIA'])
+            ->whereIn('SETORES.DESCRICAO', ['ULTRA-SON', 'CARDIOLOGIA', 'ANGIOLOGIA'])
             ->where('FATURA.REQUISICAOID', $requisicao_id)
             ->where('FATURA.FATURAID', $fatura_id)
             ->selectRaw('RASOCORRENCIAS.DATA AS DATA, FATURA.REQUISICAOID, SETORES.DESCRICAO, USUARIOS.NOME_SOCIAL AS USUARIO, USUARIOS.USERID AS USG_ID, FATURA.FATURAID')

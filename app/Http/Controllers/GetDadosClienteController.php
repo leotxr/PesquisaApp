@@ -108,9 +108,8 @@ class GetDadosClienteController extends Controller
 
                 }
 
-            } elseif ($requisicao->SETOR == "ULTRA-SON" || $requisicao->SETOR == "CARDIOLOGIA") {
+            } elseif ($requisicao->SETOR == "ULTRA-SON" || $requisicao->SETOR == "CARDIOLOGIA" || $requisicao->SETOR == "ANGIOLOGIA") {
                 $usg = $this->getUSG($requisicao->REQUISICAO, $requisicao->FATURA);
-
                 //dd($usg->USG_ID);
                 $fat = Fatura::updateOrCreate([
                     'rating_id' => $rating->id,
