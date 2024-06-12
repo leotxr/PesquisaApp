@@ -22,7 +22,7 @@ use App\Http\Controllers\StoreDadosController;
 #Rota principal da pesquisa
 Route::get('/', function () {
     return view('inicio');
-});
+})->name('inicio');
 
 Route::get('welcome', function () {
     return view('welcome');

@@ -30,22 +30,22 @@ class GetDadosClienteController extends Controller
             'pacienteid' => 'required|max:8',
         ]);
 
-        #RETORNA UM ARRAY COM TODAS AS FATURAS(EXAMES) JUNTO AS REQUISICOES
-        $requisicoes = $this->getRequests($this->paciente_id);
-
-
-
-        if (!$requisicoes) {
+        #BUSCA TODOS OS EXAMES DO PACIENTE NA DATA ATUAL PELO CÓDIGO DO PACIENTE.
+        try {
+            $requisicoes = $this->getRequests($this->paciente_id);
+        } catch (\Exception $e) {
             $notification = array(
-                'message' => 'Código não encontrado! Verifique seu protocolo e tente novamente.',
+                'message' => $e->getMessage(),
                 'alert-type' => 'error'
             );
             return redirect()->back()->with($notification);
         }
+        #####################################################################
 
-
+        #PEGA TODOS OS STATUS DE ATENDIMENTO DOS EXAMES DO CONJUNTO.
         $statuses = Arr::pluck($requisicoes, 'STATUSID');
 
+        #SE NO CONJUNTO DE STATUS HOUVER O VALOR 0 (AGUARDANDO ATENDIMENTO), O PACIENTE NÃO PODE FAZER A PESQUISA.
         if (in_array("0", $statuses)) {
             $notification = array(
                 'message' => 'Realize todos os exames antes de avaliar os atendimentos!',
@@ -53,81 +53,103 @@ class GetDadosClienteController extends Controller
             );
             return redirect()->back()->with($notification);
         }
+        ######################################################################
 
-        #ARMAZENA A PRIMEIRA REQUISICAO DA LISTA, POIS UMA REQUISICAO TEM VARIOS EXAMES
-        $rating = Rating::updateOrCreate([
-            'pac_name' => $requisicoes[0]->PACIENTE ?? NULL,
-            'pac_id' => $requisicoes[0]->PACIENTEID ?? NULL,
-            'data_req' => $requisicoes[0]->DATA ?? NULL,
-            'recep_name' => $requisicoes[0]->RECEPCIONISTA ?? NULL,
-            'requisicao_id' => $requisicoes[0]->REQUISICAO ?? NULL
-        ]);
+        #ARMAZENA AS INFORMAÇÕES DA PRIMEIRA REQUISICAO DA LISTA, POIS UMA REQUISICAO TEM VARIOS EXAMES.
+        try {
 
-        if ($rating) {
-            $rec = Employee::where('x_clinic_id', $requisicoes[0]->RECEP_ID)->first();
-            $rating->employees()->sync([$rec->id => ['role' => 'rec']]);
+            $rating = Rating::updateOrCreate([
+                'pac_name' => $requisicoes[0]->PACIENTE ?? NULL,
+                'pac_id' => $requisicoes[0]->PACIENTEID ?? NULL,
+                'data_req' => $requisicoes[0]->DATA ?? NULL,
+                'recep_name' => $requisicoes[0]->RECEPCIONISTA ?? NULL,
+                'requisicao_id' => $requisicoes[0]->REQUISICAO ?? NULL
+            ]);
+            if ($rating) {
+                $rec = Employee::where('x_clinic_id', $requisicoes[0]->RECEP_ID)->first();
+                $rating->employees()->sync([$rec->id => ['role' => 'rec']]);
+            } else {
+                throw new \Exception('Ocorreu um erro ao salvar a requisição.');
+            }
+        } catch (\Exception $e) {
+            $notification = array(
+                'message' => 'Ocorreu um erro ao buscar os dados do atendimento. Contate o setor de T.I.',
+                'alert-type' => 'error'
+            );
+            return redirect()->to(route('inicio'))->with($notification);
         }
+        #######################################################################
 
-
-        #CARREGA AS RECEPCIONISTAS DO USG
-        //$usg = $this->getUSG($rating->requisicao_id);
-
-        $i = 0;
 
         #PERCORRE O VETOR DE REQUISICOES PARA SALVAR CADA EXAME SEPARADAMENTE
         foreach ($requisicoes as $requisicao) {
             if ($requisicao->SETOR == "RESSONANCIA" || $requisicao->SETOR == "TOMOGRAFIA") {
+
                 #CARREGA AS ENFERMEIRAS NA REQUISICAO
-                $rasocorrencias = $this->getNurses($requisicao->REQUISICAO, $requisicao->FATURA);
+                try {
+                    $rasocorrencias = $this->getNurses($requisicao->REQUISICAO, $requisicao->FATURA);
 
-                //dd($rasocorrencias);
+                    if ($rasocorrencias) {
+                        $fat = Fatura::updateOrCreate([
+                            'rating_id' => $rating->id,
+                            'requisicao_id' => $requisicao->REQUISICAO ?? NULL,
+                            'fatura_data' => $rating->data_req ?? NULL,
+                            'livro_name' => $requisicao->MEDICO ?? NULL,
+                            'tec_name' => $requisicao->TECNICO ?? NULL,
+                            'enf_name' => $rasocorrencias[0]->ENFERMEIRA ?? NULL,
+                            'setor' => $requisicao->SETOR ?? NULL
+                        ]);
 
-                if ($rasocorrencias) {
+                        if ($fat->employees) {
+                            try {
+                                $this->updateNurses($fat, $rasocorrencias[0]->ENF_ID, $requisicao->MED_ID);
+                            } catch (\Exception $e) {
+                                $notification = array(
+                                    'message' => $e->getMessage(),
+                                    'alert-type' => 'error'
+                                );
+                                return redirect()->to(route('inicio'))->with($notification);
+                            }
+                        }
+
+                    }
+
+                } catch (\Exception $e) {
+                    $notification = array(
+                        'message' => $e->getMessage(),
+                        'alert-type' => 'error'
+                    );
+                    return redirect()->to(route('inicio'))->with($notification);
+                }
+
+            } elseif ($requisicao->SETOR == "ULTRA-SON" || $requisicao->SETOR == "CARDIOLOGIA" || $requisicao->SETOR == "ANGIOLOGIA") {
+
+                try {
+                    $usg = $this->getUSG($requisicao->REQUISICAO, $requisicao->FATURA);
+
                     $fat = Fatura::updateOrCreate([
                         'rating_id' => $rating->id,
                         'requisicao_id' => $requisicao->REQUISICAO ?? NULL,
                         'fatura_data' => $rating->data_req ?? NULL,
                         'livro_name' => $requisicao->MEDICO ?? NULL,
                         'tec_name' => $requisicao->TECNICO ?? NULL,
-                        'enf_name' => $rasocorrencias[0]->ENFERMEIRA ?? NULL,
+                        'us_name' => $usg->USUARIO ?? NULL,
                         'setor' => $requisicao->SETOR ?? NULL
                     ]);
 
-                    $enf = Employee::where('x_clinic_id', $rasocorrencias[0]->ENF_ID)->first();
-                    $tec = Employee::where('x_clinic_id', $requisicao->MED_ID)->first();
+                    $recep_usg = Employee::where('x_clinic_id', $usg->USG_ID)->first();
 
 
-                    if ($fat->employees) {
-                        $fat->employees()->detach([$tec->id]);
-                        $fat->employees()->detach([$enf->id]);
-                    }
-                    $fat->employees()->attach([$tec->id => ['role' => 'tec']]);
-                    $fat->employees()->attach([$enf->id => ['role' => 'enf']]);
-
-                    //dd($fat->employees()->get());
-
+                    if ($recep_usg)
+                        $fat->employees()->sync([$recep_usg->id => ['role' => 'usg']]);
+                } catch (\Exception $e) {
+                    $notification = array(
+                        'message' => $e->getMessage(),
+                        'alert-type' => 'error'
+                    );
+                    return redirect()->to(route('inicio'))->with($notification);
                 }
 
-            } elseif ($requisicao->SETOR == "ULTRA-SON" || $requisicao->SETOR == "CARDIOLOGIA" || $requisicao->SETOR == "ANGIOLOGIA") {
-                $usg = $this->getUSG($requisicao->REQUISICAO, $requisicao->FATURA);
-                //dd($usg->USG_ID);
-                $fat = Fatura::updateOrCreate([
-                    'rating_id' => $rating->id,
-                    'requisicao_id' => $requisicao->REQUISICAO ?? NULL,
-                    'fatura_data' => $rating->data_req ?? NULL,
-                    'livro_name' => $requisicao->MEDICO ?? NULL,
-                    'tec_name' => $requisicao->TECNICO ?? NULL,
-                    'us_name' => $usg->USUARIO ?? NULL,
-                    'setor' => $requisicao->SETOR ?? NULL
-                ]);
-
-                $recep_usg = Employee::where('x_clinic_id', $usg->USG_ID)->first();
-
-
-                if ($recep_usg)
-                    $fat->employees()->sync([$recep_usg->id => ['role' => 'usg']]);
-
-                $i++;
             } else {
                 $fat = Fatura::updateOrCreate([
                     'rating_id' => $rating->id,
