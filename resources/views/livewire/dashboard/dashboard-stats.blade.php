@@ -55,7 +55,7 @@
                     <x-slot name="description">{{$diff_yesterday}}%</x-slot>
                 </x-single-stat>
             </div>
-            <div class="col-span-1 sm:col-span-2" wire:ignore>
+            <div class="col-span-1 sm:col-span-2">
                 <x-single-stat>
                     <x-slot name="title">Este mês</x-slot>
                     <x-slot name="value">{{$month}}</x-slot>
