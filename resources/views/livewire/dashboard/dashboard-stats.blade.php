@@ -35,34 +35,50 @@
             </x-accordion>
         </div>
         --}}
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2" wire:poll.10000ms>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-8" wire:poll.10000ms>
 
-            <x-single-stat>
-                <x-slot name="title">Pesquisas Realizadas Hoje</x-slot>
-                <x-slot name="value">{{$today}}</x-slot>
-                <x-slot name="statistic">
-                    <span class="relative flex w-3 h-3">
-                        <span
-                            class="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
-                        <span class="relative inline-flex w-3 h-3 rounded-full bg-sky-500"></span>
+            <div class="col-span-1 sm:col-span-2">
+                <x-single-stat>
+                    <x-slot name="title">Hoje</x-slot>
+                    <x-slot name="value">{{$today}}</x-slot>
+                    <x-slot name="statistic">
+                    <span class="relative flex" id="statistic_day">
+                        @if($diff_yesterday > 0)
+                            <x-icon name="arrow-circle-up" class="text-green-600 w-8 h-8 fill-green-500"
+                                    solid></x-icon>
+                        @else
+                            <x-icon name="arrow-circle-down" class="text-red-600 w-8 h-8 fill-red-500"
+                                    solid></x-icon>
+                        @endif
                     </span>
-                </x-slot>
-                <x-slot name="description">{{today()->format('d/m/Y')}}</x-slot>
-            </x-single-stat>
-            <x-single-stat>
-                <x-slot name="title">Pesquisas Este mês</x-slot>
-                <x-slot name="value">{{$month}}</x-slot>
-                <x-slot name="statistic">
-                    <span class="relative flex w-3 h-3">
-                        <span
-                            class="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
-                        <span class="relative inline-flex w-3 h-3 rounded-full bg-sky-500"></span>
-                    </span>
-                </x-slot>
-                <x-slot name="description">{{today()->format('m/Y')}}</x-slot>
-            </x-single-stat>
-
+                    </x-slot>
+                    <x-slot name="description">{{$diff_yesterday}}%</x-slot>
+                </x-single-stat>
+            </div>
+            <div class="col-span-1 sm:col-span-2" wire:ignore>
+                <x-single-stat>
+                    <x-slot name="title">Este mês</x-slot>
+                    <x-slot name="value">{{$month}}</x-slot>
+                    <x-slot name="statistic">
+                        <span class="relative flex" id="statistic_month">
+                            @if($diff_last_month > 0)
+                                <x-icon name="arrow-circle-up" class="text-green-600 w-8 h-8 fill-green-500"
+                                        solid></x-icon>
+                            @else
+                                <x-icon name="arrow-circle-down" class="text-red-600 w-8 h-8 fill-red-500"
+                                        solid></x-icon>
+                            @endif
+                        </span>
+                    </x-slot>
+                    <x-slot name="description">{{$diff_last_month}}%</x-slot>
+                </x-single-stat>
+            </div>
         </div>
 
     </div>
+    <script>
+        if (@)
+            document.getElementById('statistic_month').innerHTML = ``;
+
+    </script>
 </div>

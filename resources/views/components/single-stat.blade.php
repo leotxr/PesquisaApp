@@ -1,5 +1,5 @@
 <div>
-    <div class="p-4 bg-white shadow-md">
+    <div class="p-4 bg-white shadow-md max-h-32">
         <div class="">
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div class="flex space-x-8">
@@ -17,7 +17,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-xs text-gray-400 uppercase">
+                        <div class="text-sm text-gray-400 uppercase">
                             {{$description}}
                         </div>
                     </div>
