@@ -6,8 +6,8 @@
                     @csrf
                     <div class="grid max-w-full justify-items-center">
                         <x-icon name="horizontal-logo" class="w-64 h-24 text-primary" fill="#0a33a3"></x-icon>
-                        <h1 class="text-5xl font-bold">Seja bem-vindo!</h1>
-                        <p class="py-6 text-xl">Para iniciar insira abaixo o <b>código de pesquisa de satisfação</b>
+                        <h1 class="text-4xl font-bold">Seja bem-vindo!</h1>
+                        <p class="py-6 text-xl">Para iniciar insira abaixo o <span class="font-bold bg-lime-200 p-0.5">código de pesquisa de satisfação</span>
                             presente em
                             seu protocolo.</p>
                         <input autofocus minlength="6" maxlength="6" type="number"

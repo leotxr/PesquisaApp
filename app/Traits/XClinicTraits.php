@@ -11,30 +11,34 @@ trait XClinicTraits
     /**
      * @throws \Exception
      */
-    public function getRequests($paciente_id)
+    public function getRequests($paciente_id): array
     {
-        $request = DB::connection('sqlsrv')->table('WORK_LIST')
-            ->leftJoin('FATURA', function ($join_fatura) {
-                $join_fatura->on('FATURA.FATURAID', '=', 'WORK_LIST.FATURAID')
-                    ->on('FATURA.UNIDADEID', '=', 'WORK_LIST.UNIDADEID')
-                    ->on('FATURA.PACIENTEID', '=', 'WORK_LIST.PACIENTEID');
-            })
-            ->leftJoin('PACIENTE', function ($join_paciente) {
-                $join_paciente->on('PACIENTE.PACIENTEID', '=', 'WORK_LIST.PACIENTEID')
-                    ->on('PACIENTE.UNIDADEID', '=', 'FATURA.UNIDADEPACIENTEID');
-            })
-            ->leftJoin('PROCEDIMENTOS', 'PROCEDIMENTOS.PROCID', '=', 'FATURA.PROCID')
-            ->leftJoin('SETORES', 'SETORES.SETORID', '=', 'FATURA.SETORID')
-            ->leftJoin('USUARIOS', 'USUARIOS.USERID', '=', 'FATURA.USUARIO')
-            ->leftJoin('MEDICOS', 'MEDICOS.MEDICOID', '=', 'FATURA.TECNICOID')
-            ->leftJoin('WORK_FILAS', 'WORK_FILAS.FILAID', '=', 'WORK_LIST.FILAID')
-            ->where('WORK_LIST.PACIENTEID', '=', $paciente_id)
-            ->whereDate('FATURA.DATA', '=', date('Y/m/d'))
-            ->select(DB::raw("DISTINCT FORMAT(FATURA.DATA, 'yyyy/MM/dd') AS DATA, WORK_LIST.REQUISICAOID AS REQUISICAO, WORK_LIST.STATUSID, FATURA.PACIENTEID AS PACIENTEID, PACIENTE.NOME AS PACIENTE, PROCEDIMENTOS.DESCRICAO AS PROCEDIMENTO, SETORES.DESCRICAO AS SETOR, MEDICOS.NOME_SOCIAL AS TECNICO, MEDICOS.USERID AS MED_ID, WORK_FILAS.FILANOME AS MEDICO, USUARIOS.NOME_SOCIAL AS RECEPCIONISTA, USUARIOS.USERID AS RECEP_ID, FATURA.REQUISICAOID, FATURA.FATURAID AS FATURA"))
-            ->get()->toArray();
+        if (is_numeric($paciente_id)) {
+            $request = DB::connection('sqlsrv')->table('WORK_LIST')
+                ->leftJoin('FATURA', function ($join_fatura) {
+                    $join_fatura->on('FATURA.FATURAID', '=', 'WORK_LIST.FATURAID')
+                        ->on('FATURA.UNIDADEID', '=', 'WORK_LIST.UNIDADEID')
+                        ->on('FATURA.PACIENTEID', '=', 'WORK_LIST.PACIENTEID');
+                })
+                ->leftJoin('PACIENTE', function ($join_paciente) {
+                    $join_paciente->on('PACIENTE.PACIENTEID', '=', 'WORK_LIST.PACIENTEID')
+                        ->on('PACIENTE.UNIDADEID', '=', 'FATURA.UNIDADEPACIENTEID');
+                })
+                ->leftJoin('PROCEDIMENTOS', 'PROCEDIMENTOS.PROCID', '=', 'FATURA.PROCID')
+                ->leftJoin('SETORES', 'SETORES.SETORID', '=', 'FATURA.SETORID')
+                ->leftJoin('USUARIOS', 'USUARIOS.USERID', '=', 'FATURA.USUARIO')
+                ->leftJoin('MEDICOS', 'MEDICOS.MEDICOID', '=', 'FATURA.TECNICOID')
+                ->leftJoin('WORK_FILAS', 'WORK_FILAS.FILAID', '=', 'WORK_LIST.FILAID')
+                ->where('WORK_LIST.PACIENTEID', '=', $paciente_id)
+                ->whereDate('FATURA.DATA', '=', date('Y/m/d'))
+                ->select(DB::raw("DISTINCT FORMAT(FATURA.DATA, 'yyyy/MM/dd') AS DATA, WORK_LIST.REQUISICAOID AS REQUISICAO, WORK_LIST.STATUSID, FATURA.PACIENTEID AS PACIENTEID, PACIENTE.NOME AS PACIENTE, PROCEDIMENTOS.DESCRICAO AS PROCEDIMENTO, SETORES.DESCRICAO AS SETOR, MEDICOS.NOME_SOCIAL AS TECNICO, MEDICOS.USERID AS MED_ID, WORK_FILAS.FILANOME AS MEDICO, USUARIOS.NOME_SOCIAL AS RECEPCIONISTA, USUARIOS.USERID AS RECEP_ID, FATURA.REQUISICAOID, FATURA.FATURAID AS FATURA"))
+                ->get()->toArray();
 
-        if (!$request) throw new \Exception('Código não encontrado! Verifique seu protocolo e tente novamente.');
-        else return $request;
+            if (!$request) throw new \Exception('Código não encontrado! Verifique seu protocolo e tente novamente.');
+            else return $request;
+        } else
+            throw new \Exception('Código não encontrado! Verifique seu protocolo e tente novamente.');
+
     }
 
     /**
@@ -63,8 +67,8 @@ trait XClinicTraits
      */
     public function updateNurses($invoice, $nurse_id, $doctor_id)
     {
-        $enf = Employee::where('x_clinic_id', $nurse_id )->first();
-        $tec = Employee::where('x_clinic_id', $doctor_id )->first();
+        $enf = Employee::where('x_clinic_id', $nurse_id)->first();
+        $tec = Employee::where('x_clinic_id', $doctor_id)->first();
 
 
         if ($enf && $tec) {
@@ -73,8 +77,7 @@ trait XClinicTraits
             $invoice->employees()->attach([$tec->id => ['role' => 'tec']]);
             $invoice->employees()->attach([$enf->id => ['role' => 'enf']]);
             return true;
-        }else
-        {
+        } else {
             throw new \Exception('Enfermeira(o) e/ou Técnica(o) não encontrada(o). Contate o setor de TI.');
         }
 
