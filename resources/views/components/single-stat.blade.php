@@ -1,20 +1,13 @@
 @props(['value'])
 <div class="flex items-center p-4 bg-white rounded shadow-md">
 
-    @if($value > '0')
+    {{$icon}}
+<!--
+
         <div class="flex flex-shrink-0 items-center justify-center bg-green-200 h-16 w-16 rounded">
             <x-icon name="arrow-up" class="w-6 h-6 text-green-700"></x-icon>
-        </div>
-    @elseif($value < '0')
-        <div class="flex flex-shrink-0 items-center justify-center bg-red-200 h-16 w-16 rounded">
-            <x-icon name="arrow-down" class="w-6 h-6 text-red-700"></x-icon>
-        </div>
-    @else
-        <div class="flex flex-shrink-0 items-center justify-center bg-yellow-200 h-16 w-16 rounded">
-            <x-icon name="minus" class="w-6 h-6 text-yellow-700"></x-icon>
-        </div>
-    @endif
 
+-->
     <div class="flex-grow flex flex-col ml-4">
         <span class="text-xl font-bold">{{$value}}</span>
         <div class="flex items-center justify-between">
