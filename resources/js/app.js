@@ -1,4 +1,5 @@
 import './bootstrap';
 import 'tw-elements';
+import ApexCharts from 'apexcharts';
 import 'flowbite';
-import ApexCharts from 'apexcharts'
+window.ApexCharts = ApexCharts;

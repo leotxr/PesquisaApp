@@ -57,6 +57,8 @@ class SectorReport extends Component
     public function search()
     {
         $this->reset('faturas', 'ratings');
+
+
         //$recepcionistas = Employee::whereHas("roles", function($q){ $q->where("name", "recepcionista"); })->get();
         $setores = Fatura::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotIn('setor', ['RM-COMPLEMENTO'])->groupBy('setor')->get('setor');
         $arr = [];
@@ -68,6 +70,8 @@ class SectorReport extends Component
             $count = Fatura::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->where('setor', $a)->count();
             $this->faturas[] = (object)['setor' => $a, 'total' => $count, 'x_clinic' => $this->getFaturas($this->start_date, $this->end_date, $a)->TOTAL];
         }
+
+        dd($this->faturas);
 
         $this->faturas[] = (object)['setor' => 'RECEPCAO', 'total' => Rating::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotNull('recep_rate')->count(), 'x_clinic' => $this->getRatings($this->start_date, $this->end_date)->TOTAL];
 

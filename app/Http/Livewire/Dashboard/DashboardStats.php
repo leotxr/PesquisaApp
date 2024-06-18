@@ -41,8 +41,9 @@ class DashboardStats extends Component
 
     public function calculateDiffMonths()
     {
+
         $month = $this->getCountByMonth(date('m'), date('Y'));
-        $last_month = $this->getCountByMonth(now()->subMonths(1)->format('m'), date('Y'));
+        $last_month = Rating::whereBetween('data_req', [now()->subMonth(1)->format('Y-m-01'), now()->subMonth(1)->format('Y-m-d')])->count();
 
 
         if ($last_month == 0)
