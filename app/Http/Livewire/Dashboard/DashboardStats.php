@@ -14,6 +14,8 @@ class DashboardStats extends Component
     public $diff_yesterday;
     public $month_count;
     public $diff_last_month;
+    public $month_comments;
+    public $satisfaction;
 
     public function getCountByDate($date)
     {
@@ -25,15 +27,36 @@ class DashboardStats extends Component
         return Rating::whereMonth('data_req', $month)->whereYear('data_req', $year)->count();
     }
 
+    public function getWeekDay($subdays)
+    {
+        $yesterday = now()->subDays($subdays)->format('w');
+        if($yesterday != 0) return now()->subDays($subdays)->format('Y-m-d');
+
+        $this->getWeekDay($subdays+1);
+    }
+
+    public function getLastDayWithCount(int $sub_days)
+    {
+        $date = now()->subDays($sub_days)->format('Y-m-d');
+        $count = Rating::where('data_req', $date)->count();
+
+        if($count > 0) return $count;
+        else
+        return $this->getLastDayWithCount($sub_days+1);
+
+
+    }
+
     public function calculateDiffDays(): float|int
     {
         $today = $this->getCountByDate(date('Y/m/d'));
-        $yesterday = $this->getCountByDate(now()->subDays(1)->format('Y/m/d'));
+        //$yesterday = $this->getWeekDay(1);
+        $yesterday_count = $this->getLastDayWithCount(1);
 
-        if ($yesterday == 0)
+        if ($yesterday_count == 0)
             if ($today > 0) $porcentagem = 100;
             else $porcentagem = 0;
-        else $porcentagem = number_format((($today - $yesterday) / $yesterday) * 100, 2, '.', '');
+        else $porcentagem = number_format((($today - $yesterday_count) / $yesterday_count) * 100, 2, '.', '');
 
         return $porcentagem;
 
@@ -56,16 +79,29 @@ class DashboardStats extends Component
 
     }
 
+    public function getSatisfaction()
+    {
+        $ratings = Rating::whereMonth('data_req', date('m'))->whereYear('data_req', date('Y'))->count();
+        $great_ratings = Rating::whereMonth('data_req', date('m'))->whereYear('data_req', date('Y'))->where('nota_clinica', '>', 3)->count();
+
+        return number_format(($great_ratings / $ratings) * 100, 2, '.', '');
+    }
+
     public function render()
     {
+
         $this->today_count = $this->getCountByDate(date('Y/m/d'));
         $this->month_count = $this->getCountByMonth(date('m'), date('Y'));
         $this->diff_last_month = $this->calculateDiffMonths();
         $this->diff_yesterday = $this->calculateDiffDays();
+        $this->month_comments = Rating::whereMonth('data_req', date('m'))->whereYear('data_req', date('Y'))->whereNotNull('comentario')->count();
+        $this->satisfaction = $this->getSatisfaction();
         return view('livewire.dashboard.dashboard-stats', [
             'today' => $this->today_count,
             'month' => $this->month_count,
             'diff_yesterday' => $this->diff_yesterday,
-            'diff_last_month' => $this->diff_last_month,]);
+            'diff_last_month' => $this->diff_last_month,
+            'month_comments' => $this->month_comments,
+            'satisfaction' => $this->satisfaction]);
     }
 }

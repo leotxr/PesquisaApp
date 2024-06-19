@@ -10,4 +10,7 @@
             </div>
         </div>
     </div>
+    <script setup>
+        console.log(ApexCharts);
+    </script>
 </x-app-layout>

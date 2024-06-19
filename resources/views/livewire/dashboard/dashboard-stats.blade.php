@@ -41,6 +41,35 @@
             <x-slot name="statistic">{{$diff_last_month}}%
             </x-slot>
         </x-single-stat>
+
+        <x-single-stat>
+            <x-slot name="description">Comentários no mês atual</x-slot>
+            <x-slot name="value">{{$month_comments}}</x-slot>
+            <x-slot name="icon">
+                <span id="statistic_month">
+                    <x-icon name="chat-alt" class="w-8 h-8 fill-blue-500" solid></x-icon>
+                </span>
+            </x-slot>
+        </x-single-stat>
+
+        <x-single-stat>
+            <x-slot name="description">Satisfação no mês atual <span class="text-xs">(Nota clínica)</span></x-slot>
+            <x-slot name="value">{{$satisfaction}}%</x-slot>
+            <x-slot name="icon">
+                <span id="statistic_month">
+                    @if($satisfaction >= 97.00)
+                        <x-icon name="new-emoji-happy" class="w-8 h-8 fill-green-500"
+                                solid></x-icon>
+                    @elseif($satisfaction > 50.00 && $satisfaction < 97.00)
+                        <x-icon name="new-emoji-neutral" class="w-8 h-8 fill-yellow-400"
+                                solid></x-icon>
+                    @else
+                        <x-icon name="new-emoji-angry" class="w-8 h-8 fill-red-500"
+                                solid></x-icon>
+                    @endif
+                        </span>
+            </x-slot>
+        </x-single-stat>
     </div>
 </div>
 
