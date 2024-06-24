@@ -23,7 +23,7 @@
 
         <x-single-stat value="{{$diff_last_month}}">
             <x-slot name="description">Avaliações no mês atual</x-slot>
-            <x-slot name="value">{{$month}}</x-slot>
+            <x-slot name="value">{{$month}}<p class="text-xs">{{now()->format('01/m') . ' - ' . now()->format('d/m')}}</p></x-slot>
             <x-slot name="icon">
                             <span id="statistic_month">
                             @if($diff_last_month > 0)
