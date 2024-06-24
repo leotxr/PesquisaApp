@@ -18,7 +18,7 @@
                                 @endif
                             </span>
             </x-slot>
-            <x-slot name="statistic">{{$diff_yesterday}}%</x-slot>
+            <x-slot name="statistic">{{$diff_yesterday}}% <p class="text-xs">ontem</p></x-slot>
         </x-single-stat>
 
         <x-single-stat value="{{$diff_last_month}}">
@@ -38,7 +38,7 @@
                                 @endif
                         </span>
             </x-slot>
-            <x-slot name="statistic">{{$diff_last_month}}%
+            <x-slot name="statistic"><p class="text-md">{{$diff_last_month}}%</p><p class="text-xs">{{now()->subMonths(1)->format('01/m') . ' - ' . now()->subMonths(1)->format('d/m')}}</p>
             </x-slot>
         </x-single-stat>
 
