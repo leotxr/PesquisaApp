@@ -40,6 +40,7 @@ class GetDadosClienteController extends Controller
             );
             return redirect()->back()->with($notification);
         }
+
         #####################################################################
 
         #PEGA TODOS OS STATUS DE ATENDIMENTO DOS EXAMES DO CONJUNTO.
@@ -58,13 +59,8 @@ class GetDadosClienteController extends Controller
         #ARMAZENA AS INFORMAÇÕES DA PRIMEIRA REQUISICAO DA LISTA, POIS UMA REQUISICAO TEM VARIOS EXAMES.
         try {
 
-            $rating = Rating::updateOrCreate([
-                'pac_name' => $requisicoes[0]->PACIENTE ?? NULL,
-                'pac_id' => $requisicoes[0]->PACIENTEID ?? NULL,
-                'data_req' => $requisicoes[0]->DATA ?? NULL,
-                'recep_name' => $requisicoes[0]->RECEPCIONISTA ?? NULL,
-                'requisicao_id' => $requisicoes[0]->REQUISICAO ?? NULL
-            ]);
+            $rating = $this->createRating($requisicoes);
+
             if ($rating) {
                 $rec = Employee::where('x_clinic_id', $requisicoes[0]->RECEP_ID)->first();
                 $rating->employees()->sync([$rec->id => ['role' => 'rec']]);
@@ -73,7 +69,7 @@ class GetDadosClienteController extends Controller
             }
         } catch (\Exception $e) {
             $notification = array(
-                'message' => 'Ocorreu um erro ao buscar os dados do atendimento. Contate o setor de T.I.',
+                'message' => 'Ocorreu um erro ao buscar os dados do atendimento. Contate o setor de TI.',
                 'alert-type' => 'error'
             );
             return redirect()->to(route('inicio'))->with($notification);
@@ -180,5 +176,19 @@ class GetDadosClienteController extends Controller
             return redirect()->back()->with($notification);
 
         }
+    }
+
+    public function createRating($requisicoes)
+    {
+        $rating = Rating::updateOrCreate([
+            'pac_name' => $requisicoes[0]->PACIENTE ?? NULL,
+            'pac_id' => $requisicoes[0]->PACIENTEID ?? NULL,
+            'data_req' => $requisicoes[0]->DATA ?? NULL,
+            'recep_name' => $requisicoes[0]->RECEPCIONISTA ?? NULL,
+            'requisicao_id' => $requisicoes[0]->REQUISICAO ?? NULL
+        ]);
+
+        if ($rating) return $rating;
+        else throw new \Exception('Ocorreu um erro ao salvar a requisição, entre em contato com o setor de TI.');
     }
 }

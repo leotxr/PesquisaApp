@@ -4,16 +4,26 @@ namespace App\Traits;
 
 use App\Models\Employee;
 use Illuminate\Support\Facades\DB;
-use mysql_xdevapi\Exception;
 
 trait XClinicTraits
 {
+    #   Trait com funções de busca no banco de dados do X-Clinic.
+
+
     /**
      * @throws \Exception
      */
+
+    #   Função para buscar as requisições (exames) realizados pelo paciente na data atual.
+    #   Parâmetros:
+    #   $paciente_id: Código do paciente no X-Clinic. Digitado pelo mesmo no início da pesquisa.
+    #   Validações: Valida se o código informado é um código numérico, caso não seja, dispara uma exception com uma mensagem de erro;
+    #   Retorno: Retorna um array com os exames realizados pelo paciente contendo as informações sobre o atendimento.
+    #   Se o paciente não tiver realizado um exame na data de hoje, o sistema não vai encontrar exames e vai disparar uma exception com uma mensagem de erro.
+
     public function getRequests($paciente_id): array
     {
-        if (is_numeric($paciente_id)) {
+        if (is_numeric($paciente_id)) { //Testa se o código informado é um numero inteiro
             $request = DB::connection('sqlsrv')->table('WORK_LIST')
                 ->leftJoin('FATURA', function ($join_fatura) {
                     $join_fatura->on('FATURA.FATURAID', '=', 'WORK_LIST.FATURAID')
@@ -31,19 +41,39 @@ trait XClinicTraits
                 ->leftJoin('WORK_FILAS', 'WORK_FILAS.FILAID', '=', 'WORK_LIST.FILAID')
                 ->where('WORK_LIST.PACIENTEID', '=', $paciente_id)
                 ->whereDate('FATURA.DATA', '=', date('Y/m/d'))
-                ->select(DB::raw("DISTINCT FORMAT(FATURA.DATA, 'yyyy/MM/dd') AS DATA, WORK_LIST.REQUISICAOID AS REQUISICAO, WORK_LIST.STATUSID, FATURA.PACIENTEID AS PACIENTEID, PACIENTE.NOME AS PACIENTE, PROCEDIMENTOS.DESCRICAO AS PROCEDIMENTO, SETORES.DESCRICAO AS SETOR, MEDICOS.NOME_SOCIAL AS TECNICO, MEDICOS.USERID AS MED_ID, WORK_FILAS.FILANOME AS MEDICO, USUARIOS.NOME_SOCIAL AS RECEPCIONISTA, USUARIOS.USERID AS RECEP_ID, FATURA.REQUISICAOID, FATURA.FATURAID AS FATURA"))
+                ->select(DB::raw("DISTINCT FORMAT(FATURA.DATA, 'yyyy/MM/dd') AS DATA, 
+                WORK_LIST.REQUISICAOID AS REQUISICAO, 
+                WORK_LIST.STATUSID, 
+                FATURA.PACIENTEID AS PACIENTEID, 
+                PACIENTE.NOME AS PACIENTE, 
+                PROCEDIMENTOS.DESCRICAO AS PROCEDIMENTO, 
+                SETORES.DESCRICAO AS SETOR,
+                MEDICOS.NOME_SOCIAL AS TECNICO, 
+                MEDICOS.USERID AS MED_ID, 
+                WORK_FILAS.FILANOME AS MEDICO, 
+                USUARIOS.NOME_SOCIAL AS RECEPCIONISTA, 
+                USUARIOS.USERID AS RECEP_ID, 
+                FATURA.REQUISICAOID, 
+                FATURA.FATURAID AS FATURA"))
                 ->get()->toArray();
 
-            if (!$request) throw new \Exception('Código não encontrado! Verifique seu protocolo e tente novamente.');
-            else return $request;
+            if (!$request) throw new \Exception('Código não encontrado! Verifique seu protocolo e tente novamente.'); // Se não encontrar exames dispara exception.
+            else return $request; // Se encontrar exames, retorna o array com os exames
         } else
-            throw new \Exception('Código não encontrado! Verifique seu protocolo e tente novamente.');
+            throw new \Exception('Código não encontrado! Verifique seu protocolo e tente novamente.'); //Se não for numérico, retorna exception.
 
     }
 
     /**
      * @throws \Exception
      */
+
+    #   Função para buscar as enfermeiras que realizaram a triagem do paciente.
+    #   Parâmetros:
+    #   $requisicao_id: Numero da requisição recuperado na função anterior. O número da requisição é o número do atendimento no X-clinic, contem os exames;
+    #   $fatura_id: Código de cada exame realizado pelo paciente.
+    #   Validações: A triagem no X-Clinic deve ter um arquivo anexado, se não houver dispara uma exception com mensagem de erro.
+    #   Retorno: Retorna o primeiro registro contendo o nome e código da enfermeira que fez a triagem do exame.
     public function getNurses($requisicao_id, $fatura_id)
     {
         $nurses = DB::connection('sqlsrv')->table('RASOCORRENCIAS')
@@ -52,19 +82,29 @@ trait XClinicTraits
                     ->on('WORK_LIST.DATA', '=', 'RASOCORRENCIAS.DATA');
             })
             ->join('USUARIOS', 'USUARIOS.USERID', '=', 'RASOCORRENCIAS.USERID')
-            ->where('RASOCORRENCIAS.RASEVENTOID', '=', 250003)
-            ->where('WORK_LIST.REQUISICAOID', '=', $requisicao_id)
-            ->where('WORK_LIST.FATURAID', '=', $fatura_id)
+            ->where('RASOCORRENCIAS.RASEVENTOID', '=', 250003) //Código de evento do X-Clinic onde aparece a enfermeira que adicionou um arquivo na triagem.
+            ->where('WORK_LIST.REQUISICAOID', '=', $requisicao_id) //Numero da requisição retornada na função inicial.
+            ->where('WORK_LIST.FATURAID', '=', $fatura_id)//Código do exame realizado.
             ->select(DB::raw("TOP 1 USUARIOS.NOME_SOCIAL AS ENFERMEIRA, USUARIOS.USERID AS ENF_ID"))
-            ->get()->toArray();
+            ->get();
 
-        if (!$nurses) throw new \Exception('Ocorreu um erro ao buscar os dados da triagem. Verifique se foi finalizada corretamente ou entre em contato com o setor de TI.');
-        else return $nurses;
+        if (!$nurses) return $nurses; //Se a busca for realizada corretamente, retorna o objeto.
+        else throw new \Exception('Ocorreu um erro ao buscar os dados da triagem. Verifique se foi finalizada corretamente ou entre em contato com o setor de TI.');
     }
 
     /**
      * @throws \Exception
      */
+
+    #   Função para atualizar as enfermeiras da pesquisa caso ela ja tenha sido realizada anteriormente.
+    #   Parâmetros:
+    #   $invoice: Código do exame(Fatura) dentro do banco da Pesquisa de satisfação;
+    #   $nurse_id: Código da enfermeira cadastrado no X-Clinic.
+    #   $doctor_id: Código do técnico cadastrado no X-Clinic.
+    #   Validações: Caso a enfermeira ou técnico de radiologia não esteja cadastrado corretamente no sistema de pesquisa dispara uma exception com erro.
+    #   Correção: Verificar se a Enfermeira ou tecnico estão cadastrados no sistema de pesquisa,
+    #   se o usuário está configurado com o setor correto
+    #   e X-Clinic-ID está correto no painel sistema de Pesquisa de satisfação.
     public function updateNurses($invoice, $nurse_id, $doctor_id)
     {
         $enf = Employee::where('x_clinic_id', $nurse_id)->first();
@@ -103,8 +143,8 @@ trait XClinicTraits
             ->selectRaw('RASOCORRENCIAS.DATA AS DATA, FATURA.REQUISICAOID, SETORES.DESCRICAO, USUARIOS.NOME_SOCIAL AS USUARIO, USUARIOS.USERID AS USG_ID, FATURA.FATURAID')
             ->get()
             ->first();
-        if (!$usg) throw new \Exception('Ocorreu um erro ao buscar os dados do Ultra-son. Verifique se foi finalizada corretamente ou entre em contato com o setor de TI.');
-        else return $usg;
+        if ($usg) return $usg;
+        else throw new \Exception('Ocorreu um erro ao buscar os dados do Ultra-son. Verifique se foi finalizada corretamente ou entre em contato com o setor de TI.');
     }
 
     public function compareServiceUSG($sectors, $start_date, $end_date, $employee)
