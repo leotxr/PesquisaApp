@@ -84,7 +84,6 @@ class GetDadosClienteController extends Controller
                 #CARREGA AS ENFERMEIRAS NA REQUISICAO
                 try {
                     $rasocorrencias = $this->getNurses($requisicao->REQUISICAO, $requisicao->FATURA);
-
                     if ($rasocorrencias) {
                         $fat = Fatura::updateOrCreate([
                             'rating_id' => $rating->id,

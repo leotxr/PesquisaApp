@@ -88,7 +88,7 @@ trait XClinicTraits
             ->select(DB::raw("TOP 1 USUARIOS.NOME_SOCIAL AS ENFERMEIRA, USUARIOS.USERID AS ENF_ID"))
             ->get();
 
-        if (!$nurses) return $nurses; //Se a busca for realizada corretamente, retorna o objeto.
+        if ($nurses) return $nurses; //Se a busca for realizada corretamente, retorna o objeto.
         else throw new \Exception('Ocorreu um erro ao buscar os dados da triagem. Verifique se foi finalizada corretamente ou entre em contato com o setor de TI.');
     }
 
