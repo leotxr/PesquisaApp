@@ -23,7 +23,8 @@
 
         <x-single-stat value="{{$diff_last_month}}">
             <x-slot name="description">Avaliações no mês atual</x-slot>
-            <x-slot name="value">{{$month}}<p class="text-xs">{{now()->format('01/m') . ' - ' . now()->format('d/m')}}</p></x-slot>
+            <x-slot name="value">{{$month}}<p
+                        class="text-xs">{{now()->format('01/m') . ' - ' . now()->format('d/m')}}</p></x-slot>
             <x-slot name="icon">
                             <span id="statistic_month">
                             @if($diff_last_month > 0)
@@ -38,7 +39,8 @@
                                 @endif
                         </span>
             </x-slot>
-            <x-slot name="statistic"><p class="text-md">{{$diff_last_month}}%</p><p class="text-xs">{{now()->subMonths(1)->format('01/m') . ' - ' . now()->subMonths(1)->format('d/m')}}</p>
+            <x-slot name="statistic"><p class="text-md">{{$diff_last_month}}%</p>
+                <p class="text-xs">{{now()->subMonths(1)->format('01/m') . ' - ' . now()->subMonths(1)->format('d/m')}}</p>
             </x-slot>
         </x-single-stat>
 
@@ -47,7 +49,9 @@
             <x-slot name="value">{{$month_comments}}</x-slot>
             <x-slot name="icon">
                 <span id="statistic_month">
-                    <x-icon name="chat-alt" class="w-8 h-8 fill-blue-500" solid></x-icon>
+                    <a type="button" class="cursor-pointer" href="{{route('rel-coment')}}">
+                        <x-icon name="chat-alt" class="w-8 h-8 fill-blue-500" solid></x-icon>
+                    </a>
                 </span>
             </x-slot>
         </x-single-stat>

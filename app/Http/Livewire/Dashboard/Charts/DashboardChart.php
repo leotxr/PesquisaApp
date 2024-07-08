@@ -18,7 +18,10 @@ class DashboardChart extends Component
 
     public function mount()
     {
-        $this->getLastDaysWithCount(0, 10);
+        //Chamada da função recursiva de dias anteriores. Informar o dia inicial para busca (hoje = 0) e o máximo de dias anteriores.
+        //A variável max_check serve como limite para a função. Se caso em 60 tentativas o sistema não encontre pesquisas, ela é finalizada para que não
+        //ocorra loops
+        $this->getLastDaysWithCount(0, 20, 60);
 
         $this->days = array_keys(array_reverse($this->dates_and_ratings));
         $this->ratings_count = array_values(array_reverse($this->dates_and_ratings));
@@ -30,53 +33,32 @@ class DashboardChart extends Component
     }
 
 
-    public function getLastDaysWithCount(int $start_sub_days, int $end_sub_days)
+    #   Função recursiva para buscar os dias anteriores que houveram pesquisas respondidas.
+    #   Parametros:
+    #   $start_sub_days = Dia inicial para busca de pesquisas. 0 = Hoje, 1 = Ontem ...
+    #   $end_sub_days = Máximo de dias a serem mostrados.
+    #   $max_check = Numero máximo de tentativas de busca.
+    #   Retorno: Retorna um array contendo a data como chave e quantidade de pesquisas como valor. Exemplo: $array[$data] = $quantidade.
+    public function getLastDaysWithCount(int $start_sub_days, int $end_sub_days, int $max_check)
     {
-        $date = now()->subDays($start_sub_days);
-        $count = Rating::where('data_req', $date->format('Y-m-d'))->count();
+        $date = now()->subDays($start_sub_days); //Retorna a data atual (primeiro parametro informado, 0).
 
-        if ($start_sub_days == $end_sub_days) return $this->dates_and_ratings;
+        $count = Rating::where('data_req', $date->format('Y-m-d'))->count(); //Retorna a quantidade de pesquisas respondidas na data recuperada
+
+        if ($start_sub_days == $end_sub_days || $end_sub_days == $max_check) return $this->dates_and_ratings; // Verifica se as datas se igualaram ou atingiu o limite de execução.
 
         if ($count > 0) {
-            $this->dates_and_ratings[$date->format('d/m')] = $count;
-            //$this->days[] = $date;
-            return $this->getLastDaysWithCount($start_sub_days + 1, $end_sub_days);
-        } else return $this->getLastDaysWithCount($start_sub_days + 1, $end_sub_days + 1);
+
+            $this->dates_and_ratings[$date->format('d/m')] = $count; //Se a contagem de pesquisas for maior que 0, adiciona a data como key do vetor, e o valor vinculado à essa chave.
+            return $this->getLastDaysWithCount($start_sub_days + 1, $end_sub_days, $max_check + 1); //Executa a função novamente pulando para o próximo dia a ser testado.
+
+            //Caso a contagem de pesquisas do dia seja 0, o sistema deve buscar em mais dias anteriores, então a variavel de fim é
+            // somada porém a de inicio também é somada para que não seja verificada novamente.
+        } else return $this->getLastDaysWithCount($start_sub_days + 1, $end_sub_days + 1, $max_check + 1);
     }
 
     public function render()
     {
-        $dias_atras = [today()->subDays(4), today()->subDays(3), today()->subDays(2), today()->subDays(1), today()->subDays(0)];
-        $meses_atras = [today()->subMonthNoOverflow(4), today()->subMonthNoOverflow(3), today()->subMonthNoOverflow(2), today()->subMonthNoOverflow(1), today()->subMonthNoOverflow(0)];
-
-        $colors = ['#f6ad55', '#fc8181', '#90cdf4', '#f6ad55', '#fc8181'];
-        //$valores = Term::whereIn('created_at', $dias_atras)->where('sector_id', 1)->get();
-
-        $chartDays = LivewireCharts::columnChartModel()
-            ->setTitle('Pesquisas Realizadas por dia')
-            ->setAnimated($this->firstRun)
-            ->setLegendVisibility(false)
-            ->withDataLabels(false)
-            ->setColors(['#0080ff', '#288bed', '#8abef2', '#1863f0', '#78a3f5']);
-
-        $chartMonths = LivewireCharts::columnChartModel()
-            ->setTitle('Pesquisas Realizadas por mês')
-            ->setAnimated($this->firstRun)
-            ->setLegendVisibility(false)
-            ->withDataLabels(false)
-            ->setColors(['#0080ff', '#288bed', '#8abef2', '#1863f0', '#78a3f5']);
-
-        foreach ($dias_atras as $dia) {
-            $columnChartDays = $chartDays->addColumn($dia->format('d/m/y'), Rating::whereDate('created_at', $dia)->count(), '#808080');
-        }
-        foreach ($meses_atras as $mes) {
-            $columnChartMonths = $chartMonths->addColumn($mes->format('m/Y'), Rating::whereMonth('created_at', $mes->format('m'))->whereYear('created_at', $mes->format('Y'))->count(), '#808080');
-        }
-
-
-        $this->firstRun = false;
-
-        return view('livewire.dashboard.charts.dashboard-chart')
-            ->with(['columnChartDays' => $columnChartDays, 'columnChartMonths' => $columnChartMonths]);
+        return view('livewire.dashboard.charts.dashboard-chart');
     }
 }
