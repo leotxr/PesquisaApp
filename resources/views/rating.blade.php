@@ -5,7 +5,7 @@
     key($rating->id))
 
     <?php 
-        var_dump($rating->employees);
+        var_dump($rating->employees->where('role', 'rec'));
     ?>
 
     {{--AGENDAMENTO--}}
