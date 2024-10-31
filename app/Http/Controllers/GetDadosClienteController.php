@@ -60,9 +60,9 @@ class GetDadosClienteController extends Controller
         #ARMAZENA AS INFORMAÇÕES DA PRIMEIRA REQUISICAO DA LISTA, POIS UMA REQUISICAO TEM VARIOS EXAMES.
         try {
 
-            $rating = $this->createRating($requisicoes);
+            $rating = $this->createRating($requisicoes, $agendamento);
 
-            if ($rating) {
+            if ($rating && $agendamento) {
                 $rec = Employee::where('x_clinic_id', $requisicoes[0]->RECEP_ID)->first();
                 $rating->employees()->sync([$rec->id => ['role' => 'rec']]);
             } else {
@@ -178,12 +178,13 @@ class GetDadosClienteController extends Controller
         }
     }
 
-    public function createRating($requisicoes)
+    public function createRating($requisicoes, $agendamento)
     {
         $rating = Rating::updateOrCreate([
             'pac_name' => $requisicoes[0]->PACIENTE ?? NULL,
             'pac_id' => $requisicoes[0]->PACIENTEID ?? NULL,
             'data_req' => $requisicoes[0]->DATA ?? NULL,
+            'atend_name' => $agendamento[0]->ATENDENTE ?? NULL,
             'recep_name' => $requisicoes[0]->RECEPCIONISTA ?? NULL,
             'requisicao_id' => $requisicoes[0]->REQUISICAO ?? NULL
         ]);
