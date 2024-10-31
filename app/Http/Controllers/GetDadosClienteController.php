@@ -69,9 +69,6 @@ class GetDadosClienteController extends Controller
             if ($rating) {
                 $rec = Employee::where('x_clinic_id', $requisicoes[0]->RECEP_ID)->first();
                 $rating->employees()->sync([$rec->id => ['role' => 'rec']]);
-
-                $agd = Employee::where('x_clinic_id', $agendamento[0]->USERID)->first();
-                $rating->employees()->sync([$agd->id => ['role' => 'agd']]);
             } else {
                 throw new \Exception('Ocorreu um erro ao salvar a requisição.');
             }
@@ -81,6 +78,12 @@ class GetDadosClienteController extends Controller
                 'alert-type' => 'error'
             );
             return redirect()->to(route('inicio'))->with($notification);
+        }
+
+        if($agendamento)
+        {
+            $agd = Employee::where('x_clinic_id', $agendamento[0]->USERID)->first();
+            $rating->employees()->sync([$agd->id => ['role' => 'agd']]);
         }
 
         $adicional['recep_name'] = $rec->description_name;
