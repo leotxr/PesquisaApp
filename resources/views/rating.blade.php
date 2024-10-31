@@ -1,7 +1,7 @@
 <x-rating-layout>
     {{--RECEPCIONISTA--}}
     @livewire('forms.form-rating', ['rating' => $rating, 'fatura' => $fatura, 'text' => "Como você avalia o atendimento
-    realizado pela recepcionista", 'label' => $rating->employees(), 'wire_function' => "avaliaRecepcao", 'photo' => $rating->employees()->first()->photo],
+    realizado pela recepcionista", 'label' => '', 'wire_function' => "avaliaRecepcao", 'photo' => $rating->employees()->first()->photo],
     key($rating->id))
 
     <?php 
