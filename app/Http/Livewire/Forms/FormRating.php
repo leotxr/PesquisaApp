@@ -40,7 +40,9 @@ class FormRating extends Component
 
     public function avaliaAgendamento()
     {
-        
+        Rating::where('id', $this->rating->id)
+            ->update(['atend_rate' => $this->rate]);
+        $this->hideForm = true;
     }
     
 
