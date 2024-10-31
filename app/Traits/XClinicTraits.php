@@ -220,4 +220,21 @@ trait XClinicTraits
             ->select(DB::raw("COUNT(DISTINCT CONCAT(USUARIOS.USERID, WORK_LIST.DATA, WORK_LIST.PACIENTEID, FATURA.SETORID)) AS TOTAL"))
             ->get();
     }
+
+    public function updateRecep($rating, $recep_id, $atend_id)
+    {
+        $recep = Employee::where('x_clinic_id', $recep_id)->first();
+        $atend = Employee::where('x_clinic_id', $atend_id)->first();
+
+
+        if ($recep && $atend) {
+            $rating->employees()->detach([$recep->id]);
+            $rating->employees()->detach([$atend->id]);
+            $rating->employees()->attach([$recep->id => ['role' => 'rec']]);
+            $rating->employees()->attach([$atend->id => ['role' => 'agd']]);
+            return true;
+        } else {
+            throw new \Exception('Atendente nao encontrado. Contate o setor de TI.');
+        }
+    }
 }
