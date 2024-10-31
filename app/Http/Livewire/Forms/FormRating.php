@@ -38,6 +38,11 @@ class FormRating extends Component
         $this->photo = $photo;
     }
 
+    public function avaliaAgendamento()
+    {
+        
+    }
+    
 
     public function avaliaRecepcao()
     {

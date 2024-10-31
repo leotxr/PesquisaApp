@@ -33,6 +33,7 @@ class GetDadosClienteController extends Controller
         #BUSCA TODOS OS EXAMES DO PACIENTE NA DATA ATUAL PELO CÓDIGO DO PACIENTE.
         try {
             $requisicoes = $this->getRequests($this->paciente_id);
+            $agendamento = $this->getAgenda(date('Y-m-d'), $this->paciente_id);
         } catch (\Exception $e) {
             $notification = array(
                 'message' => $e->getMessage(),
@@ -166,7 +167,7 @@ class GetDadosClienteController extends Controller
 
 
         if ($requisicoes)
-            return view('rating', compact('rating', 'fatura'));
+            return view('rating', compact('rating', 'fatura', 'agenda'));
         else {
             $notification = array(
                 'message' => 'Código não encontrado! Verifique seu protocolo e tente novamente.',
