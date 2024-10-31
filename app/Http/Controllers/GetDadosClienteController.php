@@ -67,7 +67,7 @@ class GetDadosClienteController extends Controller
                 $rating->employees()->sync([$rec->id => ['role' => 'rec']]);
 
                 $agd = Employee::where('x_clinic_id', $agendamento[0]->USERID)->first();
-                $rating->employees()->sync([$rec->id => ['role' => 'agd']]);
+                $rating->employees()->sync([$agd->id => ['role' => 'agd']]);
             } else {
                 throw new \Exception('Ocorreu um erro ao salvar a requisição.');
             }
