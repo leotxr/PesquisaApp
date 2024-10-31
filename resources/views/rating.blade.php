@@ -1,16 +1,13 @@
 <x-rating-layout>
-    {{--RECEPCIONISTA--}}
-    @livewire('forms.form-rating', ['rating' => $rating, 'fatura' => $fatura, 'text' => "Como você avalia o atendimento
-    realizado pela recepcionista", 'label' => '', 'wire_function' => "avaliaRecepcao", 'photo' => $rating->employees()->first()->photo],
-    key($rating->id))
-
-    <?php 
-        var_dump($rating->employees()->where('role', 'agd')->first());
-    ?>
 
     {{--AGENDAMENTO--}}
     @livewire('forms.form-rating', ['rating' => $rating, 'fatura' => $fatura, 'text' => "Como você avalia o agendamento
-    realizado pelo(a) atendente", 'label' => $agendamento[0]->ATENDENTE, 'wire_function' => "avaliaAgendamento", 'photo' => '$rating->employees()->first()->photo'],
+    realizado pelo(a) atendente", 'label' => $adicional['atend_name'], 'wire_function' => "avaliaAgendamento", 'photo' => '$rating->employees()->first()->photo'],
+    key($rating->id))
+        
+    {{--RECEPCIONISTA--}}
+    @livewire('forms.form-rating', ['rating' => $rating, 'fatura' => $fatura, 'text' => "Como você avalia o atendimento
+    realizado pela recepcionista", 'label' => $adicional['recep_name'], 'wire_function' => "avaliaRecepcao", 'photo' => $rating->employees()->first()->photo],
     key($rating->id))
 
 

@@ -25,6 +25,10 @@ class GetDadosClienteController extends Controller
     public function __invoke(Request $request)
     {
         $this->paciente_id = $request->pacienteid;
+        $adicional = array(
+            'recep_name' => '',
+            'atend_name' => ''
+        );
 
         $request->validate([
             'pacienteid' => 'required|max:8',
@@ -65,6 +69,9 @@ class GetDadosClienteController extends Controller
             if ($rating) {
                 $rec = Employee::where('x_clinic_id', $requisicoes[0]->RECEP_ID)->first();
                 $rating->employees()->sync([$rec->id => ['role' => 'rec']]);
+
+                $agd = Employee::where('x_clinic_id', $agendamento[0]->USERID)->first();
+                $rating->employees()->sync([$agd->id => ['role' => 'agd']]);
             } else {
                 throw new \Exception('Ocorreu um erro ao salvar a requisição.');
             }
@@ -76,11 +83,9 @@ class GetDadosClienteController extends Controller
             return redirect()->to(route('inicio'))->with($notification);
         }
 
-        if($agendamento)
-        {
-            $agd = Employee::where('x_clinic_id', $agendamento[0]->USERID)->first();
-            $rating->employees()->sync([$agd->id => ['role' => 'agd']]);
-        }
+        $adicional['recep_name'] = $rec->description_name;
+        $adicional['atend_name'] = $agd->description_name;
+
         #######################################################################
 
 
