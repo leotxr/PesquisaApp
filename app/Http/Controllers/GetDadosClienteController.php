@@ -80,8 +80,6 @@ class GetDadosClienteController extends Controller
         {
             $agd = Employee::where('x_clinic_id', $agendamento[0]->USERID)->first();
             $rating->employees()->sync([$agd->id => ['role' => 'agd']]);
-
-            dd($agd);
         }
         #######################################################################
 
