@@ -5,7 +5,7 @@
     key($rating->id))
 
     <?php
-        var_dump($agendamento);
+        var_dump($agendamento[0]);
     ?>
 
     {{-- AGENDAMENTO 
