@@ -167,7 +167,7 @@ class GetDadosClienteController extends Controller
 
 
         if ($requisicoes)
-            return view('rating', compact('rating', 'fatura', 'agenda'));
+            return view('rating', compact('rating', 'fatura', 'agendamento'));
         else {
             $notification = array(
                 'message' => 'Código não encontrado! Verifique seu protocolo e tente novamente.',
