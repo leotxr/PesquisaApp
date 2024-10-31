@@ -4,11 +4,15 @@
     realizado pela recepcionista", 'label' => $rating->employees()->first()->description_name, 'wire_function' => "avaliaRecepcao", 'photo' => $rating->employees()->first()->photo],
     key($rating->id))
 
-    {{-- AGENDAMENTO --}}
+    <?php
+        var_dump($agendamento);
+    ?>
+
+    {{-- AGENDAMENTO 
     @livewire('forms.form-rating', ['rating' => $rating, 'fatura' => $fatura, 'text' => "Como você avalia o agendamento
     realizado pelo(a) atendente", 'label' => $agendamento, 'wire_function' => "avaliaRecepcao", 'photo' => $rating->employees()->first()->photo],
     key($rating->id))
-
+--}}
     {{--TÉCNICOS E MÉDICOS--}}
     @foreach($fatura as $faturas)
 
