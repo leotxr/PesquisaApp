@@ -42,6 +42,11 @@ class FormRating extends Component
     {
         Rating::where('id', $this->rating->id)
             ->update(['atend_rate' => $this->rate]);
+        $rec = $this->rating->employees()->where('role', 'agd')->first();
+
+        $rec->pivot->rate = $this->rate;
+        $rec->pivot->save();
+    
         $this->hideForm = true;
     }
     
