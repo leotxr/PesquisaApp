@@ -66,7 +66,7 @@ trait XClinicTraits
 
     public function getAgenda($data, $paciente_id)
     {
-        $sqlsrv = "Select TOP 1 A.PACIENTEID, FORMAT(A.DATA, 'yyyy/MM/dd') AS DATA, A.NOMEPAC AS PACIENTE, A.USERNAME AS ATENDENTE, A.USUARIO, A.NOME_EXAME AS PROCEDIMENTO FROM VW_AGENDA AS A ";
+        $sqlsrv = "Select TOP 1 A.PACIENTEID, FORMAT(A.DATA, 'yyyy/MM/dd') AS DATA, A.NOMEPAC AS PACIENTE, A.USERNAME AS ATENDENTE, A.USUARIO AS USERID, A.NOME_EXAME AS PROCEDIMENTO FROM VW_AGENDA AS A ";
         $sqlsrv = $sqlsrv . "WHERE A.DATA = '$data' AND ";
         $sqlsrv = $sqlsrv . "A.PACIENTEID = '$paciente_id' AND ";
         $sqlsrv = $sqlsrv . "A.USERNAME IS NOT NULL";
