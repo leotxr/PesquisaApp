@@ -27,7 +27,9 @@ class GetDadosClienteController extends Controller
         $this->paciente_id = $request->pacienteid;
         $adicional = array(
             'recep_name' => '',
-            'atend_name' => ''
+            'recep_photo' => '',
+            'atend_name' => '',
+            'atend_photo' => ''
         );
 
         $request->validate([
@@ -81,8 +83,10 @@ class GetDadosClienteController extends Controller
             return redirect()->to(route('inicio'))->with($notification);
         }
 
-        $adicional['recep_name'] = $rec->description_name;
-        $adicional['atend_name'] = $agd->description_name;
+        $adicional['recep_name'] = $rec->description_name ? $rec->description_name : '';
+        $adicional['recep_photo'] = $rec->photo ? $rec->photo : '';
+        $adicional['atend_name'] = $agd->description_name ? $agd->description_name : '';
+        $adicional['atend_photo'] = $agd->photo ? $agd->photo : '';
 
         #######################################################################
 
