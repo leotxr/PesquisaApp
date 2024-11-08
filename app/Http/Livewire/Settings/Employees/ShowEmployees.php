@@ -21,7 +21,7 @@ class ShowEmployees extends Component
     {
         $xclinic_users = DB::connection('sqlsrv')
             ->table('USUARIOS')
-            ->whereIn('GRUPOID', [7, 13, 14, 45, 48, 49, 50, 51, 53, 55, 57 ])
+            ->whereIn('GRUPOID', [7, 13, 14, 45, 48, 49, 50, 51, 53, 54, 55, 57 ])
             ->selectRaw('USERID, NOME')
             ->get();
 
