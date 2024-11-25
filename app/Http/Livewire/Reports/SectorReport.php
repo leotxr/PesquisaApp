@@ -76,7 +76,7 @@ class SectorReport extends Component
         $this->faturas[] = (object)['setor' => 'RECEPCAO', 'total' => Rating::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotNull('recep_rate')->count(), 'x_clinic' => $this->getRatings($this->start_date, $this->end_date)->TOTAL];
         $this->faturas[] = (object)['setor' => 'AGENDAMENTO', 'total' => Rating::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotNull('atend_rate')->count(), 'x_clinic' => $this->getRatings($this->start_date, $this->end_date)->TOTAL];
 
-        dd($this->faturas);
+        //dd($this->faturas);
 
         $this->render();
 
