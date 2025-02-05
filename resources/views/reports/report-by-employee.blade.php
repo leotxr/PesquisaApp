@@ -68,7 +68,7 @@
         function buscarDados() {
 
             dataInicio = $("#start_date").val();
-            dataFim - $("#end_date").val();
+            dataFim = $("#end_date").val();
             data = {
                 "dataInicio": dataInicio,
                 "dataFim": dataFim
