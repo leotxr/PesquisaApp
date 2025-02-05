@@ -92,7 +92,7 @@
                 row += '<td>' + nurse.name + '</td>';
                 row += '<td>' + nurse.count + '</td>';
                 row += '<td>' + nurse.x_clinic_count + '</td>';
-                row += '<td>' + diferenca.toFixed(2) + '%</td>';
+                row += '<td>' + nurse.avg + '%</td>';
                 row += '</tr>';
 
                 // Adicionando a linha na tabela
@@ -120,7 +120,7 @@
                 data: data,
                 success: function(response) {
                     res = JSON.parse(response);
-                    console.log(res.enfermeiras);
+                    setEnfermeiras(res.enfermeiras);
 
                 },
                 error: function(xhr, status, error) {
