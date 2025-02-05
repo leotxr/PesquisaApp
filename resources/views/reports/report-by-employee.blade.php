@@ -59,11 +59,56 @@
                 </x-slot>
             </x-accordion>
         </div>
+        <div>
+            <div class="p-2 bg-white my-2 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">Enfermagem</h2>
+            </div>
+            <x-table id="tabela-nurses">
+                <x-slot:head>
+                    <x-table.heading>Funcionário</x-table.heading>
+                    <x-table.heading>Avaliações Pesquisa</x-table.heading>
+                    <x-table.heading>Atendimentos X-Clinic</x-table.heading>
+                    <x-table.heading>Diferença</x-table.heading>
+                </x-slot:head>
+                <x-slot:body>
+                   
+                </x-slot:body>
+            </x-table>
+        </div>
     </body>
     <script>
         $("#submit").click(function() {
            buscarDados();
         });
+
+        function setEnfermeiras()
+        {
+            $('#tabela-nurses tbody').empty();
+
+                // Iterando sobre os dados e criando as linhas
+                data.forEach(function(nurse) {
+                    // Calculando a diferença
+                    let diferenca = 0;
+                    if (nurse.count > 0 && nurse.x_clinic_count > 0) {
+                        diferenca = (nurse.count / nurse.x_clinic_count) * 100;
+                    }
+
+                    // Montando a linha da tabela
+                    let row = '<tr>';
+                    row += '<td>' + nurse.name + '</td>';
+                    row += '<td>' + nurse.count + '</td>';
+                    row += '<td>' + nurse.x_clinic_count + '</td>';
+                    row += '<td>' + diferenca.toFixed(2) + '%</td>';
+                    row += '</tr>';
+
+                    // Adicionando a linha na tabela
+                    $('#tabela-nurses tbody').append(row);
+        }
+
+        function setTabelas()
+        {
+
+        }
 
         function buscarDados() {
 
@@ -80,7 +125,8 @@
                 type: 'GET',
                 data: data,
                 success: function(response) {
-                    console.log(response);
+                    console.log(response.enfermeiras);
+                    
                 },
                 error: function(xhr, status, error) {
                     console.error('Erro ao gerar o PDF:', error);

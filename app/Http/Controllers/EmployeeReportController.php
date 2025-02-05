@@ -38,6 +38,18 @@ class EmployeeReportController extends Controller
         $this->EmpModel->getAgendamentos($data);
     }
 
+    private function calcularAtendimento($v1, $v2)
+    {
+        $count = $v1;
+        $xClinic = $v2;
+
+        if($count > 0 && $xClinic > 0)
+        $avg = number_format($count / $xClinic * 100, 2, '.', '');
+        else $avg = 0;
+
+        return $avg;
+    }
+
     public function getRelatorioFuncionarios(Request $request)
     {
         $data = $request;
@@ -47,35 +59,55 @@ class EmployeeReportController extends Controller
 
         foreach (Employee::role('recepcionista')->get() as $employee)
         {
+            $count = $employee->ratings->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'rec')->count();
+            $xClinic = $this->compareServiceRec($this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL;
+            $avg = $this->calcularAtendimento($count, $xClinic);
+            
             $this->receptionists[] = (object)['name' => $employee->name,
-                'count' => $employee->ratings->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'rec')->count(),
-                'x_clinic_count' => $this->compareServiceRec($this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL];
+                'count' => $count,
+                'x_clinic_count' => $xClinic,
+                'avg' => $avg];
 
-            $this->rec_agendamento = (object)['name'=> $employee->name,
+            $this->rec_agendamento[] = (object)['name'=> $employee->name,
             'count' => 1,
-            'x_clinic_count' => 1];
+            'x_clinic_count' => 1,
+            'avg' => 1];
         }
 
         foreach (Employee::role('tecnico')->get() as $employee)
         {
+            $count = $employee->faturas()->whereBetween('fatura_data', [$this->start_date, $this->end_date])->where('role', 'tec')->count();
+            $xClinic = $this->compareServiceTech([1, 2, 3, 4, 9, 13, 18, 20, 21], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL;
+            $avg = $this->calcularAtendimento($count, $xClinic);
+
             $this->technicians[] = (object)['name' => $employee->name,
-                'count' => $employee->faturas()->whereBetween('fatura_data', [$this->start_date, $this->end_date])->where('role', 'tec')->count(),
-                'x_clinic_count' => $this->compareServiceTech([1, 2, 3, 4, 9, 13, 18, 20, 21], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
+                'count' => $count,
+                'x_clinic_count' => $xClinic,
+                'avg' => $avg
             ];
         }
 
         foreach (Employee::role('recepcionista usg')->get() as $employee)
         {
+            $count = $employee->faturas->whereBetween('fatura_data', [$this->start_date, $this->end_date])->count();
+            $xClinic = $this->compareServiceUSG([5, 10, 22], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL;
+            $avg = $this->calcularAtendimento($count, $xClinic);
+
             $this->usg_receptionists[] = (object)['name' => $employee->name,
-                'count' => $employee->faturas->whereBetween('fatura_data', [$this->start_date, $this->end_date])->count(),
-                'x_clinic_count' => $this->compareServiceUSG([5, 10, 22], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL];
+                'count' => $count,
+                'x_clinic_count' => $xClinic,
+                'avg' => $avg];
         }
 
         foreach (Employee::role('enfermeira')->get() as $employee)
         {
+            $count = $employee->faturas()->whereBetween('fatura_data', [$this->start_date, $this->end_date])->where('role', 'enf')->count();
+            $xClinic = $this->compareServiceNurse([4, 9], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL;
+            $avg = $this->calcularAtendimento($count, $xClinic);
             $this->nurses[] = (object)['name' => $employee->name,
-                'count' => $employee->faturas()->whereBetween('fatura_data', [$this->start_date, $this->end_date])->where('role', 'enf')->count(),
-                'x_clinic_count' => $this->compareServiceNurse([4, 9], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL];
+                'count' => $count,
+                'x_clinic_count' => $xClinic,
+                'avg' => $avg];
         }
 
         $retorno['recepcionistas'] = $this->receptionists;
