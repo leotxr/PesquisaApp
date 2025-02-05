@@ -62,7 +62,7 @@
     </body>
     <script>
         $("#submit").click(function() {
-            console.log('teste');
+           buscarDados();
         });
 
         function buscarDados() {
