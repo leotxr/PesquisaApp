@@ -78,7 +78,7 @@
             $.ajax({
                 url: url,
                 type: 'GET',
-                data: JSON.stringify(data),
+                data: data,
                 success: function(response) {
                     console.log(response);
                 },
