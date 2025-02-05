@@ -121,7 +121,7 @@
                 success: function(response) {
                     res = JSON.parse(response);
                     console.log(res.enfermeiras);
-                    setEnfermeiras(res.enfermeiras);
+                    //setEnfermeiras(res.enfermeiras);
 
                 },
                 error: function(xhr, status, error) {
