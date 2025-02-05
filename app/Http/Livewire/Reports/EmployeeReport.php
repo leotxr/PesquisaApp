@@ -19,6 +19,7 @@ class EmployeeReport extends Component
     public $nurses = [];
     public $start_date;
     public $end_date;
+    public $EmployeModel;
 
     public function mount()
     {
@@ -28,8 +29,20 @@ class EmployeeReport extends Component
 
         //dd($this->compareServiceNurse([4,9], '2024-01-30', '2024-01-30', 79)[0]->TOTAL);
         //dd($this->compareServiceRec( '2024-01-01', '2024-01-24', 8)[0]->TOTAL);
+        $this->EmployeeModel = new Employee();
 
+    }
 
+    private function getAgendamentosRecep($role, $role_id)
+    {
+        $data = array(
+            'data_inicial' => $this->start_date,
+            'data_final' => $this->end_date,
+            'role' => $role,
+            'role_id' => $role_id
+        );
+
+        $this->EmployeModel->getAgendamentos($data);
     }
 
     public function search()
@@ -40,8 +53,8 @@ class EmployeeReport extends Component
                 'count' => $employee->ratings->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'rec')->count(),
                 'x_clinic_count' => $this->compareServiceRec($this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL];
             $this->rec_agendamento[] = (object)['name'=> $employee->name,
-            'count'=> $employee->ratings->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'agd')->count(),
-            'x_clinic_count' => $this->compareServiceRec($this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL];
+            'count'=> 1,
+            'x_clinic_count' => 1];
 
         foreach (Employee::role('tecnico')->get() as $employee)
             $this->technicians[] = (object)['name' => $employee->name,
