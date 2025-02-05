@@ -50,9 +50,6 @@ class EmployeeReportController extends Controller
             $this->receptionists[] = (object)['name' => $employee->name,
                 'count' => $employee->ratings->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'rec')->count(),
                 'x_clinic_count' => $this->compareServiceRec($this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL];
-            $this->rec_agendamento[] = (object)['name'=> $employee->name,
-            'count'=> 1,
-            'x_clinic_count' => 1];
         }
 
         foreach (Employee::role('tecnico')->get() as $employee)
@@ -78,7 +75,7 @@ class EmployeeReportController extends Controller
         }
 
         $retorno['recepcionistas'] = $this->receptionists;
-        $retorno['recep_agendamento'] = $this->rec_agendamento;
+        //$retorno['recep_agendamento'] = $this->rec_agendamento;
         $retorno['tecnicos'] = $this->technicians;
         $retorno['usg'] = $this->usg_receptionists;
         $retorno['enfermeiras'] = $this->nurses;
