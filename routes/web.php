@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GetDadosCliente;
 use Illuminate\Support\Facades\DB;
@@ -122,6 +123,8 @@ Route::middleware('auth')->group(function () {
     Route::get('comentarios', function () {
         return view('admin.rel-coment');
     })->name('rel-coment');
+
+    Route::get('relatorios/funcionariosetor', [EmployeeReportController::class, 'getRelatoriofuncionarios'])->name('relatorios/funcionariosetor');
 
     Route::any('editComent', 'App\Http\Controllers\RatingController@editComment')->name('editComment');
 
