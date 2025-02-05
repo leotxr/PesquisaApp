@@ -83,10 +83,10 @@
 
         function setEnfermeiras() {
             $('#tabela-nurses tbody').empty();
-
+            console.log('limpou tabela');
             // Iterando sobre os dados e criando as linhas
             data.forEach(function(nurse) {
-
+                console.log('montando linha');
                 // Montando a linha da tabela
                 let row = '<tr>';
                 row += '<td>' + nurse.name + '</td>';
@@ -120,6 +120,7 @@
                 data: data,
                 success: function(response) {
                     res = JSON.parse(response);
+                    console.log(res.enfermeiras);
                     setEnfermeiras(res.enfermeiras);
 
                 },
