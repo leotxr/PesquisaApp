@@ -34,7 +34,7 @@ class EmployeeReport extends Component
 
     public function search()
     {
-        $this->reset('receptionists', 'technicians', 'usg_receptionists', 'nurses');
+        $this->reset('receptionists', 'technicians', 'usg_receptionists', 'nurses', 'rec_agendamento');
         foreach (Employee::role('recepcionista')->get() as $employee)
             $this->receptionists[] = (object)['name' => $employee->name,
                 'count' => $employee->ratings->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'rec')->count(),
@@ -59,6 +59,7 @@ class EmployeeReport extends Component
                 'count' => $employee->faturas()->whereBetween('fatura_data', [$this->start_date, $this->end_date])->where('role', 'enf')->count(),
                 'x_clinic_count' => $this->compareServiceNurse([4, 9], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL];
 
+                var_dump($this->rec_agendamento);
         $this->render();
     }
 
