@@ -41,10 +41,10 @@ class EmployeeReportController extends Controller
     public function getRelatorioFuncionarios(Request $request)
     {
         $data = $request;
-        $this->start_date = $request;
+        $this->start_date = $request->dataInicio;
         $this->end_date = $data->dataFim;
 
-        dd($request);exit();
+        dd($this->start_date);
 
         foreach (Employee::role('recepcionista')->get() as $employee)
         {
