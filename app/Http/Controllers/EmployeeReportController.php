@@ -44,7 +44,7 @@ class EmployeeReportController extends Controller
         $this->start_date = $request;
         $this->end_date = $data->dataFim;
 
-        var_dump($request);exit;
+        dd($request);exit();
 
         foreach (Employee::role('recepcionista')->get() as $employee)
         {
