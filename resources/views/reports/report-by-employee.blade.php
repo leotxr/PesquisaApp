@@ -62,5 +62,5 @@
             </div>
         </form>
     </body>
-    <script src="js/reports/relfuncionariosetor.js"></script>
+    <script src="../../js/reports/relfuncionariosetor.js"></script>
 </x-app-layout>
