@@ -62,5 +62,9 @@
             </div>
         </form>
     </body>
-    <script src="../../js/reports/relfuncionariosetor.js"></script>
+    <script>
+        $(document).ready(function() {
+            console.log('teste');
+});
+    </script>
 </x-app-layout>
