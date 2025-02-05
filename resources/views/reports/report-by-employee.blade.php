@@ -83,26 +83,7 @@
 
         function setEnfermeiras()
         {
-            $('#tabela-nurses tbody').empty();
-
-                // Iterando sobre os dados e criando as linhas
-                data.forEach(function(nurse) {
-                    // Calculando a diferença
-                    let diferenca = 0;
-                    if (nurse.count > 0 && nurse.x_clinic_count > 0) {
-                        diferenca = (nurse.count / nurse.x_clinic_count) * 100;
-                    }
-
-                    // Montando a linha da tabela
-                    let row = '<tr>';
-                    row += '<td>' + nurse.name + '</td>';
-                    row += '<td>' + nurse.count + '</td>';
-                    row += '<td>' + nurse.x_clinic_count + '</td>';
-                    row += '<td>' + diferenca.toFixed(2) + '%</td>';
-                    row += '</tr>';
-
-                    // Adicionando a linha na tabela
-                    $('#tabela-nurses tbody').append(row);
+            
         }
 
         function setTabelas()
