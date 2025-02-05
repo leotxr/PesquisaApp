@@ -63,8 +63,8 @@
         </form>
     </body>
     <script>
-        $(document).ready(function() {
+        $("#submit").click(function() {
             console.log('teste');
-});
+        });
     </script>
 </x-app-layout>
