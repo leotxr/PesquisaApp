@@ -106,7 +106,8 @@
                 type: 'GET',
                 data: data,
                 success: function(response) {
-                    console.log(response.enfermeiras);
+                    res = JSON.parse(response);
+                    console.log(res.enfermeiras);
                     
                 },
                 error: function(xhr, status, error) {
