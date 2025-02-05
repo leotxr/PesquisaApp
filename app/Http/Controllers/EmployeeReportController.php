@@ -41,7 +41,7 @@ class EmployeeReportController extends Controller
     public function getRelatorioFuncionarios(Request $request)
     {
         $data = $request;
-        $this->start_date = $data->dataInicio;
+        $this->start_date = $request->dataInicio;
         $this->end_date = $data->dataFim;
 
         return $this->start_date;
