@@ -71,23 +71,36 @@
                     <x-table.heading>Diferença</x-table.heading>
                 </x-slot:head>
                 <x-slot:body>
-                   
+
                 </x-slot:body>
             </x-table>
         </div>
     </body>
     <script>
         $("#submit").click(function() {
-           buscarDados();
+            buscarDados();
         });
 
-        function setEnfermeiras()
-        {
-            
+        function setEnfermeiras() {
+            $('#tabela-nurses tbody').empty();
+
+            // Iterando sobre os dados e criando as linhas
+            data.forEach(function(nurse) {
+
+                // Montando a linha da tabela
+                let row = '<tr>';
+                row += '<td>' + nurse.name + '</td>';
+                row += '<td>' + nurse.count + '</td>';
+                row += '<td>' + nurse.x_clinic_count + '</td>';
+                row += '<td>' + diferenca.toFixed(2) + '%</td>';
+                row += '</tr>';
+
+                // Adicionando a linha na tabela
+                $('#tabela-nurses tbody').append(row);
+            });
         }
 
-        function setTabelas()
-        {
+        function setTabelas() {
 
         }
 
@@ -99,7 +112,7 @@
                 "dataInicio": dataInicio,
                 "dataFim": dataFim
             }
-            const url = "{{ route('relatorios/funcionariosetor')}}";
+            const url = "{{ route('relatorios/funcionariosetor') }}";
 
             $.ajax({
                 url: url,
@@ -107,8 +120,8 @@
                 data: data,
                 success: function(response) {
                     res = JSON.parse(response);
-                    console.log(res);
-                    
+                    console.log(res.enfermeiras);
+
                 },
                 error: function(xhr, status, error) {
                     console.error('Erro ao gerar o PDF:', error);
