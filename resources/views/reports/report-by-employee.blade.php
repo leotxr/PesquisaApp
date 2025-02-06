@@ -222,7 +222,7 @@
                 success: function(response) {
                     res = JSON.parse(response);
                    // setEnfermeiras(res.enfermeiras);
-                   // setTecnicos(res.tecnicos);
+                    setTecnicos(res.tecnicos);
                     setRecepcionistas(res.recepcionistas);
                 },
                 error: function(xhr, status, error) {
