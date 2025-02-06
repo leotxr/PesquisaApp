@@ -25,7 +25,7 @@ class EmployeeReportController extends Controller
     {
         $this->EmpModel = new Employee();
     }
-
+/*
     private function getAgendamentosRecep($role, $role_id)
     {
         $data = array(
@@ -37,7 +37,7 @@ class EmployeeReportController extends Controller
 
         $this->EmpModel->getAgendamentos($data);
     }
-
+*/
     private function calcularAtendimento($v1, $v2)
     {
         $count = $v1;
