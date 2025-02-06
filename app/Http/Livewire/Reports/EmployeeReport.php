@@ -14,12 +14,10 @@ class EmployeeReport extends Component
 
     public $technicians = [];
     public $receptionists = [];
-    public $rec_agendamento = [];
     public $usg_receptionists = [];
     public $nurses = [];
     public $start_date;
     public $end_date;
-    public $EmployeModel;
 
     public function mount()
     {
@@ -29,34 +27,17 @@ class EmployeeReport extends Component
 
         //dd($this->compareServiceNurse([4,9], '2024-01-30', '2024-01-30', 79)[0]->TOTAL);
         //dd($this->compareServiceRec( '2024-01-01', '2024-01-24', 8)[0]->TOTAL);
-        $this->EmployeeModel = new Employee();
 
-    }
 
-    private function getAgendamentosRecep($role, $role_id)
-    {
-        $data = array(
-            'data_inicial' => $this->start_date,
-            'data_final' => $this->end_date,
-            'role' => $role,
-            'role_id' => $role_id
-        );
-
-        $this->EmployeModel->getAgendamentos($data);
     }
 
     public function search()
     {
-        $this->reset('receptionists', 'technicians', 'usg_receptionists', 'nurses', 'rec_agendamento');
+        $this->reset('receptionists', 'technicians', 'usg_receptionists', 'nurses');
         foreach (Employee::role('recepcionista')->get() as $employee)
-        {
             $this->receptionists[] = (object)['name' => $employee->name,
-                'count' => $employee->ratings->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'rec')->count(),
+                'count' => $employee->ratings->whereBetween('data_req', [$this->start_date, $this->end_date])->count(),
                 'x_clinic_count' => $this->compareServiceRec($this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL];
-            $this->rec_agendamento[] = (object)['name'=> $employee->name,
-            'count'=> 1,
-            'x_clinic_count' => 1];
-        }
 
         foreach (Employee::role('tecnico')->get() as $employee)
             $this->technicians[] = (object)['name' => $employee->name,
@@ -67,14 +48,14 @@ class EmployeeReport extends Component
         foreach (Employee::role('recepcionista usg')->get() as $employee)
             $this->usg_receptionists[] = (object)['name' => $employee->name,
                 'count' => $employee->faturas->whereBetween('fatura_data', [$this->start_date, $this->end_date])->count(),
-                'x_clinic_count' => $this->compareServiceUSG([5, 10, 22], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL];
+                'x_clinic_count' => $this->compareServiceUSG([5, 10], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL];
 
         foreach (Employee::role('enfermeira')->get() as $employee)
             $this->nurses[] = (object)['name' => $employee->name,
                 'count' => $employee->faturas()->whereBetween('fatura_data', [$this->start_date, $this->end_date])->where('role', 'enf')->count(),
                 'x_clinic_count' => $this->compareServiceNurse([4, 9], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL];
 
-                var_dump($this->rec_agendamento);
+
         $this->render();
     }
 
