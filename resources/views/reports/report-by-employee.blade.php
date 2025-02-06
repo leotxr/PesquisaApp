@@ -217,6 +217,13 @@
 
         }
 
+        function setTabelas(res) {
+            setEnfermeiras(res.enfermeiras);
+            setTecnicos(res.tecnicos);
+            setRecepcionistas(res.recepcionistas);
+            setUSG(res.usg);
+        }
+
         function buscarDados() {
 
             // Obtendo as variáveis do formulário
@@ -241,10 +248,7 @@
                 cache: false, // Adicione isso para desabilitar cache
                 success: function(response) {
                     res = JSON.parse(response);
-                    setEnfermeiras(res.enfermeiras);
-                    //setTecnicos(res.tecnicos);
-                    //setRecepcionistas(res.recepcionistas);
-                    //setUSG(res.usg);
+                    setTabelas(res);
                 },
                 error: function(xhr, status, error) {
                     console.error('Erro ao gerar o PDF:', error);
