@@ -36,17 +36,17 @@ class Employee extends Model
         $roleId = $data['role_id'];
         $dataInicio = $data['data_inicial'];
         $dataFim = $data['data_final'];
-
+    
         $results = EmployeeRating::select('er.rate', 'em.name', 'er.role', 'ra.data_req', 'ra.pac_name')
-        ->from('employee_rating as er')
-        ->join('ratings as ra', 'ra.id', '=', 'er.rating_id')
-        ->join('employees as em', 'em.id', '=', 'er.employee_id')
-        ->join('model_has_roles as mhr', 'mhr.model_id', '=', 'em.id')
-        ->where('er.role', $role) // Supondo que $role seja uma variável que contém o valor de :ROLE
-        ->whereBetween('ra.data_req', [$dataInicio, $dataFim]) // Supondo que $dataInicio e $dataFim sejam variáveis que contêm os valores de :DATAINICIO e :DATAFIM
-        ->where('mhr.role_id', $roleId) // Supondo que $roleId seja uma variável que contém o valor de :ROLEID
-        ->get();
+            ->join('ratings as ra', 'ra.id', '=', 'er.rating_id')
+            ->join('employees as em', 'em.id', '=', 'er.employee_id')
+            ->join('model_has_roles as mhr', 'mhr.model_id', '=', 'em.id')
+            ->where('er.role', $role)
+            ->whereBetween('ra.data_req', [$dataInicio, $dataFim])
+            ->where('mhr.role_id', $roleId)
+            ->get();
+    
+        return $results;
     }
-
 
 }
