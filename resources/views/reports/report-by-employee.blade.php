@@ -199,30 +199,47 @@
 
         function buscarDados() {
 
-            dataInicio = $("#start_date").val();
-            dataFim = $("#end_date").val();
-            data = {
-                "dataInicio": dataInicio,
-                "dataFim": dataFim
-            }
+            // Obtendo as variáveis do formulário
+            const dataInicio = $("#start_date").val();
+            const dataFim = $("#end_date").val();
+
+            // Definindo os dados para enviar na requisição
+            const data = {
+                dataInicio: dataInicio,
+                dataFim: dataFim
+            };
+
+            // Definindo a URL para a requisição
             const url = "{{ route('relatorios/funcionariosetor') }}";
             console.log(url);
 
-            $.ajax({
-                url: url,
-                data: data,
-                success: function(response) {
-                    res = JSON.parse(response);
+            // Fazendo a requisição com o fetch
+            fetch(url, {
+                    method: 'GET', // Método da requisição (se for GET, substitua)
+                    headers: {
+                        'Content-Type': 'application/json', // Definindo o tipo de conteúdo
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Incluindo o token CSRF se necessário
+                    },
+                    body: JSON.stringify(data) // Enviando os dados em formato JSON
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        // Se a resposta não for ok (erro 4xx ou 5xx), lança um erro
+                        throw new Error(`Erro na requisição: ${response.status}`);
+                    }
+                    return response.json(); // Se for bem-sucedido, converte a resposta para JSON
+                })
+                .then(res => {
+                    // Manipulando os dados retornados
                     setEnfermeiras(res.enfermeiras);
                     setTecnicos(res.tecnicos);
                     setRecepcionistas(res.recepcionistas);
-
-                },
-                error: function(xhr, status, error) {
-                    console.log(error);
+                })
+                .catch(error => {
+                    // Tratando qualquer erro que aconteça na requisição
                     console.error('Erro ao gerar o PDF:', error);
-                }
-            });
+                });
+
         }
     </script>
 </x-app-layout>
