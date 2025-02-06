@@ -206,6 +206,7 @@
                 "dataFim": dataFim
             }
             const url = "{{ route('relatorios/funcionariosetor') }}";
+            console.log(url);
 
             $.ajax({
                 url: url,
