@@ -77,6 +77,60 @@
                 </tbody>
             </table>
         </div>
+        <div>
+            <div class="p-2 bg-white my-2 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">Técnicos</h2>
+            </div>
+            <table id="tabela-tec">
+                <thead>
+                    <tr>
+                        <th>Funcionário</th>
+                        <th>Avaliações Pesquisa</th>
+                        <th>Atendimentos X-Clinic</th>
+                        <th>Diferença</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Linhas da tabela serão inseridas aqui via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="p-2 bg-white my-2 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">Recepção Atendimento</h2>
+            </div>
+            <table id="tabela-recep">
+                <thead>
+                    <tr>
+                        <th>Funcionário</th>
+                        <th>Avaliações Pesquisa</th>
+                        <th>Atendimentos X-Clinic</th>
+                        <th>Diferença</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Linhas da tabela serão inseridas aqui via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="p-2 bg-white my-2 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">Recepção Agendamento</h2>
+            </div>
+            <table id="tabela-recep_ag">
+                <thead>
+                    <tr>
+                        <th>Funcionário</th>
+                        <th>Avaliações Pesquisa</th>
+                        <th>Atendimentos X-Clinic</th>
+                        <th>Diferença</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Linhas da tabela serão inseridas aqui via JavaScript -->
+                </tbody>
+            </table>
+        </div>
     </body>
     <script>
         $("#submit").click(function() {
@@ -85,10 +139,10 @@
 
         function setEnfermeiras(data) {
             $('#tabela-nurses tbody').empty();
-            console.log('limpou tabela');
+
             // Iterando sobre os dados e criando as linhas
             data.forEach(function(nurse) {
-                console.log('montando linha');
+
                 // Montando a linha da tabela
                 let row = '<tr>';
                 row += '<td>' + nurse.name + '</td>';
@@ -100,10 +154,46 @@
                 // Adicionando a linha na tabela
                 $('#tabela-nurses tbody').append(row);
             });
-            console.log('montou');
+
         }
 
-        function setTabelas() {
+        function setTecnicos(data) {
+            $('#tabela-tec tbody').empty();
+
+            // Iterando sobre os dados e criando as linhas
+            data.forEach(function(nurse) {
+
+                // Montando a linha da tabela
+                let row = '<tr>';
+                row += '<td>' + nurse.name + '</td>';
+                row += '<td>' + nurse.count + '</td>';
+                row += '<td>' + nurse.x_clinic_count + '</td>';
+                row += '<td>' + nurse.avg + '%</td>';
+                row += '</tr>';
+
+                // Adicionando a linha na tabela
+                $('#tabela-tec tbody').append(row);
+            });
+
+        }
+
+        function setRecepcionistas(data) {
+            $('#tabela-recep tbody').empty();
+
+            // Iterando sobre os dados e criando as linhas
+            data.forEach(function(nurse) {
+
+                // Montando a linha da tabela
+                let row = '<tr>';
+                row += '<td>' + nurse.name + '</td>';
+                row += '<td>' + nurse.count + '</td>';
+                row += '<td>' + nurse.x_clinic_count + '</td>';
+                row += '<td>' + nurse.avg + '%</td>';
+                row += '</tr>';
+
+                // Adicionando a linha na tabela
+                $('#tabela-recep tbody').append(row);
+            });
 
         }
 
@@ -124,6 +214,8 @@
                 success: function(response) {
                     res = JSON.parse(response);
                     setEnfermeiras(res.enfermeiras);
+                    setTecnicos(res.tecnicos);
+                    setRecepcionistas(res.recepcionistas);
 
                 },
                 error: function(xhr, status, error) {
