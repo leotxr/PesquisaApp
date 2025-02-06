@@ -220,7 +220,7 @@
                         'Content-Type': 'application/json', // Definindo o tipo de conteúdo
                         'X-CSRF-TOKEN': '{{ csrf_token() }}' // Incluindo o token CSRF se necessário
                     },
-                    body: JSON.stringify(data) // Enviando os dados em formato JSON
+                    body: data // Enviando os dados em formato JSON
                 })
                 .then(response => {
                     if (!response.ok) {
