@@ -215,30 +215,20 @@
                 `{{ route('relatorios/funcionariosetor') }}?dataInicio=${encodeURIComponent(dataInicio)}&dataFim=${encodeURIComponent(dataFim)}`;
             console.log("URL:", url);
 
-            fetch(url, {
-                    method: 'GET', // Usando o método GET
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Incluindo o token CSRF
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        // Verifica se a resposta do servidor é bem-sucedida
-                        throw new Error(`Erro na requisição: ${response.status}`);
-                    }
-                    return response.json(); // Converte a resposta para JSON
-                })
-                .then(res => {
-                    // Manipula a resposta, caso não haja erro
-                    console.log("Dados recebidos:", res);
+            $.ajax({
+                url: url,
+                data: data,
+                cache: false, // Adicione isso para desabilitar cache
+                success: function(response) {
+                    res = JSON.parse(response);
                     setEnfermeiras(res.enfermeiras);
                     setTecnicos(res.tecnicos);
                     setRecepcionistas(res.recepcionistas);
-                })
-                .catch(error => {
-                    // Captura qualquer erro na requisição
+                },
+                error: function(xhr, status, error) {
                     console.error('Erro ao gerar o PDF:', error);
-                });
+                }
+            });
 
 
         }
