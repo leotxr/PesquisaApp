@@ -19,6 +19,7 @@ class EmployeeReport extends Component
     public $start_date;
     public $end_date;
     public $agd_receptionists = [];
+    public $agendamentos = [];
 
     public function mount()
     {
@@ -72,6 +73,21 @@ class EmployeeReport extends Component
             ];
 
             $this->agd_receptionists[] = (object)[
+                'name' => $employee->name,
+                'count' => $employee->ratings()->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'agd')->count(),
+                'x_clinic_count' => $this->compareServiceRecAgd($dados)
+            ];
+        }
+
+        foreach (Employee::role('agendamento')->get() as $employee)
+        {
+            $dados = [
+                'dataInicio' => $this->start_date,
+                'dataFim' => $this->end_date,
+                'xClinicId' => $employee->x_clinic_id
+            ];
+
+            $this->agendamentos[] = (object)[
                 'name' => $employee->name,
                 'count' => $employee->ratings()->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'agd')->count(),
                 'x_clinic_count' => $this->compareServiceRecAgd($dados)

@@ -194,4 +194,33 @@
             </x-slot:body>
         </x-table>
     </div>
+
+    <div>
+        <div class="p-2 bg-white my-2 rounded-lg shadow">
+            <h2 class="text-2xl font-bold">Telefonia / WhatsApp</h2>
+        </div>
+        <x-table>
+            <x-slot:head>
+                <x-table.heading>Funcionário</x-table.heading>
+                <x-table.heading>Avaliações Pesquisa</x-table.heading>
+                <x-table.heading>Atendimentos X-Clinic</x-table.heading>
+                <x-table.heading>Diferença</x-table.heading>
+            </x-slot:head>
+            <x-slot:body>
+                @foreach($agendamentos as $rec)
+                    <x-table.row>
+                        <x-table.cell>{{$rec->name}}</x-table.cell>
+                        <x-table.cell>{{$rec->count}}</x-table.cell>
+                        <x-table.cell>{{$rec->x_clinic_count}}</x-table.cell>
+                        <x-table.cell>@if($rec->count > 0 && $rec->x_clinic_count > 0)
+                                {{number_format($rec->count / $rec->x_clinic_count *
+                                                                100, 2, '.', '')}}%
+                            @else
+                                {{0}}%
+                            @endif</x-table.cell>
+                    </x-table.row>
+                @endforeach
+            </x-slot:body>
+        </x-table>
+    </div>
 </div>
