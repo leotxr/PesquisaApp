@@ -220,6 +220,7 @@
 
                 },
                 error: function(xhr, status, error) {
+                    console.log(error);
                     console.error('Erro ao gerar o PDF:', error);
                 }
             });
