@@ -81,7 +81,7 @@
             buscarDados();
         });
 
-        function setEnfermeiras() {
+        function setEnfermeiras(nurse) {
             $('#tabela-nurses tbody').empty();
             console.log('limpou tabela');
             // Iterando sobre os dados e criando as linhas
@@ -121,7 +121,7 @@
                 success: function(response) {
                     res = JSON.parse(response);
                     console.log(res.enfermeiras);
-                    //setEnfermeiras(res.enfermeiras);
+                    setEnfermeiras(res.enfermeiras);
 
                 },
                 error: function(xhr, status, error) {
