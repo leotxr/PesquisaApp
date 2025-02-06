@@ -209,9 +209,8 @@
 
             $.ajax({
                 url: url,
-                type: 'POST',
+                type: 'GET',
                 data: data,
-                timeout: 10000,
                 success: function(response) {
                     res = JSON.parse(response);
                     setEnfermeiras(res.enfermeiras);
