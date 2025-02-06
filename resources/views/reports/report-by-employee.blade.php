@@ -200,45 +200,46 @@
         function buscarDados() {
 
             // Obtendo as variáveis do formulário
-            const dataInicio = $("#start_date").val();
-            const dataFim = $("#end_date").val();
+            var dataInicio = $("#start_date").val();
+            var dataFim = $("#end_date").val();
 
             // Definindo os dados para enviar na requisição
-            const data = {
+            var data = {
                 dataInicio: dataInicio,
                 dataFim: dataFim
             };
 
-            // Definindo a URL para a requisição
-            const url = "{{ route('relatorios/funcionariosetor') }}";
-            console.log(url);
+            console.log("Dados enviados:", data); // Log para verificar os dados antes do envio
 
-            // Fazendo a requisição com o fetch
+            var url =
+                `{{ route('relatorios/funcionariosetor') }}?dataInicio=${encodeURIComponent(dataInicio)}&dataFim=${encodeURIComponent(dataFim)}`;
+            console.log("URL:", url);
+
             fetch(url, {
-                    method: 'POST', // Método da requisição (se for GET, substitua)
+                    method: 'GET', // Usando o método GET
                     headers: {
-                        'Content-Type': 'application/json', // Definindo o tipo de conteúdo
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Incluindo o token CSRF se necessário
-                    },
-                    body: JSON.stringify(data) // Enviando os dados em formato JSON
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Incluindo o token CSRF
+                    }
                 })
                 .then(response => {
                     if (!response.ok) {
-                        // Se a resposta não for ok (erro 4xx ou 5xx), lança um erro
+                        // Verifica se a resposta do servidor é bem-sucedida
                         throw new Error(`Erro na requisição: ${response.status}`);
                     }
-                    return response.json(); // Se for bem-sucedido, converte a resposta para JSON
+                    return response.json(); // Converte a resposta para JSON
                 })
                 .then(res => {
-                    // Manipulando os dados retornados
+                    // Manipula a resposta, caso não haja erro
+                    console.log("Dados recebidos:", res);
                     setEnfermeiras(res.enfermeiras);
                     setTecnicos(res.tecnicos);
                     setRecepcionistas(res.recepcionistas);
                 })
                 .catch(error => {
-                    // Tratando qualquer erro que aconteça na requisição
+                    // Captura qualquer erro na requisição
                     console.error('Erro ao gerar o PDF:', error);
                 });
+
 
         }
     </script>
