@@ -74,7 +74,7 @@ class EmployeeReportController extends Controller
             'x_clinic_count' => 1,
             'avg' => 1];
         }
-
+/*
         foreach (Employee::role('tecnico')->get() as $employee)
         {
             $count = $employee->faturas()->whereBetween('fatura_data', [$this->start_date, $this->end_date])->where('role', 'tec')->count();
@@ -99,7 +99,7 @@ class EmployeeReportController extends Controller
                 'x_clinic_count' => $xClinic,
                 'avg' => $avg];
         }
-/*
+
         foreach (Employee::role('enfermeira')->get() as $employee)
         {
             $count = $employee->faturas()->whereBetween('fatura_data', [$this->start_date, $this->end_date])->where('role', 'enf')->count();
