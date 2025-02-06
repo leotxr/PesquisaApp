@@ -230,7 +230,7 @@ trait XClinicTraits
         $sqlsrv = "SELECT COUNT(A.USUARIO)  AS TOTAL
         FROM VW_AGENDA AS A ";
         $sqlsrv = $sqlsrv . "WHERE A.DATA BETWEEN '$dataInicio' AND '$dataFim' AND ";
-        $sqlsrv = $sqlsrv . "A.USUARIO = '$userId' AND ";
+        $sqlsrv = $sqlsrv . "A.USUARIO = '$userId' ";
         $agendas = DB::connection('sqlsrv')->select($sqlsrv);
 
         return $agendas[0]->TOTAL;
