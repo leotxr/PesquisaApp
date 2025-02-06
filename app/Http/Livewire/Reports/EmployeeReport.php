@@ -64,11 +64,20 @@ class EmployeeReport extends Component
             ];
 
         foreach (Employee::role('recepcionista')->get() as $employee)
+        {
+            $dados = [
+                'dataInicio' => $this->start_date,
+                'dataFim' => $this->end_date,
+                'xClinicId' => $employee->x_clinic_id
+            ];
+
             $this->agd_receptionists[] = (object)[
                 'name' => $employee->name,
                 'count' => $employee->ratings()->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'agd')->count(),
-                'x_clinic_count' => $this->compareServiceRec($this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
+                'x_clinic_count' => $this->compareServiceRecAgd($dados)[0]
             ];
+        }
+
 
         $this->render();
     }

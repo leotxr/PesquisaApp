@@ -221,6 +221,21 @@ trait XClinicTraits
             ->get();
     }
 
+    public function compareServiceRecAgd($data)
+    {
+        $dataInicio = $data['dataInicio'];
+        $dataFim = $data['dataFim'];
+        $userId = $data['xClinicId'];
+
+        $sqlsrv = "SELECT COUNT(A.USUARIO) 
+        FROM VW_AGENDA AS A ";
+        $sqlsrv = $sqlsrv . "WHERE A.DATA BETWEEN '$dataInicio' AND '$dataFim' AND";
+        $sqlsrv = $sqlsrv . "A.USUARIO = '$userId' AND ";
+        $sqlsrv = $sqlsrv . "A.USERNAME IS NOT NULL";
+        $agendas = DB::connection('sqlsrv')->select($sqlsrv);
+        return $agendas;
+    }
+
     public function updateRecep($rating, $recep_id, $atend_id)
     {
         $recep = Employee::where('x_clinic_id', $recep_id)->first();
