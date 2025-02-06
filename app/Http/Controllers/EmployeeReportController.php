@@ -57,6 +57,7 @@ class EmployeeReportController extends Controller
         $this->end_date = $data->dataFim;
         $retorno = [];
 
+        try {
         foreach (Employee::role('recepcionista')->get() as $employee)
         {
             $count = $employee->ratings->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'rec')->count();
@@ -117,6 +118,10 @@ class EmployeeReportController extends Controller
         $retorno['enfermeiras'] = $this->nurses;
         
         return json_encode($retorno);
-
+    }catch (\Exception $e) {
+            // Registrar o erro no log
+            Log::error('Erro ao gerar relatório: ' . $e->getMessage());
+            return response()->json(['error' => 'Ocorreu um erro ao gerar o relatório.'], 500);
+        }
     }
 }
