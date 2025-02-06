@@ -231,7 +231,6 @@ trait XClinicTraits
         FROM VW_AGENDA AS A ";
         $sqlsrv = $sqlsrv . "WHERE A.DATA BETWEEN '$dataInicio' AND '$dataFim' AND ";
         $sqlsrv = $sqlsrv . "A.USUARIO = '$userId' AND ";
-        $sqlsrv = $sqlsrv . "A.USERNAME IS NOT NULL";
         $agendas = DB::connection('sqlsrv')->select($sqlsrv);
 
         return $agendas[0]->TOTAL;
