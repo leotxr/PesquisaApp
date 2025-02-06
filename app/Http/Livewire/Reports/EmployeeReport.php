@@ -18,7 +18,7 @@ class EmployeeReport extends Component
     public $nurses = [];
     public $start_date;
     public $end_date;
-    public $adg_receptionists = [];
+    public $agd_receptionists = [];
 
     public function mount()
     {
@@ -64,7 +64,7 @@ class EmployeeReport extends Component
             ];
 
         foreach (Employee::role('recepcionista')->get() as $employee)
-            $this->adg_receptionists[] = (object)[
+            $this->agd_receptionists[] = (object)[
                 'name' => $employee->name,
                 'count' => $employee->ratings->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'agd')->count(),
                 'x_clinic_count' => $this->compareServiceRec($this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
