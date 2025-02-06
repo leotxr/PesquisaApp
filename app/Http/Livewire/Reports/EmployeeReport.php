@@ -74,7 +74,7 @@ class EmployeeReport extends Component
             $this->agd_receptionists[] = (object)[
                 'name' => $employee->name,
                 'count' => $employee->ratings()->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'agd')->count(),
-                'x_clinic_count' => $this->compareServiceRecAgd($dados)[0]
+                'x_clinic_count' => $this->compareServiceRecAgd($dados)
             ];
         }
 
