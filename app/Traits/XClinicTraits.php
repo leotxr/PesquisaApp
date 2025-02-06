@@ -227,7 +227,7 @@ trait XClinicTraits
         $dataFim = $data['dataFim'];
         $userId = $data['xClinicId'];
 
-        $sqlsrv = "SELECT COUNT(A.USUARIO)  AS TOTAL
+        $sqlsrv = "SELECT COUNT(DISTINCT CONCAT(A.DATA, A.PACIENTE, A.USUARIO)) AS TOTAL
         FROM VW_AGENDA AS A ";
         $sqlsrv = $sqlsrv . "WHERE A.DATA BETWEEN '$dataInicio' AND '$dataFim' AND ";
         $sqlsrv = $sqlsrv . "A.USUARIO = '$userId' ";
