@@ -209,7 +209,6 @@
 
             $.ajax({
                 url: url,
-                type: 'GET',
                 data: data,
                 success: function(response) {
                     res = JSON.parse(response);
