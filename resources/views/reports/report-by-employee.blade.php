@@ -81,7 +81,7 @@
             buscarDados();
         });
 
-        function setEnfermeiras(nurse) {
+        function setEnfermeiras(data) {
             $('#tabela-nurses tbody').empty();
             console.log('limpou tabela');
             // Iterando sobre os dados e criando as linhas
