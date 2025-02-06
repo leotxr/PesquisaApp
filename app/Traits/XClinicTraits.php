@@ -227,13 +227,13 @@ trait XClinicTraits
         $dataFim = $data['dataFim'];
         $userId = $data['xClinicId'];
 
-        $sqlsrv = "SELECT COUNT(A.USUARIO) 
+        $sqlsrv = "SELECT COUNT(A.USUARIO)  AS TOTAL
         FROM VW_AGENDA AS A ";
         $sqlsrv = $sqlsrv . "WHERE A.DATA BETWEEN '$dataInicio' AND '$dataFim' AND ";
         $sqlsrv = $sqlsrv . "A.USUARIO = '$userId' AND ";
         $sqlsrv = $sqlsrv . "A.USERNAME IS NOT NULL";
         $agendas = DB::connection('sqlsrv')->select($sqlsrv);
-        dd($agendas);
+        dd($agendas[0]->TOTAL);
         return $agendas;
     }
 
