@@ -243,8 +243,8 @@
                     res = JSON.parse(response);
                    // setEnfermeiras(res.enfermeiras);
                     //setTecnicos(res.tecnicos);
-                    setRecepcionistas(res.recepcionistas);
-                    //setUSG(res.usg);
+                    //setRecepcionistas(res.recepcionistas);
+                    setUSG(res.usg);
                 },
                 error: function(xhr, status, error) {
                     console.error('Erro ao gerar o PDF:', error);
