@@ -233,6 +233,7 @@ trait XClinicTraits
         $sqlsrv = $sqlsrv . "A.USUARIO = '$userId' AND ";
         $sqlsrv = $sqlsrv . "A.USERNAME IS NOT NULL";
         $agendas = DB::connection('sqlsrv')->select($sqlsrv);
+        dd($agendas);
         return $agendas;
     }
 
