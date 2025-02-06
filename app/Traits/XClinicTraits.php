@@ -233,8 +233,8 @@ trait XClinicTraits
         $sqlsrv = $sqlsrv . "A.USUARIO = '$userId' AND ";
         $sqlsrv = $sqlsrv . "A.USERNAME IS NOT NULL";
         $agendas = DB::connection('sqlsrv')->select($sqlsrv);
-        dd($agendas[0]->TOTAL);
-        return $agendas;
+
+        return $agendas[0]->TOTAL;
     }
 
     public function updateRecep($rating, $recep_id, $atend_id)
