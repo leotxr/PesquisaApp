@@ -29,7 +29,7 @@ class Employee extends Model
     {
         return $this->belongsToMany(Rating::class)->withPivot('role', 'rate');;
     }
-
+/*
     public function getAgendamentos($data)
     {
         $role = $data['role'];
@@ -48,5 +48,5 @@ class Employee extends Model
     
         return $results;
     }
-
+*/
 }
