@@ -221,8 +221,8 @@
                 cache: false, // Adicione isso para desabilitar cache
                 success: function(response) {
                     res = JSON.parse(response);
-                    setEnfermeiras(res.enfermeiras);
-                    setTecnicos(res.tecnicos);
+                   // setEnfermeiras(res.enfermeiras);
+                   // setTecnicos(res.tecnicos);
                     setRecepcionistas(res.recepcionistas);
                 },
                 error: function(xhr, status, error) {
