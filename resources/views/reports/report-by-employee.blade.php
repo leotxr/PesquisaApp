@@ -63,8 +63,7 @@
             <div class="p-2 bg-white my-2 rounded-lg shadow">
                 <h2 class="text-2xl font-bold">Enfermagem</h2>
             </div>
-            <table id="tabela-nurses">
-            <x-table>
+            <x-table id="tabela-nurses">
                 <x-slot:head>
                     <x-table.heading>Funcionário</x-table.heading>
                     <x-table.heading>Avaliações Pesquisa</x-table.heading>
@@ -72,11 +71,10 @@
                     <x-table.heading>Diferença</x-table.heading>
                 </x-slot:head>
                 <x-slot:body>
-                    <tbody>
-                    </tbody>
+                <tbody>
+                </tbody>
                 </x-slot:body>
             </x-table>
-            </table>
         </div>
     </body>
     <script>
