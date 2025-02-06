@@ -115,9 +115,9 @@
         </div>
         <div>
             <div class="p-2 bg-white my-2 rounded-lg shadow">
-                <h2 class="text-2xl font-bold">Recepção Agendamento</h2>
+                <h2 class="text-2xl font-bold">Recepção USG</h2>
             </div>
-            <table id="tabela-recep_ag">
+            <table id="tabela-usg">
                 <thead>
                     <tr>
                         <th>Funcionário</th>
@@ -197,6 +197,26 @@
 
         }
 
+        function setUSG(data) {
+            $('#tabela-usg tbody').empty();
+
+            // Iterando sobre os dados e criando as linhas
+            data.forEach(function(nurse) {
+
+                // Montando a linha da tabela
+                let row = '<tr>';
+                row += '<td>' + nurse.name + '</td>';
+                row += '<td>' + nurse.count + '</td>';
+                row += '<td>' + nurse.x_clinic_count + '</td>';
+                row += '<td>' + nurse.avg + '%</td>';
+                row += '</tr>';
+
+                // Adicionando a linha na tabela
+                $('#tabela-usg tbody').append(row);
+            });
+
+        }
+
         function buscarDados() {
 
             // Obtendo as variáveis do formulário
@@ -224,6 +244,7 @@
                    // setEnfermeiras(res.enfermeiras);
                     setTecnicos(res.tecnicos);
                     setRecepcionistas(res.recepcionistas);
+                    setUSG(res.usg);
                 },
                 error: function(xhr, status, error) {
                     console.error('Erro ao gerar o PDF:', error);
