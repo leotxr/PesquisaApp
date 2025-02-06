@@ -35,7 +35,7 @@ class EmployeeReport extends Component
 
     public function search()
     {
-        $this->reset('receptionists', 'technicians', 'usg_receptionists', 'nurses', 'agd_receptionists');
+        $this->reset('receptionists', 'technicians', 'usg_receptionists', 'nurses', 'agd_receptionists', 'agendamentos');
         foreach (Employee::role('recepcionista')->get() as $employee)
             $this->receptionists[] = (object)[
                 'name' => $employee->name,
@@ -79,7 +79,11 @@ class EmployeeReport extends Component
             ];
         }
 
-        foreach (Employee::role('agendamento')->get() as $employee)
+        foreach (Employee::role('agendamento')
+        ->whereDoesntHave('roles', function ($query) {
+            $query->where('name', 'recepcionista');
+        })
+        ->get() as $employee)
         {
             $dados = [
                 'dataInicio' => $this->start_date,
