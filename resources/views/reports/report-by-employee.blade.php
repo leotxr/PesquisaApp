@@ -215,7 +215,7 @@
 
             // Fazendo a requisição com o fetch
             fetch(url, {
-                    method: 'GET', // Método da requisição (se for GET, substitua)
+                    method: 'POST', // Método da requisição (se for GET, substitua)
                     headers: {
                         'Content-Type': 'application/json', // Definindo o tipo de conteúdo
                         'X-CSRF-TOKEN': '{{ csrf_token() }}' // Incluindo o token CSRF se necessário
