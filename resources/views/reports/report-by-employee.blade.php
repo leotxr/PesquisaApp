@@ -100,6 +100,7 @@
                 // Adicionando a linha na tabela
                 $('#tabela-nurses tbody').append(row);
             });
+            console.log('montou');
         }
 
         function setTabelas() {
@@ -122,7 +123,6 @@
                 data: data,
                 success: function(response) {
                     res = JSON.parse(response);
-                    console.log(res.enfermeiras);
                     setEnfermeiras(res.enfermeiras);
 
                 },
