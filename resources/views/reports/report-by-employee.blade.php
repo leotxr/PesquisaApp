@@ -209,7 +209,7 @@
 
             $.ajax({
                 url: url,
-                type: 'GET',
+                type: 'POST',
                 data: data,
                 timeout: 10000,
                 success: function(response) {

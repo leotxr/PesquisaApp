@@ -124,7 +124,7 @@ Route::middleware('auth')->group(function () {
         return view('admin.rel-coment');
     })->name('rel-coment');
 
-    Route::get('relatorios/funcionariosetor', [EmployeeReportController::class, 'getRelatoriofuncionarios'])->name('relatorios/funcionariosetor');
+    Route::post('relatorios/funcionariosetor', [EmployeeReportController::class, 'getRelatoriofuncionarios'])->name('relatorios/funcionariosetor');
 
     Route::any('editComent', 'App\Http\Controllers\RatingController@editComment')->name('editComment');
 
