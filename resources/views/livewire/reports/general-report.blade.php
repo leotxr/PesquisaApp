@@ -292,7 +292,7 @@
                         </x-stat.content>
                     </x-slot>
                 </x-stat>
-
+                <?php print_r($recep_agd); ?>
         {{-- USG --}}
         <x-stat>
             <x-slot name="title">
