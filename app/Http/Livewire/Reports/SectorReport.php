@@ -61,7 +61,7 @@ class SectorReport extends Component
 
 
         //$recepcionistas = Employee::whereHas("roles", function($q){ $q->where("name", "recepcionista"); })->get();
-        $setores = Fatura::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotIn('setor', ['RM-COMPLEMENTO'])->groupBy('setor')->get('setor');
+        $setores = Fatura::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotIn('setor', ['RM-COMPLEMENTO', 'MM-COMPLEMENTO', 'TC-COMPLEMENTO'])->groupBy('setor')->get('setor');
         $arr = [];
         foreach ($setores as $setor) {
             $arr[] = $setor->setor;
