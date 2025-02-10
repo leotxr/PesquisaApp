@@ -15,7 +15,12 @@
                     <x-table.cell>{{$fatura->setor}}</x-table.cell>
                     <x-table.cell>{{$fatura->total}}</x-table.cell>
                     <x-table.cell>{{$fatura->x_clinic}}</x-table.cell>
-
+                    @if($fatura->x_clinic == 0) @php $total = 0; @endphp
+                    @elseif($fatura->total >= 0 || $fatura->x_clinic > 0)
+                        <x-table.cell>{{number_format($fatura->total / $fatura->x_clinic *
+                                100, 2, '.', '')}}%
+                        </x-table.cell>
+                    @endif
                 </x-table.row>
             @endforeach
         </x-slot:body>
