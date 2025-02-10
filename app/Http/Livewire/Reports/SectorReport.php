@@ -55,6 +55,20 @@ class SectorReport extends Component
             ->select(DB::raw('COUNT(DISTINCT CONCAT(TOTEM_FILAS_ESPERA.DATA, TOTEM_FILAS_ESPERA.PACIENTEID, PACIENTE.NOME, USUARIOS.NOME_SOCIAL)) AS TOTAL'))->first();
     }
 
+    private function getAgendamentos($role_id)
+    {
+        $agd = Rating::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])
+        ->join('employee_ratings', 'employee_rating.rating_id', '=','ratings.id')
+        ->join('employees','employee_ratings.employee_id','=','employees.id')
+        ->join('model_has_roles','model_has_roles.model_id','=','employees.id')
+        ->whereNotNull('employee_ratings.rate')
+        ->where('model_has_roles', $role_id)
+        ->where('employee_ratings.role', 'agd')
+        ->count();
+
+        return $agd;
+    }
+
     public function search()
     {
         $this->reset('faturas', 'ratings', 'agendamentos');
@@ -72,9 +86,9 @@ class SectorReport extends Component
             $this->faturas[] = (object)['setor' => $a, 'total' => $count, 'x_clinic' => $this->getFaturas($this->start_date, $this->end_date, $a)->TOTAL];
         }
 
-
         $this->faturas[] = (object)['setor' => 'RECEPCAO', 'total' => Rating::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotNull('recep_rate')->count(), 'x_clinic' => $this->getRatings($this->start_date, $this->end_date)->TOTAL];
-        $this->faturas[] = (object)['setor' => 'AGENDAMENTO', 'total' => Rating::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotNull('atend_rate')->count(), 'x_clinic' => $this->getRatings($this->start_date, $this->end_date)->TOTAL];
+        $this->faturas[] = (object)['setor' => 'AGENDAMENTO RECEPÇÃO', 'total' => $this->getAgendamentos(1), 'x_clinic' => $this->getRatings($this->start_date, $this->end_date)->TOTAL];
+        $this->faturas[] = (object)['setor' => 'AGENDAMENTO TELEFONE/WHATSAPP', 'total' => Rating::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotNull('atend_rate')->count(), 'x_clinic' => $this->getRatings($this->start_date, $this->end_date)->TOTAL];
 
         //dd($this->faturas);
 
