@@ -21,7 +21,11 @@
                         <x-table.cell>{{$fatura->total->where('livro_rate', '=', 3)->count()}}</x-table.cell>
                         <x-table.cell>{{$fatura->total->where('livro_rate', '<', 3)->count()}}</x-table.cell>
                         <x-table.cell>
-
+                            @if($fatura->total->count() > 0)
+                                {{number_format($fatura->total->where('livro_rate', '>', 3)->count() /
+                                $fatura->total->whereNotNull('livro_rate')->count() *
+                                100, 2, '.', '')}}%
+                            @endif
                         </x-table.cell>
                     </x-table.row>
                 @endforeach
