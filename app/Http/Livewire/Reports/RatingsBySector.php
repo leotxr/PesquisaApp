@@ -26,8 +26,6 @@ class RatingsBySector extends Component
         $this->setoresUSG = ['ULTRA-SON', 'CARDIOLOGIA'];
         */
 
-        dd($this->compareServiceNurse([4, 9], $this->start_date, $this->end_date, 231));
-
 
         $setores = Fatura::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotIn('setor', ['RM-COMPLEMENTO'])->groupBy('setor')->get('setor');
         $arr = [];
