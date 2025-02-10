@@ -277,7 +277,7 @@
                     <x-slot name="description">
                         Satisfação
                     </x-slot>
-                    @if ($recep->count() > 0)
+                    @if ($recep_agd->count() > 0)
                         {{ number_format(($recep_agd->where('atend_rate', '>', 3)->count() / $recep_agd->count()) * 100, 2, '.', '') }}%
                     @endif
                 </x-stat.content>
