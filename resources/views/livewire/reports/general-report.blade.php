@@ -250,7 +250,7 @@
                     <x-slot name="description">
                         Notas Positivas
                     </x-slot>
-                    {{ $recep_agd->where('recep_rate', '>', 3)->count() }}
+                    {{ $recep_agd->where('atend_rate', '>', 3)->count() }}
                 </x-stat.content>
                 <x-stat.content class="text-yellow-600">
                     <x-slot name="icon">
@@ -259,7 +259,7 @@
                     <x-slot name="description">
                         Notas Regulares
                     </x-slot>
-                   
+                    {{ $recep_agd->where('atend_rate', '=', 3)->count() }}
                 </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
@@ -268,7 +268,7 @@
                     <x-slot name="description">
                         Notas Negativas
                     </x-slot>
-                  
+                    {{ $recep_agd->where('atend_rate', '<', 3)->count() }}
                 </x-stat.content>
                 <x-stat.content class="text-green-600">
                     <x-slot name="icon">
