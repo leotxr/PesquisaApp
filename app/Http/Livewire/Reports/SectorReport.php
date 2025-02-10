@@ -57,7 +57,7 @@ class SectorReport extends Component
 
     private function getAgendamentos($role_id)
     {
-        $agd = Rating::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])
+        $agd = Rating::whereBetween('ratings.created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])
         ->join('employee_rating', 'employee_rating.rating_id', '=','ratings.id')
         ->join('employees','employee_rating.employee_id','=','employees.id')
         ->join('model_has_roles','model_has_roles.model_id','=','employees.id')
