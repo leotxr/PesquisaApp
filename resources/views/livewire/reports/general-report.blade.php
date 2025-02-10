@@ -222,6 +222,77 @@
             </x-slot>
         </x-stat>
 
+                {{-- RECEPCAO AGENDAMENTO --}}
+                <x-stat>
+                    <x-slot name="title">
+                        <x-stat.title>
+                            Resultado Agendamento Recepção
+                        </x-stat.title>
+                    </x-slot>
+                    <x-slot name="content">
+                        <x-stat.content class="text-pink-600">
+                            <x-slot name="icon" class="text-secondary">
+                                <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                            </x-slot>
+                            <x-slot name="description">
+                                Avaliações respondidas
+                            </x-slot>
+                            {{$recep_agd->count()}}
+                        </x-stat.content>
+                        <x-stat.content class="text-blue-600">
+                            <x-slot name="icon">
+                                <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                            </x-slot>
+                            <x-slot name="description">
+                                Notas Positivas
+                            </x-slot>
+                            {{$recep_agd->where('recep_rate', '>', 3)->count()}}
+                        </x-stat.content>
+                        <x-stat.content class="text-yellow-600">
+                            <x-slot name="icon">
+                                <x-icon name="emoji-neutral" class="inline-block w-7 h-7 text-yellow-600"></x-icon>
+                            </x-slot>
+                            <x-slot name="description">
+                                Notas Regulares
+                            </x-slot>
+                            @if($recep->count() > 0)
+                                {{$recep_agd->where('recep_rate', '=', 3)->count()}}
+                                <p class="text-xs">
+                                    {{number_format($recep_agd->where('recep_rate', '=', 3)->count() / $recep_agd->count() *
+                                        100, 2, '.', '')}}%
+                                </p>
+                            @endif
+                        </x-stat.content>
+                        <x-stat.content class="text-red-600">
+                            <x-slot name="icon">
+                                <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                            </x-slot>
+                            <x-slot name="description">
+                                Notas Negativas
+                            </x-slot>
+                            @if($recep->count() > 0)
+                                {{$recep_agd->where('recep_rate', '<', 3)->count()}}
+                                <p class="text-xs">
+                                    {{number_format($recep_agd->where('recep_rate', '<', 3)->count() / $recep_agd->count() *
+                                        100, 2, '.', '')}}%
+                                </p>
+                            @endif
+                        </x-stat.content>
+                        <x-stat.content class="text-green-600">
+                            <x-slot name="icon">
+                                <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                            </x-slot>
+                            <x-slot name="description">
+                                Satisfação
+                            </x-slot>
+                            @if($recep_agd->count() > 0)
+                                {{number_format($recep_agd->where('recep_rate', '>', 3)->count() / $recep_agd->count() *
+                                100, 2, '.', '')}}%
+                            @endif
+                        </x-stat.content>
+                    </x-slot>
+                </x-stat>
+
         {{-- USG --}}
         <x-stat>
             <x-slot name="title">
