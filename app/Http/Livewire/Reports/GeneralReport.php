@@ -40,8 +40,8 @@ class GeneralReport extends Component
             'total' => Rating::where('finalizado', 1)->whereBetween('data_req', [$this->initial_date, $this->final_date])->get(),
             'recep' => Rating::where('finalizado', 1)->whereNotNull('recep_rate')->whereBetween('data_req', [$this->initial_date, $this->final_date])->get(),
             'recep_agd' => $this->getAgendamentos(1),
-            'tel_agd' => $this->getAgendamentos(7),
-            'wpp_agd' => $this->getAgendamentos(8),
+            'tel' => $this->getAgendamentos(7),
+            'wpp' => $this->getAgendamentos(8),
             'usg' => Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
             ->where('ratings.finalizado', 1)
             ->whereNotNull('us_rate')
