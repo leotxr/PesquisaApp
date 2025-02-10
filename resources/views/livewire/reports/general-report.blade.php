@@ -648,5 +648,78 @@
                 </x-stat.content>
             </x-slot>
         </x-stat>
+
+                {{-- AGENDAMENTO WHATSAPP --}}
+                <x-stat>
+                    <x-slot name="title">
+                        <x-stat.title>
+                            Resultado Agendamento WhatsApp
+                        </x-stat.title>
+                    </x-slot>
+                    <x-slot name="content">
+                        <x-stat.content class="text-pink-600">
+                            <x-slot name="icon" class="text-secondary">
+                                <x-icon name="pencil-square" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                            </x-slot>
+                            <x-slot name="description">
+                                Avaliações respondidas
+                            </x-slot>
+                            {{ $wpp->count() }}
+                        </x-stat.content>
+                        <x-stat.content class="text-blue-600">
+                            <x-slot name="icon">
+                                <x-icon name="hand-thumb-up" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                            </x-slot>
+                            <x-slot name="description">
+                                Notas Positivas
+                            </x-slot>
+                            @if ($wpp->count() > 0)
+                                {{ $wpp->where('atend_rate', '>', 3)->count() }}
+                                <p class="text-xs">
+                                    {{ number_format(($wpp->where('atend_rate', '>', 3)->count() / $wpp->count()) * 100, 2, '.', '') }}%
+                                </p>
+                            @endif
+                        </x-stat.content>
+                        <x-stat.content class="text-yellow-600">
+                            <x-slot name="icon">
+                                <x-icon name="emoji-neutral" class="inline-block w-7 h-7 text-yellow-600"></x-icon>
+                            </x-slot>
+                            <x-slot name="description">
+                                Notas Regulares
+                            </x-slot>
+                            @if ($wpp->count() > 0)
+                                {{ $wpp->where('atend_rate', '=', 3)->count() }}
+                                <p class="text-xs">
+                                    {{ number_format(($wpp->where('atend_rate', '=', 3)->count() / $wpp->count()) * 100, 2, '.', '') }}%
+                                </p>
+                            @endif
+                        </x-stat.content>
+                        <x-stat.content class="text-red-600">
+                            <x-slot name="icon">
+                                <x-icon name="hand-thumb-down" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                            </x-slot>
+                            <x-slot name="description">
+                                Notas Negativas
+                            </x-slot>
+                            @if ($wpp->count() > 0)
+                                {{ $wpp->where('atend_rate', '<', 3)->count() }}
+                                <p class="text-xs">
+                                    {{ number_format(($wpp->where('atend_rate', '<', 3)->count() / $wpp->count()) * 100, 2, '.', '') }}%
+                                </p>
+                            @endif
+                        </x-stat.content>
+                        <x-stat.content class="text-green-600">
+                            <x-slot name="icon">
+                                <x-icon name="emoji-happy" class="inline-block w-8 h-8 stroke-current"></x-icon>
+                            </x-slot>
+                            <x-slot name="description">
+                                Satisfação
+                            </x-slot>
+                            @if ($recep_agd->count() > 0)
+                                {{ number_format(($wpp->where('atend_rate', '>', 3)->count() / $wpp->count()) * 100, 2, '.', '') }}%
+                            @endif
+                        </x-stat.content>
+                    </x-slot>
+                </x-stat>
     </div>
 </div>
