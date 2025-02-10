@@ -28,6 +28,7 @@ class GeneralReport extends Component
         ->whereNotNull('employee_rating.rate')
         ->where('model_has_roles.role_id', $role_id)
         ->where('employee_rating.role', 'agd')
+        ->whereNotNull('atend_rate')
         ->select(DB::raw('ratings.recep_rate as recep_rate'));
 
         return $agd;
