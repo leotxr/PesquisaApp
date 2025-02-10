@@ -62,7 +62,7 @@ class SectorReport extends Component
         ->join('employees','employee_rating.employee_id','=','employees.id')
         ->join('model_has_roles','model_has_roles.model_id','=','employees.id')
         ->whereNotNull('employee_rating.rate')
-        ->where('model_has_roles', $role_id)
+        ->where('model_has_roles.role_id', $role_id)
         ->where('employee_rating.role', 'agd')
         ->count();
 
