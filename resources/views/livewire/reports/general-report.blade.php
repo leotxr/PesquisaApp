@@ -157,7 +157,7 @@
                 </x-stat.content>
             </x-slot>
         </x-stat>
-        
+
         {{-- RECEPCAO --}}
         <x-stat>
             <x-slot name="title">
@@ -250,7 +250,12 @@
                     <x-slot name="description">
                         Notas Positivas
                     </x-slot>
-                    {{ $recep_agd->where('atend_rate', '>', 3)->count() }}
+                    @if ($recep_agd->count() > 0)
+                        {{ $recep_agd->where('atend_rate', '>', 3)->count() }}
+                        <p class="text-xs">
+                            {{ number_format(($recep_agd->where('atend_rate', '>', 3)->count() / $recep_agd->count()) * 100, 2, '.', '') }}%
+                        </p>
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-yellow-600">
                     <x-slot name="icon">
@@ -259,7 +264,12 @@
                     <x-slot name="description">
                         Notas Regulares
                     </x-slot>
-                    {{ $recep_agd->where('atend_rate', '=', 3)->count() }}
+                    @if ($recep_agd->count() > 0)
+                        {{ $recep_agd->where('atend_rate', '=', 3)->count() }}
+                        <p class="text-xs">
+                            {{ number_format(($recep_agd->where('atend_rate', '=', 3)->count() / $recep_agd->count()) * 100, 2, '.', '') }}%
+                        </p>
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-red-600">
                     <x-slot name="icon">
@@ -268,7 +278,12 @@
                     <x-slot name="description">
                         Notas Negativas
                     </x-slot>
-                    {{ $recep_agd->where('atend_rate', '<', 3)->count() }}
+                    @if ($recep_agd->count() > 0)
+                        {{ $recep_agd->where('atend_rate', '<', 3)->count() }}
+                        <p class="text-xs">
+                            {{ number_format(($recep_agd->where('atend_rate', '<', 3)->count() / $recep_agd->count()) * 100, 2, '.', '') }}%
+                        </p>
+                    @endif
                 </x-stat.content>
                 <x-stat.content class="text-green-600">
                     <x-slot name="icon">
