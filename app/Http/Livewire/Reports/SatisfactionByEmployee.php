@@ -114,6 +114,6 @@ class SatisfactionByEmployee extends Component
 
     public function render()
     {
-        return view('livewire.reports.employee-report');
+        return view('livewire.reports.satisfaction-by-employee');
     }
 }
