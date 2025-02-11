@@ -9,6 +9,8 @@ use App\Models\Rating;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Traits\XClinicTraits;
+use Illuminate\Support\Facades\DB;
+use App\Models\Employee;
 
 class SatisfactionByEmployee extends Component
 {
@@ -19,55 +21,39 @@ class SatisfactionByEmployee extends Component
 
     public function mount() {}
 
+    private function buscaFuncionarioRating($employeeId)
+    {
+
+        $results = DB::table('ratings as r')
+            ->join('employee_rating as er', 'er.rating_id', '=', 'r.id')
+            ->join('employees as e', 'e.id', '=', 'er.employee_id')
+            ->whereBetween('r.data_req', [$this->start_date, $this->end_date])
+            ->where('e.id', '=', $employeeId)
+            ->select('er.rate as rate', 'r.id as id', 'e.name as name')
+            ->get();
+
+        return $results;
+    }
+
+    private function buscaFuncionarioFatura($employeeId)
+    {
+        $results = DB::table('faturas as r')
+            ->join('employee_fatura as er', 'er.rating_id', '=', 'r.id')
+            ->join('employees as e', 'e.id', '=', 'er.employee_id')
+            ->whereBetween('r.data_req', [$this->start_date, $this->end_date])
+            ->where('e.id', '=', $employeeId)
+            ->select('er.rate as rate', 'r.id as id', 'e.name as name')
+            ->get();
+
+        return $results;
+    }
     public function search()
     {
         $this->reset('faturas');
 
-        $setores = Fatura::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotIn('setor', ['RM-COMPLEMENTO', 'MM-COMPLEMENTO', 'TC-COMPLEMENTO'])->groupBy('setor')->get('setor');
-        $arr = [];
-        foreach ($setores as $setor) {
-            $arr[] = $setor->setor;
-        }
+        $er = Employee::all();
+        dd($er);
 
-        foreach ($arr as $a) {
-            $count_faturas = Fatura::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->where('setor', $a)->get();
-            $this->faturas[] = (object)[
-                'setor' => $a,
-                'total' => $count_faturas->count(),
-                'otimo' => $count_faturas->where('livro_rate', '>', 3)->count(),
-                'regular' => $count_faturas->where('livro_rate', '=', 3)->count(),
-                'ruim' => $count_faturas->where('livro_rate', '<', 3)->count()
-            ];
-        }
-
-        $count_recep = Rating::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotNull('recep_rate')->get();
-        $this->faturas[] = (object)[
-            'setor' => 'RECEPCAO',
-            'total' => $count_recep->count(),
-            'otimo' => $count_recep->where('recep_rate', '>', 3)->count(),
-            'regular' => $count_recep->where('recep_rate', '=', 3)->count(),
-            'ruim' => $count_recep->where('recep_rate', '<', 3)->count()
-        ];
-
-        $agd_recep = $this->getAgendamentosPesquisa(1, $this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59');
-        $this->faturas[] = (object)[
-            'setor' => 'RECEPCAO AGENDAMENTO',
-            'total' => $agd_recep->count(),
-            'otimo' => $agd_recep->where('atend_rate', '>', 3)->count(),
-            'regular' => $agd_recep->where('atend_rate', '=', 3)->count(),
-            'ruim' => $agd_recep->where('atend_rate', '<', 3)->count()
-        ];
-
-        $tel = $this->getAgendamentosPesquisa(7, $this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59');
-        $this->faturas[] = (object)[
-            'setor' => 'AGENDAMENTO TELEFONIA',
-            'total' => $tel->count(),
-            'otimo' => $tel->where('atend_rate', '>', 3)->count(),
-            'regular' => $tel->where('atend_rate', '=', 3)->count(),
-            'ruim' => $tel->where('atend_rate', '<', 3)->count()
-        ];
-
-        $wpp = $this->getAgendamentosPesquisa(8, $this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59');
         $this->faturas[] = (object)[
             'setor' => 'AGENDAMENTO WHATSAPP',
             'total' => $wpp->count(),
