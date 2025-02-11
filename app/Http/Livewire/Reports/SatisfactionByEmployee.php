@@ -38,7 +38,7 @@ class SatisfactionByEmployee extends Component
     private function buscaFuncionarioFatura($employeeId)
     {
         $results = DB::table('faturas as r')
-            ->join('employee_fatura as er', 'er.rating_id', '=', 'r.id')
+            ->join('employee_fatura as er', 'er.fatura_id', '=', 'r.id')
             ->join('employees as e', 'e.id', '=', 'er.employee_id')
             ->whereBetween('r.fatura_data', [$this->start_date, $this->end_date])
             ->where('e.id', '=', $employeeId)
