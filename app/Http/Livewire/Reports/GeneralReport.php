@@ -27,9 +27,9 @@ class GeneralReport extends Component
         return view('livewire.reports.general-report', [
             'total' => Rating::where('finalizado', 1)->whereBetween('data_req', [$this->initial_date, $this->final_date])->get(),
             'recep' => Rating::where('finalizado', 1)->whereNotNull('recep_rate')->whereBetween('data_req', [$this->initial_date, $this->final_date])->get(),
-            'recep_agd' => $this->getAgendamentos(1),
-            'tel' => $this->getAgendamentos(7),
-            'wpp' => $this->getAgendamentos(8),
+            'recep_agd' => $this->getAgendamentosPesquisa(1),
+            'tel' => $this->getAgendamentosPesquisa(7),
+            'wpp' => $this->getAgendamentosPesquisa(8),
             'usg' => Fatura::join('ratings', 'ratings.id', '=', 'faturas.rating_id')
             ->where('ratings.finalizado', 1)
             ->whereNotNull('us_rate')
