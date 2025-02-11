@@ -51,7 +51,8 @@ class SatisfactionByEmployee extends Component
     {
         $this->reset('faturas');
 
-        $er = Employee::all();
+        $er = DB::table('employees as e')
+            ->select('e.name as name', 'e.id as id');
         dd($er);
 
         $this->faturas[] = (object)[
