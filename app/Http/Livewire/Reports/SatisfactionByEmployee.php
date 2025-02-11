@@ -74,7 +74,27 @@ class SatisfactionByEmployee extends Component
 
         }
 
-        dd($this->faturas);
+        $ef = DB::table('employees as e')
+        ->join('employee_fatura as er', 'er.employee_id', '=', 'e.id')
+        ->whereNotNull('er.rate')
+        ->select(DB::raw('DISTINCT er.employee_id'), 'e.name')
+        ->get();
+    
+        foreach($ef as $row)
+        {
+            $count = $this->buscaFuncionarioFatura($row->employee_id);
+            if($count->count() > 0)
+            {
+                $this->faturas[] = (object)[
+                    'setor' => $row->name,
+                    'total' => $count->count(),
+                    'otimo' => $count->where('rate', '>', 3)->count(),
+                    'regular' => $count->where('rate', '=', 3)->count(),
+                    'ruim' => $count->where('rate', '<', 3)->count()
+                ];
+            }
+
+        }
         
 
         $this->render();
