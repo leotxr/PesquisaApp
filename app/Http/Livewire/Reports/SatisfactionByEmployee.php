@@ -58,15 +58,20 @@ class SatisfactionByEmployee extends Component
         ->get();
     
     
+        foreach($er as $row)
+        {
+            $count = $this->buscaFuncionarioRating($row->employee_id);
+            $this->faturas[] = (object)[
+                'setor' => 'GERAL',
+                'total' => $count->count(),
+                'otimo' => $count->where('rate', '>', 3)->count(),
+                'regular' => $count->where('rate', '=', 3)->count(),
+                'ruim' => $count->where('rate', '<', 3)->count()
+            ];
+        }
+
+        dd($this->faturas);
         
-        dd($er);
-        $this->faturas[] = (object)[
-            'setor' => 'AGENDAMENTO WHATSAPP',
-            'total' => $wpp->count(),
-            'otimo' => $wpp->where('atend_rate', '>', 3)->count(),
-            'regular' => $wpp->where('atend_rate', '=', 3)->count(),
-            'ruim' => $wpp->where('atend_rate', '<', 3)->count()
-        ];
 
         $this->render();
     }
