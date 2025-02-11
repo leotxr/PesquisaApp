@@ -93,6 +93,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/avaliacao-por-setores', function (){
             return view('reports.ratings-by-sector');
         })->name('reports.ratings-by-sector');
+
+        Route::get('/satisfacao-por-funcionario', function (){
+            return view('reports.satisfaction-by-employee');
+        })->name('reports.satisfaction-by-employee');
     });
 
 });
