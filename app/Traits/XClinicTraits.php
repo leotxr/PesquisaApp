@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Models\Employee;
 use Illuminate\Support\Facades\DB;
+use App\Models\Rating;
 
 trait XClinicTraits
 {
