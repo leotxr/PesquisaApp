@@ -2,115 +2,94 @@
 
 namespace App\Http\Livewire\Reports;
 
-use App\Models\Employee;
-use App\Traits\XClinicTraits;
-use Illuminate\Support\Collection;
+use App\Exports\SectorReportExport;
+use App\Exports\SectorSatisfactionExport;
+use App\Models\Fatura;
+use App\Models\Rating;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Traits\XClinicTraits;
 
 class SatisfactionByEmployee extends Component
 {
-
     use XClinicTraits;
-
-    public $technicians = [];
-    public $receptionists = [];
-    public $usg_receptionists = [];
-    public $nurses = [];
     public $start_date;
     public $end_date;
-    public $agd_receptionists = [];
-    public $agendamentos = [];
+    public $faturas = [];
 
-    public function mount()
-    {
-        // $recepcionistas = Employee::role('recepcionista')->get();
-        // $tecnicos = Employee::role('tecnico')->get();
-        // $enfermeiras = Employee::role('enfermeira')->get();
-
-        //dd($this->compareServiceNurse([4,9], '2024-01-30', '2024-01-30', 79)[0]->TOTAL);
-        //dd($this->compareServiceRec( '2024-01-01', '2024-01-24', 8)[0]->TOTAL);
-
-
-    }
-
-    private function calcSatisfacao($total, $count)
-    {
-
-    }
+    public function mount() {}
 
     public function search()
     {
-        $this->reset('receptionists', 'technicians', 'usg_receptionists', 'nurses', 'agd_receptionists', 'agendamentos');
-        foreach (Employee::role('recepcionista')->get() as $employee)
-        {
-            $ratings = $employee->ratings()->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'rec');
-            $this->receptionists[] = (object)[
-                'name' => $employee->name,
-                'count' => $ratings->count(),
-                'otimo' => $ratings->where('recep_rate', '>', 3)->count(),
-                'regular' => $ratings->where('recep_rate', '=', 3)->count(),
-                'ruim' => $ratings->where('recep_rate', '<', 3)->count()];
+        $this->reset('faturas');
+
+        $setores = Fatura::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotIn('setor', ['RM-COMPLEMENTO'])->groupBy('setor')->get('setor');
+        $arr = [];
+        foreach ($setores as $setor) {
+            $arr[] = $setor->setor;
         }
-            
 
-        foreach (Employee::role('tecnico')->get() as $employee)
-            $this->technicians[] = (object)[
-                'name' => $employee->name,
-                'count' => $employee->faturas()->whereBetween('fatura_data', [$this->start_date, $this->end_date])->where('role', 'tec')->count(),
-                'satisfacao' => $this->compareServiceTech([1, 2, 3, 4, 9, 13, 18, 20, 21], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
-            ];
-
-        foreach (Employee::role('recepcionista usg')->get() as $employee)
-            $this->usg_receptionists[] = (object)[
-                'name' => $employee->name,
-                'count' => $employee->faturas->whereBetween('fatura_data', [$this->start_date, $this->end_date])->count(),
-                'satisfacao' => $this->compareServiceUSG([5, 10], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
-            ];
-
-        foreach (Employee::role('enfermeira')->get() as $employee)
-            $this->nurses[] = (object)[
-                'name' => $employee->name,
-                'count' => $employee->faturas()->whereBetween('fatura_data', [$this->start_date, $this->end_date])->where('role', 'enf')->count(),
-                'satisfacao' => $this->compareServiceNurse([4, 9], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
-            ];
-
-        foreach (Employee::role('recepcionista')->get() as $employee)
-        {
-            $dados = [
-                'dataInicio' => $this->start_date,
-                'dataFim' => $this->end_date,
-                'xClinicId' => $employee->x_clinic_id
-            ];
-
-            $this->agd_receptionists[] = (object)[
-                'name' => $employee->name,
-                'count' => $employee->ratings()->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'agd')->count(),
-                'satisfacao' => $this->compareServiceRecAgd($dados)
+        foreach ($arr as $a) {
+            $count_faturas = Fatura::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->where('setor', $a)->get();
+            $this->faturas[] = (object)[
+                'setor' => $a,
+                'total' => $count_faturas->count(),
+                'otimo' => $count_faturas->where('livro_rate', '>', 3)->count(),
+                'regular' => $count_faturas->where('livro_rate', '=', 3)->count(),
+                'ruim' => $count_faturas->where('livro_rate', '<', 3)->count()
             ];
         }
 
-        foreach (Employee::role('agendamento')
-        ->whereDoesntHave('roles', function ($query) {
-            $query->where('name', 'recepcionista');
-        })
-        ->get() as $employee)
-        {
-            $dados = [
-                'dataInicio' => $this->start_date,
-                'dataFim' => $this->end_date,
-                'xClinicId' => $employee->x_clinic_id
-            ];
+        $count_recep = Rating::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotNull('recep_rate')->get();
+        $this->faturas[] = (object)[
+            'setor' => 'RECEPCAO',
+            'total' => $count_recep->count(),
+            'otimo' => $count_recep->where('recep_rate', '>', 3)->count(),
+            'regular' => $count_recep->where('recep_rate', '=', 3)->count(),
+            'ruim' => $count_recep->where('recep_rate', '<', 3)->count()
+        ];
 
-            $this->agendamentos[] = (object)[
-                'name' => $employee->name,
-                'count' => $employee->ratings()->whereBetween('data_req', [$this->start_date, $this->end_date])->where('role', 'agd')->count(),
-                'satisfacao' => $this->compareServiceRecAgd($dados)
-            ];
-        }
+        $agd_recep = $this->getAgendamentosPesquisa(1, $this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59');
+        $this->faturas[] = (object)[
+            'setor' => 'RECEPCAO AGENDAMENTO',
+            'total' => $agd_recep->count(),
+            'otimo' => $agd_recep->where('atend_rate', '>', 3)->count(),
+            'regular' => $agd_recep->where('atend_rate', '=', 3)->count(),
+            'ruim' => $agd_recep->where('atend_rate', '<', 3)->count()
+        ];
 
+        $tel = $this->getAgendamentosPesquisa(7, $this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59');
+        $this->faturas[] = (object)[
+            'setor' => 'AGENDAMENTO TELEFONIA',
+            'total' => $tel->count(),
+            'otimo' => $tel->where('atend_rate', '>', 3)->count(),
+            'regular' => $tel->where('atend_rate', '=', 3)->count(),
+            'ruim' => $tel->where('atend_rate', '<', 3)->count()
+        ];
+
+        $wpp = $this->getAgendamentosPesquisa(8, $this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59');
+        $this->faturas[] = (object)[
+            'setor' => 'AGENDAMENTO WHATSAPP',
+            'total' => $wpp->count(),
+            'otimo' => $wpp->where('atend_rate', '>', 3)->count(),
+            'regular' => $wpp->where('atend_rate', '=', 3)->count(),
+            'ruim' => $wpp->where('atend_rate', '<', 3)->count()
+        ];
 
         $this->render();
     }
+
+
+    public function export()
+    {
+        $range = [
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date
+        ];
+        $result = ['faturas' => $this->faturas];
+        return Excel::download(new SectorSatisfactionExport($range, $result), 'satisfacao_por_funcionario' . $this->start_date . '-' . $this->end_date . '.xlsx');
+    }
+
 
     public function render()
     {
