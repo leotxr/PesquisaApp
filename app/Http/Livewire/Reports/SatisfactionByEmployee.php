@@ -52,9 +52,11 @@ class SatisfactionByEmployee extends Component
         $this->reset('faturas');
 
         $er = DB::table('employees as e')
-            ->join('employee_rating as er', 'er.employee_id','=', 'e.id')
-            ->whereNotNull('er.rate')
-            ->select(DB::raw('e.name as name', 'e.id as id', 'DISTINCT(er.employe_id)'))->get();
+        ->join('employee_rating as er', 'er.employee_id', '=', 'e.id')
+        ->whereNotNull('er.rate')
+        ->select('e.name as name', 'e.id as id', DB::raw('DISTINCT er.employee_id'))
+        ->get();
+    
         
         dd($er);
         $this->faturas[] = (object)[
