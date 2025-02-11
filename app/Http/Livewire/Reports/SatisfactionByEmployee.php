@@ -56,7 +56,7 @@ class SatisfactionByEmployee extends Component
             ->whereNotNull('er.rate')
             ->select('e.name as name', 'e.id as id')->get();
         
-        debug($er);
+        dd($er);
         $this->faturas[] = (object)[
             'setor' => 'AGENDAMENTO WHATSAPP',
             'total' => $wpp->count(),
