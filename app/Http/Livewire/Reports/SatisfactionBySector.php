@@ -47,21 +47,21 @@ class SatisfactionBySector extends Component
             'regular' => $count_recep->where('recep_rate', '=', 3)->count(),
             'ruim' => $count_recep->where('recep_rate', '<', 3)->count()];
 
-        $agd_recep = $this->getAgendamentosPesquisa(1);
+        $agd_recep = $this->getAgendamentosPesquisa(1, $this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59');
         $this->faturas[] = (object)['setor' => 'RECEPCAO AGENDAMENTO',
         'total' => $agd_recep->count(),
         'otimo' => $agd_recep->where('atend_rate', '>', 3)->count(),
         'regular' => $agd_recep->where('atend_rate', '=', 3)->count(),
         'ruim' => $agd_recep->where('atend_rate', '<', 3)->count()];
 
-        $tel = $this->getAgendamentosPesquisa(7);
+        $tel = $this->getAgendamentosPesquisa(7, $this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59');
         $this->faturas[] = (object)['setor' => 'RECEPCAO AGENDAMENTO',
         'total' => $tel->count(),
         'otimo' => $tel->where('atend_rate', '>', 3)->count(),
         'regular' => $tel->where('atend_rate', '=', 3)->count(),
         'ruim' => $tel->where('atend_rate', '<', 3)->count()];
 
-        $wpp = $this->getAgendamentosPesquisa(8);
+        $wpp = $this->getAgendamentosPesquisa(8, $this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59');
         $this->faturas[] = (object)['setor' => 'RECEPCAO AGENDAMENTO',
         'total' => $wpp->count(),
         'otimo' => $wpp->where('atend_rate', '>', 3)->count(),

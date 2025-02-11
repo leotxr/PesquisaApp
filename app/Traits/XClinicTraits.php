@@ -254,9 +254,9 @@ trait XClinicTraits
         }
     }
 
-    public function getAgendamentosPesquisa($role_id)
+    public function getAgendamentosPesquisa($role_id, $dataInicio, $dataFim)
     {
-        $agd = Rating::whereBetween('ratings.created_at', [$this->initial_date . ' 00:00:00', $this->final_date . ' 23:59:59'])
+        $agd = Rating::whereBetween('ratings.created_at', [$dataInicio . ' 00:00:00', $dataFim . ' 23:59:59'])
         ->join('employee_rating', 'employee_rating.rating_id', '=','ratings.id')
         ->join('employees','employee_rating.employee_id','=','employees.id')
         ->join('model_has_roles','model_has_roles.model_id','=','employees.id')
