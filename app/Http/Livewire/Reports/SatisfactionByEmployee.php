@@ -61,13 +61,17 @@ class SatisfactionByEmployee extends Component
         foreach($er as $row)
         {
             $count = $this->buscaFuncionarioRating($row->employee_id);
-            $this->faturas[] = (object)[
-                'setor' => 'GERAL',
-                'total' => $count->count(),
-                'otimo' => $count->where('rate', '>', 3)->count(),
-                'regular' => $count->where('rate', '=', 3)->count(),
-                'ruim' => $count->where('rate', '<', 3)->count()
-            ];
+            if($count->count() > 0)
+            {
+                $this->faturas[] = (object)[
+                    'setor' => $row->name,
+                    'total' => $count->count(),
+                    'otimo' => $count->where('rate', '>', 3)->count(),
+                    'regular' => $count->where('rate', '=', 3)->count(),
+                    'ruim' => $count->where('rate', '<', 3)->count()
+                ];
+            }
+
         }
 
         dd($this->faturas);
