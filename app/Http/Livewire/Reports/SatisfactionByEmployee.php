@@ -52,9 +52,11 @@ class SatisfactionByEmployee extends Component
         $this->reset('faturas');
 
         $er = DB::table('employees as e')
+            ->join('employee_rating as er', 'er.employee_id','=', 'e.id')
+            ->whereNotNull('er.rate')
             ->select('e.name as name', 'e.id as id')->get();
-        dd($er);
-
+        
+        debug($er);
         $this->faturas[] = (object)[
             'setor' => 'AGENDAMENTO WHATSAPP',
             'total' => $wpp->count(),
