@@ -55,14 +55,14 @@ class SatisfactionBySector extends Component
         'ruim' => $agd_recep->where('atend_rate', '<', 3)->count()];
 
         $tel = $this->getAgendamentosPesquisa(7, $this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59');
-        $this->faturas[] = (object)['setor' => 'RECEPCAO AGENDAMENTO',
+        $this->faturas[] = (object)['setor' => 'AGENDAMENTO TELEFONIA',
         'total' => $tel->count(),
         'otimo' => $tel->where('atend_rate', '>', 3)->count(),
         'regular' => $tel->where('atend_rate', '=', 3)->count(),
         'ruim' => $tel->where('atend_rate', '<', 3)->count()];
 
         $wpp = $this->getAgendamentosPesquisa(8, $this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59');
-        $this->faturas[] = (object)['setor' => 'RECEPCAO AGENDAMENTO',
+        $this->faturas[] = (object)['setor' => 'AGENDAMENTO WHATSAPP',
         'total' => $wpp->count(),
         'otimo' => $wpp->where('atend_rate', '>', 3)->count(),
         'regular' => $wpp->where('atend_rate', '=', 3)->count(),
