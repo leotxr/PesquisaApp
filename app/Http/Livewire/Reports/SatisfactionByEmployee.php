@@ -54,8 +54,9 @@ class SatisfactionByEmployee extends Component
         $er = DB::table('employees as e')
         ->join('employee_rating as er', 'er.employee_id', '=', 'e.id')
         ->whereNotNull('er.rate')
-        ->select('e.name as name', 'e.id as id', DB::raw('DISTINCT er.employee_id'))
+        ->select(DB::raw('DISTINCT er.employee_id'), 'e.name')
         ->get();
+    
     
         
         dd($er);
