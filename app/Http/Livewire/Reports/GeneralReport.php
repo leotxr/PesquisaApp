@@ -10,7 +10,7 @@ use App\Traits\XClinicTraits;
 
 class GeneralReport extends Component
 {
-    use XClinicTraits
+    use XClinicTraits;
     public $initial_date;
     public $final_date;
     public $query_total;
