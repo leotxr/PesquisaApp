@@ -40,7 +40,7 @@ class SatisfactionByEmployee extends Component
         $results = DB::table('faturas as r')
             ->join('employee_fatura as er', 'er.rating_id', '=', 'r.id')
             ->join('employees as e', 'e.id', '=', 'er.employee_id')
-            ->whereBetween('r.data_req', [$this->start_date, $this->end_date])
+            ->whereBetween('r.fatura_data', [$this->start_date, $this->end_date])
             ->where('e.id', '=', $employeeId)
             ->select('er.rate as rate', 'r.id as id', 'e.name as name')
             ->get();
