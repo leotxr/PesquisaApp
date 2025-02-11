@@ -8,9 +8,11 @@ use App\Models\Fatura;
 use App\Models\Rating;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Traits\XClinicTraits;
 
 class SatisfactionBySector extends Component
 {
+    use XClinicTraits;
     public $start_date;
     public $end_date;
     public $faturas = [];
@@ -44,6 +46,27 @@ class SatisfactionBySector extends Component
             'otimo' => $count_recep->where('recep_rate', '>', 3)->count(),
             'regular' => $count_recep->where('recep_rate', '=', 3)->count(),
             'ruim' => $count_recep->where('recep_rate', '<', 3)->count()];
+
+        $agd_recep = $this->getAgendamentosPesquisa(1);
+        $this->faturas[] = (object)['setor' => 'RECEPCAO AGENDAMENTO',
+        'total' => $agd_recep->count(),
+        'otimo' => $agd_recep->where('atend_rate', '>', 3)->count(),
+        'regular' => $agd_recep->where('atend_rate', '=', 3)->count(),
+        'ruim' => $agd_recep->where('atend_rate', '<', 3)->count()];
+
+        $tel = $this->getAgendamentosPesquisa(7);
+        $this->faturas[] = (object)['setor' => 'RECEPCAO AGENDAMENTO',
+        'total' => $tel->count(),
+        'otimo' => $tel->where('atend_rate', '>', 3)->count(),
+        'regular' => $tel->where('atend_rate', '=', 3)->count(),
+        'ruim' => $tel->where('atend_rate', '<', 3)->count()];
+
+        $wpp = $this->getAgendamentosPesquisa(8);
+        $this->faturas[] = (object)['setor' => 'RECEPCAO AGENDAMENTO',
+        'total' => $wpp->count(),
+        'otimo' => $wpp->where('atend_rate', '>', 3)->count(),
+        'regular' => $wpp->where('atend_rate', '=', 3)->count(),
+        'ruim' => $wpp->where('atend_rate', '<', 3)->count()];
 
         $this->render();
     }

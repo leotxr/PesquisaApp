@@ -6,9 +6,11 @@ use Livewire\Component;
 use App\Models\Rating;
 use App\Models\Fatura;
 use Illuminate\Support\Facades\DB;
+use App\Traits\XClinicTraits;
 
 class GeneralReport extends Component
 {
+    use XClinicTraits
     public $initial_date;
     public $final_date;
     public $query_total;
@@ -19,20 +21,6 @@ class GeneralReport extends Component
 
     }
 
-    private function getAgendamentos($role_id)
-    {
-        $agd = Rating::whereBetween('ratings.created_at', [$this->initial_date . ' 00:00:00', $this->final_date . ' 23:59:59'])
-        ->join('employee_rating', 'employee_rating.rating_id', '=','ratings.id')
-        ->join('employees','employee_rating.employee_id','=','employees.id')
-        ->join('model_has_roles','model_has_roles.model_id','=','employees.id')
-        ->whereNotNull('employee_rating.rate')
-        ->where('model_has_roles.role_id', $role_id)
-        ->where('employee_rating.role', 'agd')
-        ->whereNotNull('atend_rate')
-        ->get();
-
-        return $agd;
-    }
 
     public function render()
     {
