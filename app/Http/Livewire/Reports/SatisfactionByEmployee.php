@@ -82,6 +82,7 @@ class SatisfactionByEmployee extends Component
         ->join('employee_fatura as er', 'er.employee_id', '=', 'e.id')
         ->whereNotNull('er.rate')
         ->select(DB::raw('DISTINCT er.employee_id'), 'e.name')
+        ->orderBy('e.name', 'asc')
         ->get();
     
         foreach($ef as $row)
