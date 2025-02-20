@@ -13,6 +13,7 @@
                         </div>
                     </div>
                     @livewire('dashboard.charts.sectors-chart')
+                    @livewire('dashboard.charts.atendimento-chart')
                 </div>
             </div>
         </div>
