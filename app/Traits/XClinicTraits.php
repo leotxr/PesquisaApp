@@ -262,6 +262,7 @@ trait XClinicTraits
         ->join('model_has_roles','model_has_roles.model_id','=','employees.id')
         ->whereNotNull('employee_rating.rate')
         ->where('model_has_roles.role_id', $role_id)
+        ->where('ratings.finalizado', '=', 1)
         ->where('employee_rating.role', 'agd')
         ->whereNotNull('atend_rate')
         ->get();
