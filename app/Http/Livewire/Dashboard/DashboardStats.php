@@ -81,8 +81,8 @@ class DashboardStats extends Component
 
     public function getSatisfaction()
     {
-        $ratings = Rating::whereMonth('data_req', date('m'))->whereYear('data_req', date('Y'))->count();
-        $great_ratings = Rating::whereMonth('data_req', date('m'))->whereYear('data_req', date('Y'))->where('nota_clinica', '>', 3)->count();
+        $ratings = Rating::where('finalizado', '=', 1)->whereMonth('data_req', date('m'))->whereYear('data_req', date('Y'))->count();
+        $great_ratings = Rating::where('finalizado', '=', 1)->whereMonth('data_req', date('m'))->whereYear('data_req', date('Y'))->where('nota_clinica', '>', 3)->count();
 
         return number_format(($great_ratings / $ratings) * 100, 2, '.', '');
     }
