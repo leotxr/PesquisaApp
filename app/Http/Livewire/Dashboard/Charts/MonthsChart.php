@@ -26,7 +26,7 @@ class MonthsChart extends Component
     {
         $date = today()->subMonthNoOverflow($start_sub_days); //Retorna a data atual (primeiro parametro informado, 0).
 
-        $count = Rating::whereMonth('data_req', $date->format('m'))->whereYear('data_req', $date->format('Y'))->count(); //Retorna a quantidade de pesquisas respondidas na data recuperada
+        $count = Rating::whereMonth('data_req', $date->format('m'))->whereYear('data_req', $date->format('Y'))->where('finalizado', '=', 1)->count(); //Retorna a quantidade de pesquisas respondidas na data recuperada
 
         if ($start_sub_days == $end_sub_days || $end_sub_days == $max_check) return $this->months_and_ratings; // Verifica se as datas se igualaram ou atingiu o limite de execução.
 
