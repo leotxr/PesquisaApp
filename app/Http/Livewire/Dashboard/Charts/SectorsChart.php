@@ -25,7 +25,7 @@ class SectorsChart extends Component
     {
         $date = today();
 
-        $this->sectors = DB::table('faturas')
+        $faturas = DB::table('faturas')
         ->whereMonth('created_at', $date->format('m'))
         ->whereYear('created_at', $date->format('Y'))
         ->select('setor')
@@ -33,13 +33,15 @@ class SectorsChart extends Component
         ->orderBy('setor')
         ->get();
 
-        foreach($this->sectors as $sector)
+        foreach($faturas as $fatura)
         {
             $this->sector_count[] = DB::table('faturas')
             ->whereMonth('created_at', $date->format('m'))
             ->whereYear('created_at', $date->format('Y'))
-            ->where('setor', '=', $sector->setor)
+            ->where('setor', '=', $fatura->setor)
             ->count();
+
+            $this->sectors[] = $fatura->setor;
         }
 
     }
