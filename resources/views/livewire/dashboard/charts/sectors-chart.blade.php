@@ -2,7 +2,7 @@
     <div class="px-4 py-6 bg-white rounded-lg shadow-md dark:bg-gray-800" wire:ignore>
         <h1>Pesquisas por mês</h1>
         <span class="text-xs font-light text-gray-500">Exibe o total de pesquisas em cada mês.</span>
-        <div class="h-24 bg-white" id="chartMonths">
+        <div class="h-24 bg-white" id="chartSectors">
 
         </div>
     </div>
