@@ -31,7 +31,6 @@ class SatisfactionByEmployee extends Component
             ->where('e.id', '=', $employeeId)
             ->where('r.finalizado', '=', 1)
             ->select('er.rate as rate', 'r.id as id', 'e.name as name')
-            ->orderBy('e.name')
             ->get();
 
         return $results;
@@ -45,7 +44,6 @@ class SatisfactionByEmployee extends Component
             ->whereBetween('r.fatura_data', [$this->start_date, $this->end_date])
             ->where('e.id', '=', $employeeId)
             ->select('er.rate as rate', 'r.id as id', 'e.name as name')
-            ->orderBy('e.name')
             ->get();
 
         return $results;
@@ -58,9 +56,10 @@ class SatisfactionByEmployee extends Component
         ->join('employee_rating as er', 'er.employee_id', '=', 'e.id')
         ->whereNotNull('er.rate')
         ->select(DB::raw('DISTINCT er.employee_id'), 'e.name')
+        ->orderBy('e.name', 'asc')
         ->get();
 
-        dd($er);
+        
     
     
         foreach($er as $row)
