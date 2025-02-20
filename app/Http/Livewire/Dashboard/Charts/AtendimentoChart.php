@@ -31,7 +31,7 @@ class AtendimentoChart extends Component
         $this->start_date = date('Y-m-01');
         $this->end_date = date('Y-m-d');
 
-        $count_recep = Rating::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->whereNotNull('recep_rate')->get();
+        $count_recep = Rating::whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])->where('finalizado', '=', 1)->get();
         $this->setores[] = 'RECEPÇÃO';
         $this->faturas[] = $count_recep->count();
 
