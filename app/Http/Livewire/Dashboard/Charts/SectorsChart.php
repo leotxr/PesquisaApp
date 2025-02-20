@@ -28,7 +28,7 @@ class SectorsChart extends Component
         $date = date('m');
         $year = date('y');
 
-        $sectors = Fatura::whereMonth('created_at', $date)->whereYear('created_at', $year)->get();
+        $sectors = Fatura::whereBetween('created_at', ['2025-01-01', '2025-01-31'])->get();
 
         dd($sectors);
     }
