@@ -41,8 +41,6 @@ class SectorsChart extends Component
             ->where('setor', '=', $sector->setor)
             ->count();
         }
-
-        dd($sector_count);
     }
 
     public function render()
