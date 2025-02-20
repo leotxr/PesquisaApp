@@ -59,6 +59,8 @@ class SatisfactionByEmployee extends Component
         ->whereNotNull('er.rate')
         ->select(DB::raw('DISTINCT er.employee_id'), 'e.name')
         ->get();
+
+        dd($er);
     
     
         foreach($er as $row)
