@@ -29,7 +29,9 @@ class SatisfactionByEmployee extends Component
             ->join('employees as e', 'e.id', '=', 'er.employee_id')
             ->whereBetween('r.data_req', [$this->start_date, $this->end_date])
             ->where('e.id', '=', $employeeId)
+            ->where('r.finalizado', '=', 1)
             ->select('er.rate as rate', 'r.id as id', 'e.name as name')
+            ->orderBy('e.name')
             ->get();
 
         return $results;
@@ -42,7 +44,9 @@ class SatisfactionByEmployee extends Component
             ->join('employees as e', 'e.id', '=', 'er.employee_id')
             ->whereBetween('r.fatura_data', [$this->start_date, $this->end_date])
             ->where('e.id', '=', $employeeId)
+            ->where('r.finalizado', '=', 1)
             ->select('er.rate as rate', 'r.id as id', 'e.name as name')
+            ->orderBy('e.name')
             ->get();
 
         return $results;
