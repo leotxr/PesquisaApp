@@ -101,6 +101,8 @@ class SatisfactionByEmployee extends Component
 
         }     
 
+        asort($this->faturas);
+
         $this->render();
     }
 
