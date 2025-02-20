@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Dashboard\Charts;
 use Livewire\Component;
 use App\Models\Rating;
 use App\Models\Fatura;
+use Illuminate\Support\Facades\DB;
 use Asantibanez\LivewireCharts\Facades\LivewireCharts;
 
 
@@ -28,7 +29,11 @@ class SectorsChart extends Component
         $date = date('m');
         $year = date('y');
 
-        $sectors = Fatura::whereBetween('created_at', ['2025-01-01', '2025-01-31'])->select('setor')->get();
+        $sectors = DB::table('faturas')
+        ->select('setor')
+        ->distinct()
+        ->orderBy('setor')
+        ->get();;
 
         dd($sectors);
     }
