@@ -10,10 +10,10 @@ use Asantibanez\LivewireCharts\Facades\LivewireCharts;
 use App\Traits\XClinicTraits;
 
 
-class SectorsChart extends Component
+class AtendimentoChart extends Component
 {
     use XClinicTraits;
-    
+
     public $sectors = [];
     public $sector_count = [];
     public $start_date;
@@ -50,6 +50,6 @@ class SectorsChart extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.charts.sectors-chart');
+        return view('livewire.dashboard.charts.atendimento-chart');
     }
 }
