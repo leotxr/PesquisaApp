@@ -28,7 +28,7 @@ class SectorsChart extends Component
         $date = date('m');
         $year = date('y');
 
-        $sectors = Fatura::whereMonth('created_at', $date)->whereYear('created_at', $year)->select('setor')->distinct()->get();
+        $sectors = Fatura::whereMonth('created_at', $date)->whereYear('created_at', $year)->get();
 
         dd($sectors);
     }
