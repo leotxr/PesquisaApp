@@ -101,7 +101,7 @@ class SatisfactionByEmployee extends Component
 
         }     
 
-        //asort($this->faturas);
+        asort($this->faturas); //ordenando por nome do funcionario
 
         $this->render();
     }
