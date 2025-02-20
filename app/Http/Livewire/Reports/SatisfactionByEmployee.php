@@ -101,7 +101,7 @@ class SatisfactionByEmployee extends Component
 
         }
 
-        ksort($this->faturas[]);
+        ksort($this->faturas);
         
 
         $this->render();
