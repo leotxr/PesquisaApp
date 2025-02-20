@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Reports;
 
 use App\Exports\SectorReportExport;
-use App\Exports\SectorSatisfactionExport;
+use App\Exports\EmployeeSatisfactionExport;
 use App\Models\Fatura;
 use App\Models\Rating;
 use Livewire\Component;
@@ -114,7 +114,7 @@ class SatisfactionByEmployee extends Component
             'end_date' => $this->end_date
         ];
         $result = ['faturas' => $this->faturas];
-        return Excel::download(new SectorSatisfactionExport($range, $result), 'satisfacao_por_funcionario' . $this->start_date . '-' . $this->end_date . '.xlsx');
+        return Excel::download(new EmployeeSatisfactionExport($range, $result), 'satisfacao_por_funcionario' . $this->start_date . '-' . $this->end_date . '.xlsx');
     }
 
 
