@@ -24,7 +24,7 @@ class DashboardStats extends Component
 
     public function getCountByMonth($month, $year)
     {
-        return Rating::whereMonth('data_req', $month)->whereYear('data_req', $year)->count();
+        return Rating::whereMonth('data_req', $month)->whereYear('data_req', $year)->where('finalizado', 1)->count();
     }
 
     public function getWeekDay($subdays)
