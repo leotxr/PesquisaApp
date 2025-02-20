@@ -26,12 +26,11 @@ class SectorsChart extends Component
     }
     public function getLastMonthsWithCount(int $start_sub_days, int $end_sub_days, int $max_check)
     {
-        $date = date('m');
-        $year = date('y');
+        $date = today();
 
         $sectors = DB::table('faturas')
-        ->whereMonth('created_at', $date)
-        ->whereYear('created_at', $year)
+        ->whereMonth('created_at', $date->format('m'))
+        ->whereYear('created_at', $date->format('Y'))
         ->select('setor')
         ->distinct()
         ->orderBy('setor')
