@@ -19,12 +19,9 @@ class SectorsChart extends Component
         //Chamada da função recursiva de dias anteriores. Informar o dia inicial para busca (hoje = 0) e o máximo de dias anteriores.
         //A variável max_check serve como limite para a função. Se caso em 60 tentativas o sistema não encontre pesquisas, ela é finalizada para que não
         //ocorra loops
-        $this->getLastMonthsWithCount(0, 6, 10);
-
-        $this->months = array_keys(array_reverse($this->months_and_ratings));
-        $this->ratings_count = array_values(array_reverse($this->months_and_ratings));
+        $this->getSectorsMonth();
     }
-    public function getLastMonthsWithCount(int $start_sub_days, int $end_sub_days, int $max_check)
+    public function getSectorsMonth()
     {
         $date = today();
 

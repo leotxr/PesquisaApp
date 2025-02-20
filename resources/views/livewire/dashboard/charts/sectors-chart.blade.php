@@ -27,10 +27,10 @@
             },
             series: [{
                 name: 'Pesquisas por setor',
-                data: @json($ratings_count)
+                data: @json($sector_count)
             }],
             xaxis: {
-                categories: @json($months),
+                categories: @json($sectors),
                 //tickPlacement: "on",
                 stepSize: 10,
 
