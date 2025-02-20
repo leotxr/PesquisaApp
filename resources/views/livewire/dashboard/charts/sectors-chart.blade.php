@@ -37,7 +37,7 @@
             },
 
         }
-
+        console.log(@json($sector_count));
         var chartMonths = new ApexCharts(document.querySelector("#chartSectors"), chartSectorsOptions);
 
         chartMonths.render();
