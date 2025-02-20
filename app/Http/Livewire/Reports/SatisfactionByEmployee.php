@@ -67,8 +67,8 @@ class SatisfactionByEmployee extends Component
             $count = $this->buscaFuncionarioRating($row->employee_id);
             if($count->count() > 0)
             {
-                $this->faturas[] = (object)[
-                    'setor' => $row->name,
+                $this->faturas[] = [
+                    'funcionario' => $row->name,
                     'total' => $count->count(),
                     'otimo' => $count->where('rate', '>', 3)->count(),
                     'regular' => $count->where('rate', '=', 3)->count(),
@@ -90,8 +90,8 @@ class SatisfactionByEmployee extends Component
             $count = $this->buscaFuncionarioFatura($row->employee_id);
             if($count->count() > 0)
             {
-                $this->faturas[] = (object)[
-                    'setor' => $row->name,
+                $this->faturas[] = [
+                    'funcionario' => $row->name,
                     'total' => $count->count(),
                     'otimo' => $count->where('rate', '>', 3)->count(),
                     'regular' => $count->where('rate', '=', 3)->count(),

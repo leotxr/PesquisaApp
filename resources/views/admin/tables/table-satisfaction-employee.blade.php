@@ -14,13 +14,13 @@
         <x-slot:body>
             @foreach($faturas as $fatura)
                 <x-table.row>
-                    <x-table.cell>{{$fatura->setor}}</x-table.cell>
-                    <x-table.cell>{{$fatura->total}}</x-table.cell>
-                    <x-table.cell>{{$fatura->otimo}}</x-table.cell>
-                    <x-table.cell>{{$fatura->regular}}</x-table.cell>
-                    <x-table.cell>{{$fatura->ruim}}</x-table.cell>
-                    @if($fatura->total > 0 || $fatura->otimo > 0)
-                        <x-table.cell>{{number_format($fatura->otimo / $fatura->total *
+                    <x-table.cell>{{$fatura['funcionario']}}</x-table.cell>
+                    <x-table.cell>{{$fatura['total']}}</x-table.cell>
+                    <x-table.cell>{{$fatura['otimo']}}</x-table.cell>
+                    <x-table.cell>{{$fatura['regular']}}</x-table.cell>
+                    <x-table.cell>{{$fatura['ruim']}}</x-table.cell>
+                    @if($fatura['total'] > 0 || $fatura['otimo'] > 0)
+                        <x-table.cell>{{number_format($fatura['otimo'] / $fatura['total'] *
                                 100, 2, '.', '')}}%
                         </x-table.cell>
                     @endif
