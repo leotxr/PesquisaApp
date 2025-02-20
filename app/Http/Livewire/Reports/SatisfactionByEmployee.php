@@ -99,10 +99,7 @@ class SatisfactionByEmployee extends Component
                 ];
             }
 
-        }
-
-        ksort($this->faturas);
-        
+        }     
 
         $this->render();
     }

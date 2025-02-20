@@ -59,7 +59,7 @@
         </div>
     </form>
     <div>
-        @include('admin.tables.table-satisfaction')
+        @include('admin.tables.table-satisfaction-employee')
     </div>
 
 
