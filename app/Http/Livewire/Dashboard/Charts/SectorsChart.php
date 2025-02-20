@@ -30,6 +30,8 @@ class SectorsChart extends Component
         $year = date('y');
 
         $sectors = DB::table('faturas')
+        ->whereMonth('created_at', $date)
+        ->whereYear('created_at', $year)
         ->select('setor')
         ->distinct()
         ->orderBy('setor')
