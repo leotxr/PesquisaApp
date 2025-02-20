@@ -34,9 +34,18 @@ class SectorsChart extends Component
         ->select('setor')
         ->distinct()
         ->orderBy('setor')
-        ->get();;
+        ->get();
 
-        dd($sectors);
+        foreach($sectors as $sector)
+        {
+            $sector_count[] = DB::table('faturas')
+            ->whereMonth('created_at', $date->format('m'))
+            ->whereYear('created_at', $date->format('Y'))
+            ->where('setor', '=', $sector->setor)
+            ->count();
+        }
+
+        dd($sector_count);
     }
 
     public function render()
