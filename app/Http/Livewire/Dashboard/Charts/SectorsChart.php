@@ -21,7 +21,7 @@ class SectorsChart extends Component
         //ocorra loops
         $this->getSectorsMonth();
     }
-    public function getSectorsMonth()
+    public function getSectorsMonth(): void
     {
         $date = today();
 
@@ -35,12 +35,13 @@ class SectorsChart extends Component
 
         foreach($sectors as $sector)
         {
-            $sector_count[] = DB::table('faturas')
+            $this->sector_count[] = DB::table('faturas')
             ->whereMonth('created_at', $date->format('m'))
             ->whereYear('created_at', $date->format('Y'))
             ->where('setor', '=', $sector->setor)
             ->count();
         }
+
     }
 
     public function render()
