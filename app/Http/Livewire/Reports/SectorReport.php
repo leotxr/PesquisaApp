@@ -40,7 +40,7 @@ class SectorReport extends Component
             ->join('SETORES', 'SETORES.SETORID', '=', 'FATURA.SETORID')
             ->whereNotIn('SETORES.SETORID', [6, 8, 11, 12, 15, 16, 17, 19])
             ->where('SETORES.DESCRICAO', '=', $sector)
-            ->select(DB::raw('COUNT(DISTINCT (FATURA.REQUISICAOID)) AS TOTAL'))->first();
+            ->select(DB::raw('COUNT(FATURA.REQUISICAOID) AS TOTAL'))->first();
     }
 
     public function getRatings($start_date, $end_date)
