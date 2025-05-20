@@ -1,7 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" xmlns:xlink="http://www.w3.org/1999/xlink" 
-style="max-width: 100%;height: auto;" {{$attributes}} viewBox="0 0 1023 1023">
-<rect width="1023" height="1023" fill="#ffffff" x='0' y='0' />
-
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="110px" height="140px" viewBox="0 0 70 89" version="1.1">
 <defs>
 <clipPath id="clip1">
   <path d="M 2.433594 2.410156 L 67.59375 2.410156 L 67.59375 67.519531 L 2.433594 67.519531 Z M 2.433594 2.410156 "/>
