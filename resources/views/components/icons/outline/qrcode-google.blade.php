@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" xmlns:xlink="http://www.w3.org/1999/xlink"
     style="max-width: 100%;height: auto;" {{$attributes}} viewBox="0 0 1023 1023">
     <rect width="1023" height="1023" fill="#ffffff" x="0" y="0" />
-	
+
 <g id="pips">
 	<path d="M64,256h16h16v16H80H64V256 M64,288h16h16v16h16v16H96H80v-16H64V288 M64,368h16v16v16h16v16H80v16v16h16v16H80H64v-16v-16
 		v-16v-16v-16V368 M80,208h16v16H80V208 M80,336h16v16v16H80v-16V336 M96,240h16v-16v-16v-16h16h16v16h-16v16v16h16v-16v-16h16v16
@@ -57,3 +57,4 @@
 	<path d="M96,512h16h16h16v16v16v16h-16h-16H96v-16v-16V512z"/>
 </g>
 </svg>
+
