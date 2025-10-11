@@ -80,6 +80,12 @@ class EmployeeReport extends Component
             ];
         }
 
+        $debug = Employee::role('agendamento')
+        ->whereDoesntHave('roles', function ($query) {
+            $query->where('name', 'recepcionista');
+        })
+        ->get();
+        dd($debug);
         foreach (Employee::role('agendamento')
         ->whereDoesntHave('roles', function ($query) {
             $query->where('name', 'recepcionista');
