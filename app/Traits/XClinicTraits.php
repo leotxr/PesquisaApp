@@ -163,6 +163,7 @@ trait XClinicTraits
         return DB::connection('sqlsrv')->table('RASOCORRENCIAS')
             ->join('FATURA', function ($join_fatura) {
                 $join_fatura->on('RASOCORRENCIAS.PACIENTEID', '=', 'FATURA.PACIENTEID')
+                    ->on('RASOCORRENCIAS.UNIDADEID', '=', 'FATURA.UNIDADEID')
                     ->on('RASOCORRENCIAS.FATURAID', '=', 'FATURA.FATURAID');
             })
             ->join('USUARIOS', 'RASOCORRENCIAS.USERID', '=', 'USUARIOS.USERID')
@@ -171,7 +172,7 @@ trait XClinicTraits
             ->whereIn('FATURA.SETORID', $sectors)
             ->whereBetween('RASOCORRENCIAS.DATA', [$start_date, $end_date])
             ->where('USUARIOS.USERID', $employee)
-            ->select(DB::raw('COUNT(DISTINCT CONCAT(FATURA.DATA, FATURA.PACIENTEID, FATURA.SETORID, USUARIOS.USERID)) AS TOTAL'))->get();
+            ->select(DB::raw('COUNT(DISTINCT CONCAT(FATURA.DATA, FATURA.PACIENTEID, FATURA.SETORID, USUARIOS.USERID, RASOCORRENCIAS.UNIDADEID)) AS TOTAL'))->get();
         //->distinct('FATURA.REQUISICAOID')->get();
     }
 
@@ -232,8 +233,6 @@ trait XClinicTraits
         $sqlsrv = $sqlsrv . "WHERE A.DATA BETWEEN '$dataInicio' AND '$dataFim' AND ";
         $sqlsrv = $sqlsrv . "A.USUARIO = '$userId' ";
         $agendas = DB::connection('sqlsrv')->select($sqlsrv);
-
-        dd($agendas);
 
         return $agendas[0]->TOTAL;
     }
