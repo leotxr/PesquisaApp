@@ -43,6 +43,8 @@ class EmployeeReport extends Component
                 'x_clinic_count' => $this->compareServiceRec($this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
             ];
 
+        dd($this->receptionists);exit;
+
         foreach (Employee::role('tecnico')->get() as $employee)
             $this->technicians[] = (object)[
                 'name' => $employee->name,
