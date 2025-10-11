@@ -59,11 +59,14 @@ class EmployeeReport extends Component
             ];
 
         foreach (Employee::role('enfermeira')->get() as $employee)
+        {
             $this->nurses[] = (object)[
                 'name' => $employee->name,
                 'count' => $employee->faturas()->whereBetween('fatura_data', [$this->start_date, $this->end_date])->where('role', 'enf')->count(),
                 'x_clinic_count' => $this->compareServiceNurse([4, 9], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
             ];
+        }
+
         dd($this->nurses);
 
         foreach (Employee::role('recepcionista')->get() as $employee)
