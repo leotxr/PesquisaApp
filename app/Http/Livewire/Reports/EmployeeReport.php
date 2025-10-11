@@ -58,8 +58,6 @@ class EmployeeReport extends Component
                 'x_clinic_count' => $this->compareServiceUSG([5, 10], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
             ];
 
-             dd($this->usg_receptionists);exit;
-
         foreach (Employee::role('enfermeira')->get() as $employee)
             $this->nurses[] = (object)[
                 'name' => $employee->name,
