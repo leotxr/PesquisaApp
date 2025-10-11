@@ -52,12 +52,15 @@ class EmployeeReport extends Component
 
 
         foreach (Employee::role('recepcionista usg')->get() as $employee)
+        {
             $this->usg_receptionists[] = (object)[
                 'name' => $employee->name,
                 'count' => $employee->faturas->whereBetween('fatura_data', [$this->start_date, $this->end_date])->count(),
                 'x_clinic_count' => $this->compareServiceUSG([5, 10], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
             ];
+        }
 
+        dd($this->usg_receptionists);
         foreach (Employee::role('enfermeira')->get() as $employee)
         {
             $this->nurses[] = (object)[
