@@ -53,6 +53,7 @@ class EmployeeReport extends Component
         }
 
         $usgs = Employee::role('recepcionista usg')->get();
+        dd($usgs);
 
         foreach ($usgs as $employee)
         {
