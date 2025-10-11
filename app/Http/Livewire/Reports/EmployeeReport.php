@@ -57,8 +57,8 @@ class EmployeeReport extends Component
         {
             $this->usg_receptionists[] = (object)[
                 'name' => $employee->name,
-                'count' => $employee->faturas->whereBetween('fatura_data', [$this->start_date, $this->end_date])->count(),
-                'x_clinic_count' => 0 //$this->compareServiceUSG([5, 10], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
+                'count' => $employee->faturas->count(),
+                'x_clinic_count' => $this->compareServiceUSG([5, 10], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
             ];
         }
 
