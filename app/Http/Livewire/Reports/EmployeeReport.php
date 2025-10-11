@@ -53,7 +53,7 @@ class EmployeeReport extends Component
         }
 
 
-        foreach (Employee::role('recepcionista usg')->get() as $employee)
+        foreach (Employee::role('recepcionista usg')->where('id', 22)->get() as $employee)
         {
             $this->usg_receptionists[] = (object)[
                 'name' => $employee->name,
