@@ -51,7 +51,7 @@ class EmployeeReport extends Component
                 'x_clinic_count' => $this->compareServiceTech([1, 2, 3, 4, 9, 13, 18, 20, 21], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
             ];
         }
-        dd($this->technicians);
+        dd(Employee::role('recepcionista usg')->get());
 
 
         foreach (Employee::role('recepcionista usg')->get() as $employee)
