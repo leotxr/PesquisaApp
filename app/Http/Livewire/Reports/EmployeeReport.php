@@ -99,8 +99,6 @@ class EmployeeReport extends Component
             ];
         }
 
-        dd($this->agendamentos);
-
 
         $this->render();
     }

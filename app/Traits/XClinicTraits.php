@@ -234,6 +234,8 @@ trait XClinicTraits
         $sqlsrv = $sqlsrv . "A.USUARIO = '$userId' ";
         $agendas = DB::connection('sqlsrv')->select($sqlsrv);
 
+        dd($agendas);
+
         return $agendas[0]->TOTAL;
     }
 
