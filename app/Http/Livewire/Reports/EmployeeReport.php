@@ -63,7 +63,6 @@ class EmployeeReport extends Component
             ];
         }
 
-        dd($this->usg_receptionists);
         foreach (Employee::role('enfermeira')->get() as $employee)
         {
             $this->nurses[] = (object)[
@@ -72,8 +71,6 @@ class EmployeeReport extends Component
                 'x_clinic_count' => $this->compareServiceNurse([4, 9], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
             ];
         }
-
-        dd($this->nurses);
 
         foreach (Employee::role('recepcionista')->get() as $employee)
         {
