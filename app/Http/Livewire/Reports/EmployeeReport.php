@@ -50,7 +50,6 @@ class EmployeeReport extends Component
                 'x_clinic_count' => $this->compareServiceTech([1, 2, 3, 4, 9, 13, 18, 20, 21], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
             ];
 
-                    dd($this->technicians);exit;
 
         foreach (Employee::role('recepcionista usg')->get() as $employee)
             $this->usg_receptionists[] = (object)[
@@ -58,6 +57,8 @@ class EmployeeReport extends Component
                 'count' => $employee->faturas->whereBetween('fatura_data', [$this->start_date, $this->end_date])->count(),
                 'x_clinic_count' => $this->compareServiceUSG([5, 10], $this->start_date, $this->end_date, $employee->x_clinic_id)[0]->TOTAL
             ];
+
+             dd($this->usg_receptionists);exit;
 
         foreach (Employee::role('enfermeira')->get() as $employee)
             $this->nurses[] = (object)[
