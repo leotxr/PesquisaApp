@@ -1,7 +1,7 @@
 <svg 
     viewBox= "0 0 656 656"
 xmlns='http://www.w3.org/2000/svg'
-style="width:100%; max-width:200px; height:auto;">
+style="width:90px; max-width:200px; height:auto;">
 	<g id='background' style='fill:#ffffff' >
 <rect x="0" y="0" width="656" height="656" />
 </g>
